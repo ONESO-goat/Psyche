@@ -1,0 +1,150 @@
+[
+  {
+    "content": "I just finished my big game and made alot of friends doing so.",
+    "dominant_emotion": "happy",
+    "emotion": {
+      "pride": {
+        "regulation": {
+          "__numpy__": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=",
+          "dtype": "<f8",
+          "shape": [
+            4,
+            4
+          ]
+        }
+      }
+    },
+    "importance": 0.9,
+    "motivation": {
+      "__numpy__": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+      "dtype": "<f8",
+      "shape": [
+        5
+      ]
+    },
+    "emotional_intensity": 0.8,
+    "emotion_intensity_REAL": {
+      "__numpy__": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+      "dtype": "<f8",
+      "shape": [
+        5
+      ]
+    },
+    "priority": {
+      "1": 1.0
+    },
+    "why_this_feeling": "You feel this way for an unknown reason.",
+    "timestamp": "2026-02-14T16:33:23.123603"
+  },
+  {
+    "content": "I just finished my big game and made alot of friends doing so.",
+    "dominant_emotion": "happy",
+    "emotion": {
+      "pride": {
+        "regulation": {
+          "__numpy__": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=",
+          "dtype": "<f8",
+          "shape": [
+            4,
+            4
+          ]
+        }
+      }
+    },
+    "importance": 0.9,
+    "motivation": {
+      "__numpy__": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+      "dtype": "<f8",
+      "shape": [
+        5
+      ]
+    },
+    "emotional_intensity": 0.8,
+    "emotion_intensity_REAL": {
+      "__numpy__": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+      "dtype": "<f8",
+      "shape": [
+        5
+      ]
+    },
+    "priority": {
+      "1": 1.0
+    },
+    "why_this_feeling": "You feel this way for an unknown reason.",
+    "timestamp": "2026-02-14T18:13:33.982432"
+  },
+  {
+    "content": "I just finished my big game and made alot of friends doing so.",
+    "dominant_emotion": "happy",
+    "emotion": {
+      "pride": {
+        "regulation": {
+          "__numpy__": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=",
+          "dtype": "<f8",
+          "shape": [
+            4,
+            4
+          ]
+        }
+      }
+    },
+    "importance": 0.9,
+    "motivation": {
+      "__numpy__": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+      "dtype": "<f8",
+      "shape": [
+        5
+      ]
+    },
+    "emotional_intensity": 0.8,
+    "emotion_intensity_REAL": {
+      "__numpy__": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+      "dtype": "<f8",
+      "shape": [
+        5
+      ]
+    },
+    "priority": {
+      "1": 1.0
+    },
+    "why_this_feeling": "You feel this way for an unknown reason.",
+    "timestamp": "2026-02-14T18:17:51.558959"
+  },
+  {
+    "content": "I finally reached rank diamond in overwatch!",
+    "dominant_emotion": "happy",
+    "emotion": {
+      "pride": {
+        "regulation": {
+          "__numpy__": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=",
+          "dtype": "<f8",
+          "shape": [
+            4,
+            4
+          ]
+        }
+      }
+    },
+    "importance": 1.0,
+    "motivation": {
+      "__numpy__": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+      "dtype": "<f8",
+      "shape": [
+        5
+      ]
+    },
+    "emotional_intensity": 1,
+    "emotion_intensity_REAL": {
+      "__numpy__": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+      "dtype": "<f8",
+      "shape": [
+        5
+      ]
+    },
+    "priority": {
+      "1": 1.0
+    },
+    "why_this_feeling": "You feel this way for an unknown reason.",
+    "timestamp": "2026-02-14T18:34:35.173879"
+  }
+]

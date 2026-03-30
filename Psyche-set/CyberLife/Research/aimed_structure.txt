@@ -1,0 +1,234 @@
+
+
+
+id: {
+    personal_data : {
+
+            personal_: {
+                name: 'jhon doe',
+                nicknames: ['jhon jhon', 'joe'],
+                friends: {
+                'rose': {
+                    friendship_scale: {[0.5, 0.5, 0.5, 0.5]},
+                    met: {
+                        date: datetime,
+                        where:{
+                            location: 'arcade',
+                            what: 'Was playing pac man",
+                            association: {
+                                'arcade': {
+                                    games: 10,
+                                    video games: 8,
+                                    losing: 5.5,
+                                    pets: 0.7,
+                                    ghost: 5,
+                                    shows: {
+                                        'pac_man_the_show_2018': 9,
+                                        'ghostbuster': 7
+                                        'fortnite': 3,
+                                        'marvel': 1
+                                    }
+                                }
+                            }
+                            friends_for_how_long:  {
+                                'time': 1034,
+                                'short_form': {
+                                    exact: 3.5,
+                                    word_form: 'for three and a half years'
+                                }
+
+                            }
+                            why_this_person: {
+                                reason: 'liked the same sports team'
+                                association: {
+                                    sports: {
+                                        scale: 9,
+                                        football{
+                                            sacle: 5,
+                                            team: some_team
+                                        }
+                                associated_memories: {
+                                    id_567: {
+                                        context: 'attended school event'.,
+                                        enthusiasm: {
+                                            motivation: [],
+
+                                            inspiration: []
+
+                                        }
+                                        association{
+                                            school: 10,
+                                            friends: 10,
+                                            dogs: 1,
+                                            girlfriends: 4,
+                                            chicken: 7 # chickn mascot
+                                        }
+                                        
+                                    }
+                                }
+                                }
+                            }
+                        }
+                    }
+                }
+                }
+                }
+            
+            'mind': {
+                animals:{
+                    pets: {
+                        dog: {
+                            id: 0
+                            context: 'bought a new dog after first one's death',
+                            dominant_emotion: 'sad',
+                            emotion: {
+                                'gratitude'{
+                                    regulation {
+                                        numpy: [0.4  0.3 0.5  0.2]
+                                               [0.7 -0.1 0.2 -0.6]
+                                               [0.3  0.2  0.4 0.0]
+                                    }          [0.3  0.2  0.4 0.0]
+                                }
+                                why: 'I lived with the previous dog for long periods, but after 
+                                the fam saw how upset I have became, they decided to aid me.'
+                            }
+                            enthusiasm: {
+                                motivation: [0.4  0.3 0.5  0.2]
+                                            [0.7 -0.1 0.2 -0.6]
+                                            [0.3  0.2  0.4 0.0]
+                                            [0.3  0.2  0.4 0.0],
+                                inspiration: [0.4  0.3 0.5  0.2]
+                                            [0.7 -0.1 0.2 -0.6]
+                                            [0.3  0.2  0.4 0.0]
+                                            [0.3  0.2  0.4 0.0],
+                                           
+                                           }
+                            association: {
+                                death: 9,
+                                pet: 9,
+                                feelings: 6,
+                                school: 2.4,
+                                cats: 3, 
+                                family: 6.7
+
+                            }
+                            }
+                        }
+                    }
+                    relationships: {
+                        girlfriends: {
+                            'Alice': {
+                                status: {
+                                    'seprated',
+                                    if_sperated_why{
+                                        seprated: True,
+                                        why: 'we didnt match.',
+                                        date_seprated: datetime,
+                                        date_association: {
+                                            'valatines day: {
+                                                how_far: '6 days apart',
+                                                association: 9
+
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        associations_with_relationship: {
+                            id_0: {
+                            context: 'dogs death and getting new one'.
+                            exist: True,
+                            last_mentioned: '19 days ago
+
+                        }
+                    }
+                }
+            }
+},
+
+'existence': datetime.utcnow().isoformat(),
+
+main_drive: {
+    context: {
+        "i want more cheese",
+        
+        },
+    
+    'formed': datetime,
+    'why': 'I ate very tasty cheese at 8 and desire to have it at my 18th birth day'
+    enthusiasm:{
+        'motivation': {
+            numpy: [ 1    1    1    1  ]
+                [ 1    1    1    1  ]
+                [-0.1 -0.1 -0.1 -0.1]
+        },
+        'inspiration': {
+            numpy: [ 1    1    1    1  ]
+                    [ 1    1    1    1  ]
+                    [-0.1 -0.1 -0.1 -0.1]
+        }
+    }
+}
+decayed_memories: {
+    id_8: {
+        context: {
+            'solved math problem correctly',
+            'inportance': 0,
+            'when_to_remove': {
+                when: '4 hours',
+                'sooner': False,
+                'remember_randomly': False,
+                'if_remember_randomly':
+                {
+                    None # if true
+                }
+
+                etc......
+            }
+        }
+    }
+}
+
+
+
+}
+
+
+**What you're building:**
+```
+                    [PERSON: John Doe]
+                           |
+        ┌──────────────────┴──────────────────┐
+        ↓                                     ↓
+    [IDENTITY]                           [MIND]
+    - Name                                   |
+    - Nicknames              ┌───────────────┼───────────────┐
+    - Age                    ↓               ↓               ↓
+                        [SEMANTIC]    [EPISODIC]      [DRIVES]
+                             |              |               |
+                    ┌────────┼────────┐     |               |
+                    ↓        ↓        ↓     ↓               ↓
+                [Animals][Relations][Places]           [Cheese Quest]
+                    |                 |                     ↑
+                    ↓                 ↓                     |
+                 [Pets]          [Girlfriends]         [Age 8 Memory]
+                    |                 |                     |
+                    ↓                 ↓                     |
+                 [Dogs]            [Alice]          [10-year Goal]
+                    |                 |
+                    ↓                 ↓
+            [Memory: Dog Death] ←→ [Memory: Breakup]
+                    |                 |
+                    ├─[Emotion: Sad]──┤
+                    ├─[Regulation: 4x4 Matrix]
+                    ├─[Motivation: 4x4 Matrix]
+                    └─[Associations: death(9), family(6.7)]
+                           ↓
+                    [Decaying Memories]
+                           ↓
+                    [Forgotten Memories]
+
+
+
+This is around 1-10% of the actual aimed structure

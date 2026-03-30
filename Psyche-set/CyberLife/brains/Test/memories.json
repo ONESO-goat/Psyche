@@ -1,0 +1,158 @@
+[
+  {
+    "brain": {
+      "id": "57e97557-d6e7-4cf9-a7ce-8df934e9c9b8",
+      "_personal_data": {
+        "name": {
+          "name": "Test",
+          "nickname": []
+        },
+        "firends": {}
+      },
+      "mind": [
+        {
+          "id": "5b162cb9-2b7b-4ef9-902c-28f1060f2f1b",
+          "content": "Got rejected MIT!",
+          "dominant_emotion": "sad",
+          "emotion": {
+            "disappointment": {
+              "regulation": {
+                "__numpy__": "AAAAAAAA8D8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=",
+                "dtype": "<f8",
+                "shape": [
+                  4,
+                  4
+                ]
+              }
+            }
+          },
+          "importance": 0.85,
+          "Enthusiasm": {
+            "motivation": {
+              "__numpy__": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "dtype": "<f8",
+              "shape": [
+                3,
+                4
+              ]
+            },
+            "inspiration": {
+              "__numpy__": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "dtype": "<f8",
+              "shape": [
+                3,
+                4
+              ]
+            }
+          },
+          "assoitation": {},
+          "priority": {
+            "1": 1.0
+          },
+          "why_this_feeling": "You feel this way for an unknown reason."
+        },
+        {
+          "id": "867f5e2a-59f2-4913-97c8-bc10c495effb",
+          "content": "Got rejected MIT!",
+          "dominant_emotion": "sad",
+          "emotion": {
+            "disappointment": {
+              "regulation": {
+                "__numpy__": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=",
+                "dtype": "<f8",
+                "shape": [
+                  4,
+                  4
+                ]
+              }
+            }
+          },
+          "importance": 0.8,
+          "Enthusiasm": {
+            "motivation": {
+              "__numpy__": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "dtype": "<f8",
+              "shape": [
+                3,
+                4
+              ]
+            },
+            "inspiration": {
+              "__numpy__": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "dtype": "<f8",
+              "shape": [
+                3,
+                4
+              ]
+            }
+          },
+          "assoitation": {},
+          "priority": {
+            "1": 1.0
+          },
+          "why_this_feeling": "You feel this way for an unknown reason."
+        },
+        {
+          "id": "9ddcc117-50ea-49b1-b8a8-5a14eec7b3f1",
+          "content": "Got rejected MIT!",
+          "dominant_emotion": "sad",
+          "emotion": {
+            "disappointment": {
+              "regulation": {
+                "__numpy__": "AAAAAAAA4D8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=",
+                "dtype": "<f8",
+                "shape": [
+                  4,
+                  4
+                ]
+              }
+            }
+          },
+          "importance": 0.75,
+          "Enthusiasm": {
+            "motivation": {
+              "__numpy__": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "dtype": "<f8",
+              "shape": [
+                3,
+                4
+              ]
+            },
+            "inspiration": {
+              "__numpy__": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "dtype": "<f8",
+              "shape": [
+                3,
+                4
+              ]
+            }
+          },
+          "assoitation": {},
+          "priority": {
+            "1": 1.0
+          },
+          "why_this_feeling": "You feel this way for an unknown reason."
+        }
+      ],
+      "current_objective": [],
+      "main_objectives": [],
+      "current_objectives": [],
+      "main_goal": [],
+      "overall_Enthusiam": {
+        "inspiration": {
+          "scale": 0.0,
+          "details": "No data avilable for this brain yet."
+        },
+        "motivation": {
+          "scale": 0.0,
+          "details": "No data avilable for this brain yet."
+        }
+      },
+      "_existence": {
+        "_date": "2026-02-24",
+        "_exact_date": "2026-02-25T02:27:28.849727"
+      },
+      "decayed_memories": []
+    }
+  }
+]

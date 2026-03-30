@@ -1,0 +1,102 @@
+Row 0: Prefrontal Control (Cognitive Regulation)
+Brain regions: Prefrontal cortex, anterior cingulate cortex
+
+What it does:
+
+Regulates emotional intensity
+Reappraises situations ("It's not that bad")
+Inhibits inappropriate responses
+Makes decisions about emotional expression
+
+Columns:
+
+pythonrow_0 = [
+    current_intensity,      # 0.0-1.0: How strong is emotion RIGHT NOW
+    regulation_strength,    # 0.0-1.0: How much are we suppressing/amplifying it
+    reappraisal_capacity,   # 0.0-1.0: Ability to reinterpret situation (high = resilient)
+    inhibition_level        # 0.0-1.0: How much we're holding back expression
+]
+
+
+
+
+Row 1: Physiological Response (Body State)
+Brain regions: Amygdala, hypothalamus, brainstem, autonomic nervous system
+What it does:
+
+Controls physical responses (heart rate, sweating, tension)
+Prepares body for action (fight/flight/freeze)
+Creates "gut feelings"
+Drains or provides energy
+
+Columns:
+pythonrow_1 = [
+    arousal_level,      # 0.0-1.0: General physiological activation (calm → intense)
+    heart_rate_analog,  # 0.0-1.0: Cardiovascular response (0.5 = baseline)
+    muscle_tension,     # 0.0-1.0: Physical tension (0 = relaxed, 1 = rigid)
+    energy_state        # 0.0-1.0: Available energy (0 = depleted, 1 = energized)
+]
+
+
+
+
+
+
+Row 2: Expression/Communication (External Display)
+Brain regions: Motor cortex, facial nerve nucleus, insula
+What it does:
+
+Controls facial expressions
+Modulates voice tone and volume
+Drives body language (posture, gestures)
+Sends social signals to others
+
+Columns:
+pythonrow_2 = [
+    facial_intensity,   # 0.0-1.0: How much is showing on face (0 = poker face, 1 = very expressive)
+    vocal_expression,   # 0.0-1.0: Voice tone/volume modulation (0 = flat, 1 = highly expressive)
+    body_language,      # 0.0-1.0: Posture/gesture intensity (0 = still, 1 = animated)
+    social_signal       # 0.0-1.0: Overall communicativeness (0 = hidden, 1 = broadcasting)
+]
+
+# Pride (showing off)
+[0.8, 0.7, 0.8, 0.9]  # Big smile, confident voice, open posture, clearly broadcasting
+
+# Shame (hiding it)
+[0.2, 0.3, 0.2, 0.1]  # Neutral face, quiet voice, closed posture, hiding feeling
+
+# Anger (trying not to show it)
+[0.4, 0.3, 0.6, 0.3]  # Some tension visible, controlled voice, tense posture, somewhat hiding
+
+
+
+
+
+
+
+
+Row 3: Reward/Motivation System (Dopamine)
+Brain regions: Ventral tegmental area (VTA), nucleus accumbens, ventral striatum
+What it does:
+
+Evaluates reward value of situation
+Creates expectations about outcomes
+Detects prediction errors (better/worse than expected)
+Drives approach (move toward) or avoidance (move away)
+
+Columns:
+pythonrow_3 = [
+    reward_value,         # 0.0-1.0: How rewarding is this situation (0 = punishing, 0.5 = neutral, 1 = highly rewarding)
+    expectation,          # 0.0-1.0: What we expected to happen (for comparison)
+    prediction_error,     # -1.0 to +1.0: Actual - Expected (negative = disappointed, positive = pleasantly surprised)
+    approach_tendency     # 0.0-1.0: Drive to approach (1.0) or avoid (0.0)
+]
+Example values:
+python# Pride (exceeded expectations, want more)
+[0.9, 0.5, 0.4, 0.9]  # High reward, expected medium, positive surprise, strong approach
+
+# Disappointment (worse than expected)
+[0.2, 0.7, -0.5, 0.3]  # Low reward, expected high, negative surprise, weak approach
+
+# Fear (potential threat, avoid)
+[0.1, 0.5, -0.4, 0.1]  # Negative outcome, expected neutral, bad surprise, strong avoidance
