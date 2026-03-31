@@ -128,15 +128,15 @@ class Brain(BrainAnomaly):
     def __init__(self,
                 pounds: float = 0.005, 
                 watts: float = 1.0, 
-                name: str = 'bob', 
+                name: tuple[str, str] = ("john", "doe"), 
                 storage_size: int = 1000000):
-        
-        self._validate_name(name)
 
         super().__init__(pounds=pounds, watts=watts)
 
-        # Fun little feature, name your 'brain'
-        self.name: str = name.strip().capitalize()
+    
+        self.first_name, self.middle_name, self.last_name = self._validate_name(name)
+        
+        self.name: str = f"{self.first_name} {self.middle_name} {self.last_name}".strip()
 
         #self._create_config_()
         
@@ -157,16 +157,35 @@ class Brain(BrainAnomaly):
         # self.midbrain = Mesencephalon(self)
         # self.hindbrain = Rhombencephalon(self)
         
-    def _validate_name(self, name: str):
+    def _validate_name(self, name: tuple[str, str]):
         """Validate Brain name"""
+
         special_chars = r"~!@#$%^&*()_+`-={}|[]\:;<>?,./'"  
 
-        if not name or name.strip() == '':
-            raise ValueError("Name cannot be empty")
-             
+        first_name, last_name = name[0].capitalize(), name[1]
+
+        middle_name = ''
+
+        if len((last_name).split()) == 2:
+            lastNameSplit = last_name.split()
+            middle_name = lastNameSplit[0].capitalize()
+            last_name = lastNameSplit[1].capitalize()
+
+        if len(first_name.split()) > 1:
+            raise ValueError("First name cannot contain spaces. Please insert middle name in second part of tuple.")
+        
+        if not first_name or first_name.strip() == '':
+            raise ValueError("First name cannot be empty")
+
+        if not last_name or last_name.strip() == '':
+            raise ValueError("Last name cannot be empty")
+
         if any(char in special_chars for char in name):
             raise ValueError(f"Name cannot contain special characters: {special_chars}")
-        
+
+
+        return first_name, middle_name, last_name
+
 
     def BrainCreation(self) -> Tuple[float, float, float]:
         """Create the size of the brain. 
@@ -185,7 +204,7 @@ class Brain(BrainAnomaly):
 
     def get_brain_data(self) -> Dict[str, Any]:
         stuff = {
-            "NAME": self.name,
+            "NAME": {"first": self.first_name, "middle": self.middle_name, "last": self.last_name},
             "WATTS": self.power,
             "SIZE": self.brain_size
         }
@@ -276,7 +295,7 @@ class Brain(BrainAnomaly):
             
             ax.scatter(x, y, s=size, c=color, alpha=0.7, edgecolors='black')
         
-        plt.title(f"{self.name}'s Brain - {len(memories)} memories")
+        plt.title(f"{self.first_name}'s Brain - {len(memories)} memories")
         plt.show()
 
     def remember(self, 
@@ -351,7 +370,7 @@ class Brain(BrainAnomaly):
         try:
             
             id = str(uuid.uuid4())
-            file = f"{self.name}_MODEL.py" 
+            file = f"{self.first_name}_MODEL.py" 
             path = Path(id) / Path(file)
             with open(file, 'w') as f:
                 f.write(self._())
@@ -381,19 +400,19 @@ import uuid
 from datetime import datetime
 
 def run():
-    ID = "{self.name}"+str(uuid.uuid4())+datetime.utcnow().isoformat().strip()
-    env = "{self.name}.env"
-    script = "{self.name.upper()}_ID="+ID
+    ID = "{self.first_name}"+str(uuid.uuid4())+datetime.utcnow().isoformat().strip()
+    env = "{self.first_name}.env"
+    script = "{self.first_name.upper()}_ID="+ID
 
     with open(env, 'w') as f:
         f.write(script)
 
     # Create database
-    conn = sqlite3.connect("{self.name}_brain.db")
+    conn = sqlite3.connect("{self.first_name}_brain.db")
     cursor = conn.cursor()
 
     # Create table
-    cursor.execute('''
+    cursor.execute(''')
         CREATE TABLE IF NOT EXISTS memories (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             content TEXT,
@@ -419,23 +438,34 @@ def run():
 
 """
         return script
-    def achieve_name(self) -> str:
-        return self.name
     
-    
-    
+    def achieve_name(self) -> Tuple[str, str, str]:
+        name_parts = self.name.split()
+        if len(name_parts) == 3:
+            return name_parts[0], name_parts[1], name_parts[2]
+        elif len(name_parts) == 2:
+            return name_parts[0], "", name_parts[1]
+        else:
+            return name_parts[0], "", ""
+
+
     
 class Storage():
         """There will be a storage for this system as if too much data gets accepted, 
         it can crash and mess the system."""
         def __init__(self, system: Dict, size: int=1000000):
             self.watts: float = system["WATTS"]
-            self.name: str = system["NAME"]
+            self.name: str = system["NAME"]['first'] + " " + system["NAME"]['middle'] + " " + system["NAME"]['last']
+            
+            self.first_name: str = system["NAME"]['first']
+            self.middle_name: str = system["NAME"]['middle']
+            self.last_name: str = system["NAME"]['last']
+
             self.brain_size: float = system["SIZE"]
             self.STORAGE_size = size
             
-            self.name = self.name
-            self.brain_dir = Path(f'brains/{self.name}')
+           
+            self.brain_dir = Path(f'brains/{self.first_name}')
             self.brain_dir.mkdir(parents=True, exist_ok=True)
             
             self.memory_file = self.brain_dir / 'memories.json'
@@ -455,7 +485,7 @@ class Storage():
                     # self.memories: List[Dict[str, Any]]= J.load(f)
             else:
                 _structre = _Structure()
-                structre = _structre._create_structure(name=self.name)
+                structre = _structre._create_structure(name=self.first_name)
                 self.memories: List[Dict[str, Any]] = [structre]
                 self.commit()
 
@@ -467,6 +497,9 @@ class Storage():
 
             if auto_save:
                 self.commit()
+                
+        def get_fullname(self) -> str:
+            return self.name
         
         def commit(self):
             """Persist to disk."""
@@ -607,14 +640,14 @@ class Storage():
                 raise ValueError("but where's home Peter?")
             
             
-            if id is not None:
+            if id:
                 if where_to_look.lower() == 'memories':
                     for dataset in self.memories[0]['brain']['mind']:
                         if dataset['id'] == id:
                             return True
                         else:
                             return False
-            Module_name = f"{self.name}_MODEL"
+            Module_name = f"{self.first_name}_MODEL"
             Module = lib.import_module(Module_name)
             exist = Module.query.filter_by(base=args).first()
             if not exist or exist == None:

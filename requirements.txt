@@ -1,0 +1,5 @@
+numpy
+matplotlib
+json-numpy
+numpy-utils
+typing_extensions

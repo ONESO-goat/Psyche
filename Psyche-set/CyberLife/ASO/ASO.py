@@ -1,7 +1,7 @@
 
 from numpy_utils.numpy_helpers import serialize_numpy, deserialize_numpy
 import copy
-from typing import Dict
+from typing import Any, Dict, List
 from AI.Gemini import AssociationAI_Gem
 from AI.Ollama import AssociationAI
 
@@ -78,4 +78,150 @@ class ASO:
             return memory_copy
         
         return associations
+    
+
+    
+    def find_associations(self, 
+                     content: str, 
+                     dominant_emotion: str,  # ← ADD THIS
+                     all_memories: List[Dict],  
+                     max_associations: int = 10) -> Dict[str, Any]:
+        """
+        IMPROVED version with better prompting.
+        """
+        
+        # Build memory context (but keep it SHORT)
+        memory_context = self._build_memory_context(all_memories, max_memories=3)
+        
+        prompt = f"""You are analyzing a memory to find associations.
+
+    MEMORY TO ANALYZE:
+    Content: "{content}"
+    Emotion: {dominant_emotion}
+
+    TASK 1 - Extract Key Concepts:
+    Find the main concepts/entities in this memory. For each:
+    - What is it?
+    - How strongly related to the memory (0-10)?
+    - What other concepts does it connect to?
+    - What category (people, places, objects, emotions, activities, abstract)?
+
+    TASK 2 - Personal Memory Connections:
+    The person has these other memories:
+    {memory_context}
+
+    Which of these memories connects to the current one? Only include if:
+    - They share concepts (people, places, objects)
+    - They share emotions
+    - They're causally related
+    DON'T connect unrelated memories just because they exist.
+
+    TASK 3 - Emotional Analysis:
+    - What emotion does THIS specific memory trigger?
+    - How intense (0.0-1.0)?
+    - WHY does it trigger this emotion?
+
+    CRITICAL RULES:
+    - Use the ACTUAL emotion from the memory ({dominant_emotion})
+    - Don't mix up different memories
+    - Only connect memories that genuinely relate
+    - Be specific, not generic
+
+    OUTPUT FORMAT (JSON only, no markdown):
+    {{
+    "direct_associations": {{
+        "concept_name": {{
+        "strength": 10,
+        "related": ["word1", "word2"],
+        "category": "people/places/objects/emotions/activities/abstract"
+        }}
+    }},
+    "personal_memory_connections": [
+        {{
+        "memory_id": "actual_uuid_here",
+        "reason": "specific reason they connect",
+        "strength": 0.8,
+        "shared_concepts": ["concept1", "concept2"]
+        }}
+    ],
+    "emotional_analysis": {{
+        "emotion": "{dominant_emotion}",
+        "intensity": 0.8,
+        "triggers": ["trigger1", "trigger2"],
+        "why": "specific reason for this emotion"
+    }}
+    }}"""
+
+         if not memory and not context:
+            raise ValueError("Need either memory or context")
+        
+        if memory:
+            content = memory.get('content', '')
+            emotion = memory.get('dominant_emotion', 'neutral')
+        else:
+            content = context
+            emotion = 'neutral'
+        
+        # Get associations (just for THIS memory)
+        associations = self.ai.find_associations(
+            content=content,
+            dominant_emotion=emotion,  # ← Pass emotion!
+            all_memories=self.memories
+        )
+        
+        # Get memory connections (which OTHER memories relate)
+        memory_connections = self.ai.find_memory_connections(
+            target_memory=memory if memory else {'content': content, 'id': 'temp'},
+            all_memories=self.memories,
+            threshold=0.4  # Be selective
+        )
+        
+        if save_to_memory and memory:
+            # Update memory
+            memory_copy = copy.deepcopy(memory)
+            memory_copy['associations'] = associations
+            memory_copy['memory_connections'] = memory_connections
+            
+            # Replace
+            self.Brain.mind.replace(old=memory, new=memory_copy)
+            self.Brain.mind.commit()
+            
+            return memory_copy
+        
+        return {
+            'associations': associations,
+            'memory_connections': memory_connections
+        }
+        
+        
+    def process_all_memories(self, reprocess: bool = False):
+        """
+        Process ALL memories to find associations.
+        
+        reprocess: If True, recompute even if associations exist
+        """
+        
+        memories = self.Brain.mind.get_all()
+        
+        for i, memory in enumerate(memories):
+            print(f"\nProcessing memory {i+1}/{len(memories)}...")
+            
+            # Skip if already has associations (unless reprocessing)
+            if not reprocess and memory.get('associations'):
+                print("  → Already has associations, skipping")
+                continue
+            
+            try:
+                # Process THIS memory only
+                updated = self.find_association(
+                    memory=memory,
+                    save_to_memory=True
+                )
+                print(f"  ✓ Found associations")
+                
+            except Exception as e:
+                print(f"  ✗ Error: {e}")
+                continue
+        
+        print(f"\n✓ Processed {len(memories)} memories")
     
