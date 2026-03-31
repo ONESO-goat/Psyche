@@ -8,7 +8,10 @@ from Memory.Emotions.Inside_out import RileyAnderson
 from love.friends import Amigo
 from Memory.memory_systems import EmotionalCalling
 from Drive.Enthusiasm import Enthusiasm
-from ASO.ASO import ASO
+#from ASO.ASO import ASO
+
+from ASO.aso_system import ASO
+
 
 
 class Psyche:
@@ -80,10 +83,20 @@ class Psyche:
         # Nicknames
         self.nicknames: List[str] = []
     
-    def remember(self, content: str, emotion: str, importance: float):
+    def remember(self, context: str, emotion: Optional[str] = None, importance: float = 0.5):
         """Create a new memory."""
-        self.Brain.remember(content, emotion, importance)
-    
+        
+        
+        try:
+            emotiondata = {'emotion': emotion, 'intensity': importance}
+            self.management.encode_memory(
+                content=context,
+                emotion_data=emotiondata,
+            )
+        except Exception as e:
+            print(f"Error encoding memory: {e}")
+            return
+
     def recall_all(self):
         """Get all memories."""
         return self.Brain.recall_all()

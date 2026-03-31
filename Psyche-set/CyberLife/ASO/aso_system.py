@@ -1,17 +1,19 @@
 # aso_system.py
 
 from typing import List, Dict, Any, Optional
-from aso_core import Association, AssociationGraph
-from aso_ai import AssociationAI
+from ASO.aso_core import Association, AssociationGraph
+from ASO.aso_ai import AssociationAI
 
 class ASO:
     """
     Main Association System.
     Combines graph + AI.
     """
-    def __init__(self, api_key: str = None):
+    def __init__(self, Brain, api_key: str = ''):
         self.graph = AssociationGraph()
-        self.ai = AssociationAI(api_key) if api_key else None
+        self.Brain = Brain
+        self.memories = self.Brain.mind.get_all()
+        self.ai = AssociationAI(api_key=api_key) if api_key else None
     
     def process_memory(self, memory_content: str) -> Dict[str, Any]:
         """

@@ -439,7 +439,19 @@ def run():
 """
         return script
     
-    def achieve_name(self) -> Tuple[str, str, str]:
+    def get_fullname(self) -> str:
+        """Return full name of the brain."""
+        return self.name
+    
+    def get_motivation(self) -> np.ndarray:
+        """Return motivation vector for a memory."""
+        return self.mind.memories[0].get('motivation', np.zeros(4))
+    
+    def get_inspiration(self) -> np.ndarray:
+        """Return inspiration vector for a memory."""
+        return self.mind.memories[0].get('inspiration', np.zeros(4))
+    
+    def get_fullname_by_parts(self) -> Tuple[str, str, str]:
         name_parts = self.name.split()
         if len(name_parts) == 3:
             return name_parts[0], name_parts[1], name_parts[2]
@@ -485,7 +497,7 @@ class Storage():
                     # self.memories: List[Dict[str, Any]]= J.load(f)
             else:
                 _structre = _Structure()
-                structre = _structre._create_structure(name=self.first_name)
+                structre = _structre._create_structure(first=self.first_name, middle=self.middle_name, last=self.last_name)
                 self.memories: List[Dict[str, Any]] = [structre]
                 self.commit()
 

@@ -5,7 +5,7 @@ from numpy_utils.numpy_helpers import serialize_numpy, deserialize_numpy
 import copy
 from typing import Any, Dict, List
 from AI.Gemini import AssociationAI_Gem
-from AI.Ollama import AssociationAI_32
+from AI.Ollama import AssociationAI_32, AssociationAI_qwen
 
 class ASO:
     def __init__(self, Brain, api_key: str):
@@ -42,7 +42,7 @@ class ASO:
             self.ai = AssociationAI(api_key=api_key)
         else:
             # Use Ollama
-            self.ai = None
+            self.ai = AssociationAI_qwen()
     
     def find_association(self, 
                         memory: dict = {}, 
@@ -60,6 +60,7 @@ class ASO:
         
         # Get associations from AI
         associations = self.ai.find_associations(
+            
             content=context,
             all_memories=self.memories
         )

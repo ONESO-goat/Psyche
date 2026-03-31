@@ -1,19 +1,35 @@
 # aso_ai.py
 
-from AI.Ollama import Ollama
+from AI.Ollama import AssociationAI_32, AssociationAI_qwen
 
 
 import json
-from typing import Dict, List, Any
-from aso_core import Association, AssociationGraph
+from typing import Dict, List, Any,Optional
+import copy
+from ASO.aso_core import Association, AssociationGraph
 
 class AssociationAI:
     """
     Uses AI to find associations.
     """
-    def __init__(self, api_key: str = ""):
-        self.AI = Ollama(api_key=api_key)
-        self.model = self.ollama.get_model('gemini-1.5-flash')
+    def __init__(self, 
+                 api_key: Optional[str]= None, 
+                 model_name: str = "ollama",
+                 model_id: str = "qwen-0.5-flash"):
+        """Model name can be 'ollama', 'claude', 'chatgpt','gemini', etc. Ollama is default for local."""
+        
+        if model_name.lower().strip() == "ollama":
+            try:
+                self.AI = AssociationAI_qwen(model_name=model_id) or AssociationAI_32(model_name='llama3.2')
+                
+            except Exception as e:
+                self.AI = None
+                
+                raise ValueError(f"Error initializing Ollama: {e}")
+                
+        else:
+            raise ValueError(f"Unsupported model_name: {model_name}, more models coming soon!")
+            
     
     def extract_concepts(self, text: str) -> List[Dict[str, Any]]:
         """

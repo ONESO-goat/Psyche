@@ -4,3 +4,9 @@ json-numpy
 numpy-utils
 typing_extensions
 opencv-python
+requests
+pydantic
+fastapi
+uvicorn
+ollama
+google

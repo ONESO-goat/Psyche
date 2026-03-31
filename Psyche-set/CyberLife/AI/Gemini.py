@@ -1,10 +1,10 @@
 # Gemini.py - AI module using Google Gemini for associations and connections
 
-from google import genai
+#from google import genai
 from typing import Dict, List, Any
 from pydantic import BaseModel
-import google.genai.errors as errors
-from tenacity import retry, stop_after_attempt, wait_random_exponential, retry_if_exception_type
+#import google.genai.errors as errors
+#from tenacity import retry, stop_after_attempt, wait_random_exponential, retry_if_exception_type
 import json
 
 class AssociationAI_Gem:

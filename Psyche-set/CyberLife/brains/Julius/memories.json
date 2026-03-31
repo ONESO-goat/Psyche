@@ -1,40 +1,280 @@
 [
   {
     "brain": {
-      "id": "9369a99c-16b8-4f59-abdc-fb46747e3bab",
+      "id": "5e97fc3c-d5d1-4b59-99c9-7053da241b34",
       "_personal_data": {
         "name": {
-          "name": "Julius",
+          "full": "Julius  Smith",
+          "middle": "",
+          "first": "Julius",
+          "last": "Smith",
           "nickname": []
         },
-        "firends": {}
+        "firends": {},
+        "friends": {
+          "Sarah": {
+            "type_of_friendship": "short",
+            "where": "coffee shop",
+            "scale": 7.5,
+            "nicknames": [
+              "Sare",
+              "S"
+            ],
+            "knew_them_at": {
+              "date": "2026-03-31",
+              "time_till_removal_(days)": 7
+            },
+            "associations": {},
+            "connected_memories": []
+          }
+        }
       },
       "mind": [
         {
-          "content": "I met my friend who owns a Shih Tzu",
-          "emotion": "happy",
-          "importance": 0.7,
-          "motivation": {
-            "__numpy__": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=",
-            "dtype": "<f8",
-            "shape": [
-              4
-            ]
+          "id": "82c9acf7-65cb-4a33-832b-bd3b10f9e2fe",
+          "content": "Met Sarah at the coffee shop",
+          "dominant_emotion": "happy",
+          "emotion": {
+            "joy": {
+              "regulation": {
+                "__numpy__": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=",
+                "dtype": "<f8",
+                "shape": [
+                  4,
+                  4
+                ]
+              }
+            }
           },
-          "timestamp": "2026-02-25T17:08:47.673184"
+          "importance": 0.85,
+          "Enthusiasm": {
+            "motivation": {
+              "__numpy__": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "dtype": "<f8",
+              "shape": [
+                3,
+                4
+              ]
+            },
+            "inspiration": {
+              "__numpy__": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "dtype": "<f8",
+              "shape": [
+                3,
+                4
+              ]
+            }
+          },
+          "association": {},
+          "priority": {
+            "1": 1.0
+          },
+          "why_this_feeling": "You feel this way for an unknown reason."
         },
         {
-          "content": "I met my friend who owns a Shih Tzu",
-          "emotion": "happy",
-          "importance": 0.7,
-          "motivation": {
-            "__numpy__": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=",
-            "dtype": "<f8",
-            "shape": [
-              4
-            ]
+          "id": "ab97aa17-ba6c-4902-a352-ad28556fd359",
+          "content": "Got rejected from MIT",
+          "dominant_emotion": "sad",
+          "emotion": {
+            "upset": {
+              "regulation": {
+                "__numpy__": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=",
+                "dtype": "<f8",
+                "shape": [
+                  4,
+                  4
+                ]
+              }
+            }
           },
-          "timestamp": "2026-02-25T17:24:35.934359"
+          "importance": 0.95,
+          "Enthusiasm": {
+            "motivation": {
+              "__numpy__": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "dtype": "<f8",
+              "shape": [
+                3,
+                4
+              ]
+            },
+            "inspiration": {
+              "__numpy__": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "dtype": "<f8",
+              "shape": [
+                3,
+                4
+              ]
+            }
+          },
+          "association": {},
+          "priority": {
+            "1": 1.0
+          },
+          "why_this_feeling": "You feel this way for an unknown reason."
+        },
+        {
+          "id": "43ae1d78-4c8b-440b-ab33-462800693f9a",
+          "content": "Got rejected from MIT",
+          "dominant_emotion": "sad",
+          "emotion": {
+            "upset": {
+              "regulation": {
+                "__numpy__": "MzMzMzMz0z8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=",
+                "dtype": "<f8",
+                "shape": [
+                  4,
+                  4
+                ]
+              }
+            }
+          },
+          "importance": 0.95,
+          "Enthusiasm": {
+            "motivation": {
+              "__numpy__": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "dtype": "<f8",
+              "shape": [
+                3,
+                4
+              ]
+            },
+            "inspiration": {
+              "__numpy__": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "dtype": "<f8",
+              "shape": [
+                3,
+                4
+              ]
+            }
+          },
+          "association": {},
+          "priority": {
+            "1": 1.0
+          },
+          "why_this_feeling": "You feel this way for an unknown reason."
+        },
+        {
+          "id": "f07d776d-0cfb-4887-8897-9b1ccf1d4b6e",
+          "content": "Met Sarah at the coffee shop",
+          "dominant_emotion": "happy",
+          "emotion": {
+            "joy": {
+              "regulation": {
+                "__numpy__": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=",
+                "dtype": "<f8",
+                "shape": [
+                  4,
+                  4
+                ]
+              }
+            }
+          },
+          "importance": 0.85,
+          "Enthusiasm": {
+            "motivation": {
+              "__numpy__": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "dtype": "<f8",
+              "shape": [
+                3,
+                4
+              ]
+            },
+            "inspiration": {
+              "__numpy__": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "dtype": "<f8",
+              "shape": [
+                3,
+                4
+              ]
+            }
+          },
+          "association": {},
+          "priority": {
+            "1": 1.0
+          },
+          "why_this_feeling": "You feel this way for an unknown reason."
+        },
+        {
+          "id": "a60e8faa-2ef7-498a-9822-871e3a7e3c29",
+          "content": "Got rejected from MIT",
+          "dominant_emotion": "sad",
+          "emotion": {
+            "upset": {
+              "regulation": {
+                "__numpy__": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=",
+                "dtype": "<f8",
+                "shape": [
+                  4,
+                  4
+                ]
+              }
+            }
+          },
+          "importance": 0.95,
+          "Enthusiasm": {
+            "motivation": {
+              "__numpy__": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "dtype": "<f8",
+              "shape": [
+                3,
+                4
+              ]
+            },
+            "inspiration": {
+              "__numpy__": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "dtype": "<f8",
+              "shape": [
+                3,
+                4
+              ]
+            }
+          },
+          "association": {},
+          "priority": {
+            "1": 1.0
+          },
+          "why_this_feeling": "You feel this way for an unknown reason."
+        },
+        {
+          "id": "11f49f8f-3154-4339-9019-e4948db996bf",
+          "content": "Met Sarah at the coffee shop",
+          "dominant_emotion": "happy",
+          "emotion": {
+            "joy": {
+              "regulation": {
+                "__numpy__": "MzMzMzMz4z8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=",
+                "dtype": "<f8",
+                "shape": [
+                  4,
+                  4
+                ]
+              }
+            }
+          },
+          "importance": 0.85,
+          "Enthusiasm": {
+            "motivation": {
+              "__numpy__": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "dtype": "<f8",
+              "shape": [
+                3,
+                4
+              ]
+            },
+            "inspiration": {
+              "__numpy__": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "dtype": "<f8",
+              "shape": [
+                3,
+                4
+              ]
+            }
+          },
+          "association": {},
+          "priority": {
+            "1": 1.0
+          },
+          "why_this_feeling": "You feel this way for an unknown reason."
         }
       ],
       "current_objective": [],
@@ -52,8 +292,8 @@
         }
       },
       "_existence": {
-        "_date": "2026-02-25",
-        "_exact_date": "2026-02-25T22:08:47.672910"
+        "_date": "2026-03-31",
+        "_exact_date": "2026-03-31T22:41:49.294626"
       },
       "decayed_memories": []
     }

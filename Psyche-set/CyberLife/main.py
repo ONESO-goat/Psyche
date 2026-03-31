@@ -24,7 +24,7 @@ if __name__ == "__main__":
         emotions = RileyAnderson()
         memory_system = EmotionalCalling(brain.mind, brain, emotions)
         print(f"✓ Created: {brain}\n")
-        print(f"Name: {brain.achieve_name()}\n")
+        print(f"Name: {brain.get_fullname()}\n")
         random_content = [
             "I just finished my big game and made alot of friends doing so.",
             "I just finished the final boss fight!",
