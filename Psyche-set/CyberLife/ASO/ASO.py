@@ -1,9 +1,11 @@
+# ASO.py - Association module for the brain
+
 
 from numpy_utils.numpy_helpers import serialize_numpy, deserialize_numpy
 import copy
 from typing import Any, Dict, List
 from AI.Gemini import AssociationAI_Gem
-from AI.Ollama import AssociationAI
+from AI.Ollama import AssociationAI_32
 
 class ASO:
     def __init__(self, Brain, api_key: str):
@@ -34,16 +36,20 @@ class ASO:
         """
         self.Brain = Brain
         self.memories = self.Brain.mind.get_all()
-
-           # Initialize Gemini AI
-        self.ai = AssociationAI()
+        
+        if api_key:
+            from aso_ai import AssociationAI
+            self.ai = AssociationAI(api_key=api_key)
+        else:
+            # Use Ollama
+            self.ai = None
     
     def find_association(self, 
                         memory: dict = {}, 
                         context: str = '',
                         save_to_memory: bool = True) -> Dict:
         """
-        Find associations using Gemini AI.
+        Find associations using AI.
         """
         
         if memory:
@@ -152,7 +158,7 @@ class ASO:
     }}
     }}"""
 
-         if not memory and not context:
+        if not memory and not context:
             raise ValueError("Need either memory or context")
         
         if memory:

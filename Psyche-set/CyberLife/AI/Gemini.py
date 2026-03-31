@@ -1,4 +1,4 @@
-# association_ai.py
+# Gemini.py - AI module using Google Gemini for associations and connections
 
 from google import genai
 from typing import Dict, List, Any

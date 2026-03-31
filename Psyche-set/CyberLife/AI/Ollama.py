@@ -1,10 +1,10 @@
-
+# Ollama.py - Local LLM integration using Ollama
 
 import ollama
 import json
 from typing import Dict, List, Any
 
-class AssociationAI:
+class AssociationAI_32:
     def __init__(self, model_name: str = "llama3.2"):
         """
         Initialize with a local model. 
@@ -87,3 +87,13 @@ Return as JSON:
             "emotional_associations": {"emotion": "neutral", "intensity": 0.5, "reason": "Local model failed"},
             "error": "Failed to parse Ollama response"
         }
+        
+        
+class AssociationAI_qwen:
+    def __init__(self, model_name: str = "qwen2.5"):
+        self.model_id = model_name
+        try:
+            ollama.show(self.model_id)
+        except ollama.ResponseError:
+            print(f"Model {self.model_id} not found. Pulling now...")
+            ollama.pull(self.model_id)

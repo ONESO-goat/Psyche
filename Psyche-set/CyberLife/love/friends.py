@@ -1,4 +1,4 @@
-# friends.py
+# friends.py - manage friendships and social connections.
 
 from love.love import love
 import copy

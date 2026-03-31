@@ -1,4 +1,4 @@
-# BrainAnmaly.py
+# BrainAnmaly.py - Main brain system for CyberLife/Psyche.
 
 
 import numpy as np
