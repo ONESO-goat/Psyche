@@ -106,6 +106,19 @@ class Database:
                 (start_time, end_time)
             ).fetchall()
             return self._rows_to_dicts(rows)
+        
+    def get_name(self):
+        return self.name
+    
+    def change_name(self, new_name: str):
+        self._validate_non_empty(new_name, "New name")
+
+        with self.conn:
+            self.conn.execute(
+                "UPDATE memories SET name = ? WHERE name = ?",
+                (new_name, self.name)
+            )
+            self.name = new_name
 
     def get_recent_memories(self, limit: int = 10):
         with self.conn:
@@ -159,6 +172,34 @@ class Database:
 
         with self.conn:
             self.conn.execute(query, values)
+            
+    # ======================== ADD MEMORY CONNECTIONS & ASSOCIATIONS ========================
+    def add_memory_connection(self, memory_id: int, connection_type: str, target_memory_id: int):
+        if memory_id is None or target_memory_id is None:
+            raise ValueError("Memory IDs cannot be None")
+
+        with self.conn:
+            self.conn.execute(
+                """
+                INSERT INTO memory_connections (memory_id, connection_type, target_memory_id)
+                VALUES (?, ?, ?)
+                """,
+                (memory_id, connection_type, target_memory_id)
+            )
+            
+    def add_memory_of_friend(self, memory_id: int, friend_name: str):
+        if memory_id is None:
+            raise ValueError("Memory ID cannot be None")
+        self._validate_non_empty(friend_name, "Friend name")
+
+        with self.conn:
+            self.conn.execute(
+                """
+                INSERT INTO memory_friends (memory_id, friend_name)
+                VALUES (?, ?)
+                """,
+                (memory_id, friend_name)
+            )
 
     # ------------------------
     # Delete
@@ -178,6 +219,20 @@ class Database:
         with self.conn:
             self.conn.execute("DELETE FROM memories")
 
+    
+    def remove_memory_of_friend(self, memory_id: int, friend_name: str):
+        if memory_id is None:
+            raise ValueError("Memory ID cannot be None")
+        self._validate_non_empty(friend_name, "Friend name")
+
+        with self.conn:
+            self.conn.execute(
+                """
+                DELETE FROM memory_friends
+                WHERE memory_id = ? AND friend_name = ?
+                """,
+                (memory_id, friend_name)
+            )
     # ------------------------
     # Lifecycle
     # ------------------------
