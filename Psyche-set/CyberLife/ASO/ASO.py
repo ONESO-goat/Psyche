@@ -3,6 +3,7 @@
 from typing import List, Dict, Any, Optional
 from ASO.aso_core import Association, AssociationGraph
 from ASO.aso_ai import AssociationAI
+from debugging_utils import debug, reset_debug, hashtag
 import copy
 
 class ASO:
@@ -48,6 +49,8 @@ class ASO:
         """
         if not self.ai:
             return {'error': 'No AI configured'}
+        
+        
         
         content = memory.get('content', '')
         memory_id = memory.get('id', '')
@@ -110,6 +113,7 @@ class ASO:
         
         return {
             'concepts': concepts,
+            'test':'test_value',
             'associations_added': associations_added,
             'memory_connections': len(memory_connections)
         }
@@ -125,8 +129,12 @@ class ASO:
         
         print(f"Processing {len(memories)} memories...")
         
+        hashtag("LOOPING ASO System - Processing All Memories")
+        reset_debug()
+        
         for i, memory in enumerate(memories, 1):
             # Skip if already processed (unless reprocessing)
+            
             if not reprocess and memory.get('aso_data', {}).get('processed'):
                 print(f"  [{i}/{len(memories)}] Skipping (already processed)")
                 continue
@@ -135,8 +143,11 @@ class ASO:
             
             try:
                 result = self.process_memory(memory)
+                debug(f"CURRENT Result: {result}\n")  
+                debug(f"TESTING: {result.get('test', 'no test value')}\n") 
                 print(f"      ✓ {result['associations_added']} associations, {result['memory_connections']} connections")
             except Exception as e:
+                
                 print(f"      ✗ Error: {e}")
         
         print(f"\n✓ Complete! {self.get_stats()['total_associations']} total associations")
@@ -214,3 +225,7 @@ class ASO:
             ],
             'related_memories': related_memories
         }
+        
+    def save(self, filepath: str = 'associations.json'):
+        """Save association graph."""
+        self.graph.save(filepath)

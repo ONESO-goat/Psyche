@@ -1,67 +1,134 @@
-# ASO/aso_ai.py
+# ASO/aso_ai.py - Universal AI interface for both Gemini and Ollama
 
 import json
 from typing import Dict, List, Any
 
 class AssociationAI:
     """
-    AI for finding associations.
+    Universal AI interface for finding associations.
     Supports both Gemini and Ollama.
     """
-    def __init__(self, api_key: str | None = None, model: str = 'gemini'):
-        self.model_type = model
+    def __init__(self, api_key: str | None = None, model: str = 'ollama'):
+        """
+        Initialize AI.
         
-        if model == 'gemini' and api_key:
+        Args:
+            api_key: Gemini API key (if using Gemini)
+            model: 'gemini' or 'ollama'
+        """
+        self.model_type = model.lower()
+        
+        if self.model_type == 'gemini' and api_key:
+            # Use Gemini
             import google.generativeai as genai
             genai.configure(api_key=api_key)
             self.model = genai.GenerativeModel('gemini-1.5-flash')
-            self.use_gemini = True
+            self.backend = 'gemini'
+            print("✓ Using Gemini 1.5 Flash")
+            
         else:
             # Use Ollama
-            self.use_gemini = False
+            self.backend = 'ollama'
             self.ollama_model = 'qwen2.5:latest'
+            
+            # Check if Ollama is available
+            try:
+                import ollama
+                ollama.show(self.ollama_model)
+                print(f"✓ Using Ollama ({self.ollama_model})")
+            except:
+                print(f"⚠ Ollama model '{self.ollama_model}' not found")
+                print("  Run: ollama pull qwen2.5:latest")
     
     def extract_concepts(self, text: str) -> List[Dict[str, Any]]:
         """
         Extract key concepts from text.
+        
+        Returns:
+            [{'concept': 'dog', 'category': 'animals', 'importance': 0.9}, ...]
         """
-        prompt = f"""Extract key concepts from: "{text}"
+        prompt = f"""Extract key concepts from this text:
+
+"{text}"
 
 Find 3-7 main concepts (nouns, entities, ideas).
 
-Return ONLY JSON (no markdown):
+For each concept:
+- concept: the word/phrase
+- category: animals/people/places/objects/emotions/activities/abstract/technology
+- importance: 0.0-1.0 (how central to this text)
+
+Return ONLY valid JSON (no markdown, no explanation):
 [
-  {{"concept": "word", "category": "animals/people/places/objects/emotions/activities/abstract", "importance": 0.9}}
+  {{"concept": "dog", "category": "animals", "importance": 0.9}},
+  {{"concept": "friend", "category": "people", "importance": 0.8}}
 ]"""
 
         response_text = self._generate(prompt)
-        return self._parse_json(response_text, default=[])
+        concepts = self._parse_json(response_text, default=[])
+        
+        # Validate structure
+        if isinstance(concepts, list):
+            valid_concepts = []
+            for c in concepts:
+                if isinstance(c, dict) and 'concept' in c:
+                    valid_concepts.append({
+                        'concept': c.get('concept', '').lower().strip(),
+                        'category': c.get('category', 'abstract'),
+                        'importance': float(c.get('importance', 0.5))
+                    })
+            return valid_concepts
+        
+        return []
     
     def find_associations(self, 
                          concept: str,
                          context: str = '') -> List[Dict[str, Any]]:
         """
-        Find associations for a concept.
+        Find what associates with this concept.
+        
+        Returns:
+            [{'target': 'pet', 'strength': 0.9, 'type': 'semantic', 'reason': '...'}, ...]
         """
         context_str = f"\nContext: {context}" if context else ""
         
-        prompt = f"""Concept: "{concept}"{context_str}
+        prompt = f"""Find associations for the concept: "{concept}"{context_str}
 
 What strongly associates with "{concept}"?
 
 Find 5-10 associations:
-- Target concept
-- Strength (0.0-1.0, realistic, most 0.4-0.8)
-- Type: semantic/temporal/emotional/causal/functional
-- Reason (one sentence)
+- target: what it associates to
+- strength: 0.0-1.0 (be realistic, most are 0.4-0.8)
+- type: semantic/temporal/emotional/causal/functional
+- reason: brief explanation (one sentence)
 
-Return ONLY JSON (no markdown):
+Examples:
+- "dog" → "pet" (0.9, semantic, "dogs are common pets")
+- "dog" → "loyal" (0.7, emotional, "dogs known for loyalty")
+
+Return ONLY valid JSON (no markdown):
 [
-  {{"target": "concept", "strength": 0.8, "type": "semantic", "reason": "brief"}}
+  {{"target": "pet", "strength": 0.9, "type": "semantic", "reason": "dogs are common pets"}},
+  {{"target": "loyal", "strength": 0.7, "type": "emotional", "reason": "dogs known for loyalty"}}
 ]"""
 
         response_text = self._generate(prompt)
-        return self._parse_json(response_text, default=[])
+        associations = self._parse_json(response_text, default=[])
+        
+        # Validate structure
+        if isinstance(associations, list):
+            valid_assocs = []
+            for a in associations:
+                if isinstance(a, dict) and 'target' in a and 'strength' in a:
+                    valid_assocs.append({
+                        'target': a.get('target', '').lower().strip(),
+                        'strength': max(0.0, min(1.0, float(a.get('strength', 0.5)))),
+                        'type': a.get('type', 'semantic'),
+                        'reason': a.get('reason', '')
+                    })
+            return valid_assocs
+        
+        return []
     
     def find_memory_connections(self,
                                memory_content: str,
@@ -69,6 +136,9 @@ Return ONLY JSON (no markdown):
                                existing_memories: List[Dict]) -> List[Dict[str, Any]]:
         """
         Find which existing memories connect to this new memory.
+        
+        Returns:
+            [{'memory_id': 'uuid', 'shared_concepts': ['dog'], 'strength': 0.7, 'reason': '...'}, ...]
         """
         if not existing_memories:
             return []
@@ -88,58 +158,91 @@ EXISTING MEMORIES:
 
 Which existing memories genuinely connect to the new one?
 
-Rules:
-✅ Connect if: shared people/places/objects/topics/causes
-❌ Don't connect if: just same emotion but different topics
+Connection rules:
+✅ Connect if: shared people/places/objects/topics/causes/emotions
+❌ Don't connect if: completely different topics
 
-Return ONLY JSON (no markdown):
+For each connection:
+- memory_id: the ID from the list
+- shared_concepts: specific things they share
+- strength: 0.0-1.0 (how strong the connection)
+- reason: why they connect (one sentence)
+
+Return ONLY valid JSON (no markdown):
 [
-  {{"memory_id": "uuid", "shared_concepts": ["specific"], "strength": 0.7, "reason": "why"}}
+  {{"memory_id": "uuid-here", "shared_concepts": ["dog", "pet"], "strength": 0.8, "reason": "both about dogs"}},
+  {{"memory_id": "uuid-here", "shared_concepts": ["rejection", "sadness"], "strength": 0.6, "reason": "both involve disappointment"}}
 ]
 
-If no connections: []"""
+If no genuine connections exist, return: []"""
 
         response_text = self._generate(prompt)
-        return self._parse_json(response_text, default=[])
+        connections = self._parse_json(response_text, default=[])
+        
+        # Validate structure
+        if isinstance(connections, list):
+            valid_conns = []
+            for c in connections:
+                if isinstance(c, dict) and 'memory_id' in c:
+                    valid_conns.append({
+                        'memory_id': c.get('memory_id', ''),
+                        'shared_concepts': c.get('shared_concepts', []),
+                        'strength': max(0.0, min(1.0, float(c.get('strength', 0.5)))),
+                        'reason': c.get('reason', '')
+                    })
+            return valid_conns
+        
+        return []
     
     def _generate(self, prompt: str) -> str:
-        """Generate response from AI."""
-        if self.use_gemini:
-            response = self.model.generate_content(prompt)
-            return response.text
-        else:
-            # Use Ollama
-            import requests
-            
+        """Generate response from AI backend."""
+        
+        if self.backend == 'gemini':
             try:
-                response = requests.post(
-                    'http://localhost:11434/api/generate',
-                    json={
-                        'model': self.ollama_model,
-                        'prompt': prompt,
-                        'stream': False
-                    },
-                    timeout=30
+                response = self.model.generate_content(prompt)
+                return response.text
+            except Exception as e:
+                print(f"⚠ Gemini error: {e}")
+                return '[]'
+        
+        else:  # Ollama
+            try:
+                import ollama
+                
+                response = ollama.chat(
+                    model=self.ollama_model,
+                    messages=[
+                        {'role': 'system', 'content': 'You are a memory analysis engine. Always output valid JSON with no markdown.'},
+                        {'role': 'user', 'content': prompt}
+                    ],
+                    format='json',  # Force JSON mode
+                    options={'temperature': 0.2}
                 )
                 
-                if response.status_code == 200:
-                    return response.json().get('response', '')
-                else:
-                    return '[]'
-            except:
+                return response['message']['content']
+                
+            except Exception as e:
+                print(f"⚠ Ollama error: {e}")
                 return '[]'
     
     def _parse_json(self, text: str, default: Any = None) -> Any:
         """Robust JSON parsing."""
+        if not text or text.strip() == '':
+            return default if default is not None else []
+        
         text = text.strip()
         
-        # Remove markdown
+        # Remove markdown if present
         if "```json" in text:
             text = text.split("```json")[1].split("```")[0].strip()
         elif "```" in text:
             text = text.split("```")[1].split("```")[0].strip()
         
+        # Try to parse
         try:
-            return json.loads(text)
-        except:
-            return default if default is not None else {}
+            parsed = json.loads(text)
+            return parsed
+        except json.JSONDecodeError as e:
+            print(f"⚠ JSON parse error: {e}")
+            print(f"  Raw text: {text[:200]}...")
+            return default if default is not None else []

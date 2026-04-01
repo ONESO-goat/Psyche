@@ -242,3 +242,14 @@ class AssociationGraph:
             'avg_associations_per_concept': round(avg_associations, 2),
             'most_connected': top_connected
         }
+        
+    def save(self, filepath: str = 'associations.json'):
+        """Save association graph to file."""
+        with open(filepath, 'w') as f:
+            json.dump(self.brain['associations'], f, indent=2)
+            
+    def load(self, filepath: str = 'associations.json'):
+        """Load association graph from file."""
+        with open(filepath, 'r') as f:
+            data = json.load(f)
+            self.brain['associations'] = data

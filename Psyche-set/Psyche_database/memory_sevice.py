@@ -113,6 +113,10 @@ class MemoryService:
     
     
     def wipe_memories(self, confirmation: bool = False):
+        """ Delete all memories from the database. Requires confirmation.
+        If self.force is True, confirmation is bypassed. 
+        This is useful for automated scripts or testing, 
+        but should be used with caution as changes are irreversible."""
         
         if self.force: confirmation = True  # Force bypasses confirmation
         

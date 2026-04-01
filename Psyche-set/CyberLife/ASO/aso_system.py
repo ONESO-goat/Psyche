@@ -3,6 +3,7 @@
 from typing import List, Dict, Any, Optional
 from ASO.aso_core import Association, AssociationGraph
 from ASO.aso_ai import AssociationAI
+from debugging_utils import debug, reset_debug, hashtag
 
 class ASO:
     """
@@ -21,12 +22,17 @@ class ASO:
         Process a memory to extract and store associations.
         Returns: {'concepts': [...], 'associations_added': 10}
         """
+        reset_debug()
+        
+        hashtag("ASO System - Processing Memory")
+        debug(f"Processing memory: {memory_content}\n")
         
         if not self.ai:
             return {'error': 'No AI configured'}
         
         # Step 1: Extract concepts from memory
         concepts = self.ai.extract_concepts(memory_content)
+        debug(f"Extracted concepts: {concepts}\n")
         
         # Step 2: For each concept, find associations
         associations_added = 0

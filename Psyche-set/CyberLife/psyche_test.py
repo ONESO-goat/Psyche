@@ -21,13 +21,14 @@ class Psyche:
     """
     
     def __init__(self, 
-                 name: Tuple[str, str], 
+                 name: Tuple[str, str, str], 
                  ai_api_key: str = '', 
                  model: str = 'qwen',
                  pounds: float = 3.0,
                  watts: float = 20.0):
         
         # ============ CORE BRAIN ================ #
+
         self.Brain = Brain(name=name, pounds=pounds, watts=watts)
         self.storage = self.Brain.mind
         self.memories = self.storage.get_current_memories()
@@ -139,7 +140,7 @@ class Psyche:
 if __name__ == '__main__':
     # Create psyche
     psyche = Psyche(
-        name=('Julius', 'Smith'),
+        name=('Julius','', 'Smith'),
         ai_api_key=''  # Or leave empty for Ollama
     )
     
