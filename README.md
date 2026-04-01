@@ -1,4 +1,4 @@
-# CyberLife
+# CyberLife | Psyche
 
 > *Building artificial minds from the ground up*
 
