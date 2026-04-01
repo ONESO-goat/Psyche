@@ -1,136 +1,133 @@
-# aso_ai.py
-
-from AI.Ollama import AssociationAI_32, AssociationAI_qwen
-
+# ASO/aso_ai.py
 
 import json
-from typing import Dict, List, Any,Optional
-import copy
-from ASO.aso_core import Association, AssociationGraph
+from typing import Dict, List, Any
 
 class AssociationAI:
     """
-    Uses AI to find associations.
+    AI for finding associations.
+    Supports both Gemini and Ollama.
     """
-    def __init__(self, 
-                 api_key: Optional[str]= None, 
-                 model_name: str = "ollama",
-                 model_id: str = "qwen-0.5-flash"):
-        """Model name can be 'ollama', 'claude', 'chatgpt','gemini', etc. Ollama is default for local."""
+    def __init__(self, api_key: str | None = None, model: str = 'gemini'):
+        self.model_type = model
         
-        if model_name.lower().strip() == "ollama":
-            try:
-                self.AI = AssociationAI_qwen(model_name=model_id) or AssociationAI_32(model_name='llama3.2')
-                
-            except Exception as e:
-                self.AI = None
-                
-                raise ValueError(f"Error initializing Ollama: {e}")
-                
+        if model == 'gemini' and api_key:
+            import google.generativeai as genai
+            genai.configure(api_key=api_key)
+            self.model = genai.GenerativeModel('gemini-1.5-flash')
+            self.use_gemini = True
         else:
-            raise ValueError(f"Unsupported model_name: {model_name}, more models coming soon!")
-            
+            # Use Ollama
+            self.use_gemini = False
+            self.ollama_model = 'qwen2.5:latest'
     
     def extract_concepts(self, text: str) -> List[Dict[str, Any]]:
         """
         Extract key concepts from text.
-        Returns: [{'concept': 'dog', 'category': 'animals', 'importance': 0.9}, ...]
         """
-        
-        prompt = f"""Extract key concepts from this text:
-
-"{text}"
+        prompt = f"""Extract key concepts from: "{text}"
 
 Find 3-7 main concepts (nouns, entities, ideas).
 
-For each concept:
-- What is it?
-- Category (person/place/object/emotion/activity/abstract/animal/technology)
-- Importance to this text (0.0-1.0)
-
-Return ONLY valid JSON (no markdown):
+Return ONLY JSON (no markdown):
 [
-  {{
-    "concept": "word",
-    "category": "category",
-    "importance": 0.9
-  }}
+  {{"concept": "word", "category": "animals/people/places/objects/emotions/activities/abstract", "importance": 0.9}}
 ]"""
 
-        response = self.model.generate_content(prompt)
-        return self._parse_json(response.text, default=[])
+        response_text = self._generate(prompt)
+        return self._parse_json(response_text, default=[])
     
     def find_associations(self, 
                          concept: str,
                          context: str = '') -> List[Dict[str, Any]]:
         """
-        Find what associates with this concept.
-        Returns: [{'target': 'cat', 'strength': 0.8, 'type': 'semantic', 'reason': '...'}, ...]
+        Find associations for a concept.
         """
-        
         context_str = f"\nContext: {context}" if context else ""
         
-        prompt = f"""Find associations for the concept: "{concept}"{context_str}
+        prompt = f"""Concept: "{concept}"{context_str}
 
-What concepts does "{concept}" strongly associate with?
+What strongly associates with "{concept}"?
 
-Find 5-10 associations. For each:
-- Target concept (what it associates to)
-- Strength (0.0-1.0, be realistic, most are 0.4-0.8)
+Find 5-10 associations:
+- Target concept
+- Strength (0.0-1.0, realistic, most 0.4-0.8)
 - Type: semantic/temporal/emotional/causal/functional
-- Brief reason (one sentence)
+- Reason (one sentence)
 
-Examples:
-- "dog" → "pet" (0.9, semantic, "dogs are common pets")
-- "dog" → "loyal" (0.7, emotional, "dogs known for loyalty")
-- "rain" → "wet" (0.9, causal, "rain causes wetness")
-
-Return ONLY valid JSON (no markdown):
+Return ONLY JSON (no markdown):
 [
-  {{
-    "target": "concept",
-    "strength": 0.8,
-    "type": "semantic",
-    "reason": "brief reason"
-  }}
+  {{"target": "concept", "strength": 0.8, "type": "semantic", "reason": "brief"}}
 ]"""
 
-        response = self.model.generate_content(prompt)
-        return self._parse_json(response.text, default=[])
+        response_text = self._generate(prompt)
+        return self._parse_json(response_text, default=[])
     
-    def find_memory_associations(self,
-                                memory_content: str,
-                                existing_concepts: List[str] = []) -> List[Dict[str, Any]]:
+    def find_memory_connections(self,
+                               memory_content: str,
+                               memory_emotion: str,
+                               existing_memories: List[Dict]) -> List[Dict[str, Any]]:
         """
-        Find which existing concepts this memory associates with.
+        Find which existing memories connect to this new memory.
         """
-        
-        if not existing_concepts:
+        if not existing_memories:
             return []
         
-        concepts_str = ", ".join(existing_concepts[:20])  # Limit to 20
+        # Build memory context (limit to 5 most recent)
+        memory_list = ""
+        for i, mem in enumerate(existing_memories[-5:], 1):
+            content = mem.get('content', 'N/A')
+            emotion = mem.get('dominant_emotion', 'neutral')
+            mem_id = mem.get('id', 'unknown')
+            memory_list += f"{i}. \"{content}\" (emotion: {emotion}, ID: {mem_id})\n"
         
-        prompt = f"""Memory: "{memory_content}"
+        prompt = f"""NEW MEMORY: "{memory_content}" (emotion: {memory_emotion})
 
-Existing concepts in the brain: {concepts_str}
+EXISTING MEMORIES:
+{memory_list}
 
-Which of these existing concepts does this memory connect to?
+Which existing memories genuinely connect to the new one?
 
-Only include genuine connections (shared topics, emotions, causes).
+Rules:
+✅ Connect if: shared people/places/objects/topics/causes
+❌ Don't connect if: just same emotion but different topics
 
-Return ONLY valid JSON (no markdown):
+Return ONLY JSON (no markdown):
 [
-  {{
-    "concept": "existing_concept",
-    "strength": 0.7,
-    "reason": "why they connect"
-  }}
+  {{"memory_id": "uuid", "shared_concepts": ["specific"], "strength": 0.7, "reason": "why"}}
 ]
 
-If no connections, return: []"""
+If no connections: []"""
 
-        response = self.model.generate_content(prompt)
-        return self._parse_json(response.text, default=[])
+        response_text = self._generate(prompt)
+        return self._parse_json(response_text, default=[])
+    
+    def _generate(self, prompt: str) -> str:
+        """Generate response from AI."""
+        if self.use_gemini:
+            response = self.model.generate_content(prompt)
+            return response.text
+        else:
+            # Use Ollama
+            import requests
+            
+            try:
+                response = requests.post(
+                    'http://localhost:11434/api/generate',
+                    json={
+                        'model': self.ollama_model,
+                        'prompt': prompt,
+                        'stream': False
+                    },
+                    timeout=30
+                )
+                
+                if response.status_code == 200:
+                    return response.json().get('response', '')
+                else:
+                    return '[]'
+            except:
+                return '[]'
     
     def _parse_json(self, text: str, default: Any = None) -> Any:
         """Robust JSON parsing."""

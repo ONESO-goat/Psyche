@@ -5,6 +5,7 @@ import numpy as np
 import importlib as lib
 from Excepts_and_hints import ValidEmotion, NoArgumentCalled_or_AllNone
 import uuid
+from Memory.memory_systems import EmotionalCalling
 from BrainAnomaly._structure import _Structure
 from datetime import datetime
 import matplotlib.pyplot as plt
@@ -128,12 +129,13 @@ class Brain(BrainAnomaly):
     def __init__(self,
                 pounds: float = 0.005, 
                 watts: float = 1.0, 
-                name: tuple[str, str] = ("john", "doe"), 
+                name: tuple[str, str, str] = ("john",'', "doe"), 
                 storage_size: int = 1000000):
 
         super().__init__(pounds=pounds, watts=watts)
 
-    
+       
+        
         self.first_name, self.middle_name, self.last_name = self._validate_name(name)
         
         self.name: str = f"{self.first_name} {self.middle_name} {self.last_name}".strip()
@@ -157,31 +159,28 @@ class Brain(BrainAnomaly):
         # self.midbrain = Mesencephalon(self)
         # self.hindbrain = Rhombencephalon(self)
         
-    def _validate_name(self, name: tuple[str, str]):
+    def _validate_name(self, name: tuple[str, str, str]):
         """Validate Brain name"""
 
         special_chars = r"~!@#$%^&*()_+`-={}|[]\:;<>?,./'"  
 
-        first_name, last_name = name[0].capitalize(), name[1]
+        first_name, middle_name, last_name = name[0].capitalize(), name[1].capitalize(), name[2].capitalize()
 
-        middle_name = ''
-
-        if len((last_name).split()) == 2:
-            lastNameSplit = last_name.split()
-            middle_name = lastNameSplit[0].capitalize()
-            last_name = lastNameSplit[1].capitalize()
-
-        if len(first_name.split()) > 1:
-            raise ValueError("First name cannot contain spaces. Please insert middle name in second part of tuple.")
-        
         if not first_name or first_name.strip() == '':
-            raise ValueError("First name cannot be empty")
+            raise NameError("First name cannot be empty")
+        
+        if len(first_name.split()) > 1:
+            raise NameError("First name cannot contain spaces. Please insert middle name in second part of tuple.")
+        
+        
+        if middle_name and len(middle_name.split()) > 1:
+            raise NameError("Middle name cannot contain spaces.")
 
         if not last_name or last_name.strip() == '':
-            raise ValueError("Last name cannot be empty")
+            raise NameError("Last name cannot be empty")
 
         if any(char in special_chars for char in name):
-            raise ValueError(f"Name cannot contain special characters: {special_chars}")
+            raise NameError(f"Name cannot contain special characters: {special_chars}")
 
 
         return first_name, middle_name, last_name

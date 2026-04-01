@@ -1,4 +1,4 @@
-# Psyche.py
+# psyche_test.py - Test script for Psyche class and overall functionality.
 
 from typing import Dict, Tuple, Any, Optional, List
 
@@ -10,7 +10,7 @@ from Memory.memory_systems import EmotionalCalling
 from Drive.Enthusiasm import Enthusiasm
 #from ASO.ASO import ASO
 
-from ASO.aso_system import ASO
+from ASO.ASO import ASO
 
 
 
