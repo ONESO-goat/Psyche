@@ -44,7 +44,7 @@ class EmotionalCalling:
         self.storage = storage
         self.emotions = emotions  # RileyAnderson instance
         
-    def encode_memory(self, content: str, emotion_data: Dict, add_timestamp: bool = False):
+    def encode_memory(self, content: str, emotion_data: Dict, add_timestamp: bool = True):
         """
         Store memory with emotional tagging.
         
@@ -77,7 +77,7 @@ class EmotionalCalling:
         memory = self.emotions.emotion_query(memory)
 
         if add_timestamp:
-            print(memory['timestamp'])
+            
             memory['timestamp'] = datetime.utcnow().isoformat()
 
         self.storage.add(memory)

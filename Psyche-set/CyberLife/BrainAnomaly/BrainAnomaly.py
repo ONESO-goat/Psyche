@@ -179,9 +179,10 @@ class Brain(BrainAnomaly):
         if not last_name or last_name.strip() == '':
             raise NameError("Last name cannot be empty")
 
-        if any(char in special_chars for char in name):
-            raise NameError(f"Name cannot contain special characters: {special_chars}")
-
+        for i in range(3):
+            if any(char in special_chars for char in name[i]) and i != 1:
+                raise NameError(f"Name cannot contain special characters: {[c for c in name[i] if c in special_chars]}")
+            
 
         return first_name, middle_name, last_name
 
@@ -338,7 +339,9 @@ class Brain(BrainAnomaly):
         emotion = list(self.mind.memories[row]['emotion'].keys())[0]
         return self.mind.memories[row]['emotion'][emotion]['regulation']
     
-    
+    def get_storage(self):
+        """Get the storage system."""
+        return self.mind
     
     def __repr__(self) -> str:
         return f"Brain(name='{self.name}', size={self.brain_size}lbs, power={self.power}W, memories={len(self.mind.memories)})"

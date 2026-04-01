@@ -1,0 +1,164 @@
+[
+  {
+    "brain": {
+      "id": "a83bb60a-647b-4905-b00a-db7f03bafae2",
+      "_personal_data": {
+        "name": {
+          "full": "William  Smith",
+          "middle": "",
+          "first": "William",
+          "last": "Smith",
+          "nickname": []
+        },
+        "firends": {}
+      },
+      "mind": [
+        {
+          "id": "620a3375-5ad6-469c-8137-6f18b5b55973",
+          "content": "I met my friend who owns a Shih Tzu",
+          "dominant_emotion": "happy",
+          "emotion": {
+            "joy": {
+              "regulation": {
+                "__numpy__": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=",
+                "dtype": "<f8",
+                "shape": [
+                  4,
+                  4
+                ]
+              }
+            }
+          },
+          "importance": 0.75,
+          "Enthusiasm": {
+            "motivation": {
+              "__numpy__": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "dtype": "<f8",
+              "shape": [
+                3,
+                4
+              ]
+            },
+            "inspiration": {
+              "__numpy__": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "dtype": "<f8",
+              "shape": [
+                3,
+                4
+              ]
+            }
+          },
+          "association": {},
+          "priority": {
+            "1": 1.0
+          },
+          "why_this_feeling": "You feel this way for an unknown reason.",
+          "timestamp": "2026-04-01T14:04:00.213289"
+        },
+        {
+          "id": "234ce61b-0f4b-438c-880d-3a84f2002332",
+          "content": "I own a pitbull and love him!",
+          "dominant_emotion": "happy",
+          "emotion": {
+            "joy": {
+              "regulation": {
+                "__numpy__": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=",
+                "dtype": "<f8",
+                "shape": [
+                  4,
+                  4
+                ]
+              }
+            }
+          },
+          "importance": 0.75,
+          "Enthusiasm": {
+            "motivation": {
+              "__numpy__": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "dtype": "<f8",
+              "shape": [
+                3,
+                4
+              ]
+            },
+            "inspiration": {
+              "__numpy__": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "dtype": "<f8",
+              "shape": [
+                3,
+                4
+              ]
+            }
+          },
+          "association": {},
+          "priority": {
+            "1": 1.0
+          },
+          "why_this_feeling": "You feel this way for an unknown reason.",
+          "timestamp": "2026-04-01T14:04:00.213646"
+        },
+        {
+          "id": "b909b757-9579-459f-95a0-8f92612dedcf",
+          "content": "I was rejected from MIT",
+          "dominant_emotion": "sad",
+          "emotion": {
+            "upset": {
+              "regulation": {
+                "__numpy__": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=",
+                "dtype": "<f8",
+                "shape": [
+                  4,
+                  4
+                ]
+              }
+            }
+          },
+          "importance": 0.75,
+          "Enthusiasm": {
+            "motivation": {
+              "__numpy__": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "dtype": "<f8",
+              "shape": [
+                3,
+                4
+              ]
+            },
+            "inspiration": {
+              "__numpy__": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "dtype": "<f8",
+              "shape": [
+                3,
+                4
+              ]
+            }
+          },
+          "association": {},
+          "priority": {
+            "1": 1.0
+          },
+          "why_this_feeling": "You feel this way for an unknown reason.",
+          "timestamp": "2026-04-01T14:04:00.214086"
+        }
+      ],
+      "current_objective": [],
+      "main_objectives": [],
+      "current_objectives": [],
+      "main_goal": [],
+      "overall_Enthusiam": {
+        "inspiration": {
+          "scale": 0.0,
+          "details": "No data avilable for this brain yet."
+        },
+        "motivation": {
+          "scale": 0.0,
+          "details": "No data avilable for this brain yet."
+        }
+      },
+      "_existence": {
+        "_date": "2026-04-01",
+        "_exact_date": "2026-04-01T14:04:00.212983"
+      },
+      "decayed_memories": []
+    }
+  }
+]

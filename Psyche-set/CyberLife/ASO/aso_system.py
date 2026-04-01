@@ -10,8 +10,9 @@ class ASO:
     Combines graph + AI.
     """
     def __init__(self, Brain, api_key: str = ''):
-        self.graph = AssociationGraph()
+
         self.Brain = Brain
+        self.graph = AssociationGraph(brain_storage=self.Brain.mind.memories[0]['brain'])
         self.memories = self.Brain.mind.get_all()
         self.ai = AssociationAI(api_key=api_key) if api_key else None
     
