@@ -58,7 +58,8 @@ class ASO:
                 
                 self.graph.add(association)
                 associations_added += 1
-        
+                
+        self.commit()  # Save to brain storage after processing
         return {
             'concepts': concepts,
             'associations_added': associations_added
@@ -105,7 +106,11 @@ class ASO:
     def load(self, filepath: str = 'associations.json'):
         """Load association graph."""
         self.graph.load(filepath)
-    
+        
+    def commit(self):
+        """Commit current graph state to brain storage."""
+        self.Brain.mind.commit()
+        
     def stats(self) -> Dict[str, Any]:
         """Get statistics about the association network."""
         return self.graph.get_stats()

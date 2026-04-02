@@ -59,7 +59,7 @@ class ASO:
         
         # Step 1: Extract concepts
         concepts = self.ai.extract_concepts(content)
-        
+        debug(f"Extracted concepts: {concepts}\n")
         if not concepts:
             print(f"    ⚠ No concepts extracted")
             return {
@@ -125,6 +125,7 @@ class ASO:
         self.Brain.mind.replace(old=memory, new=memory_copy)
         self.Brain.mind.commit()
         
+        self.commit()  # Save graph state to brain storage
         return {
             'concepts': concepts,
             'associations_added': associations_added,
@@ -157,12 +158,13 @@ class ASO:
             try:
                 result = self.process_memory(memory)
                 debug(f"CURRENT Result: {result}\n")  
-                debug(f"TESTING: {result.get('test', 'no test value')}\n") 
+                #debug(f"TESTING: {result.get('test', 'no test value')}\n") 
                 print(f"      ✓ {result['associations_added']} associations, {result['memory_connections']} connections")
             except Exception as e:
                 
                 print(f"      ✗ Error: {e}")
         
+        self.commit()  # Final commit after processing all
         print(f"\n✓ Complete! {self.get_stats()['total_associations']} total associations")
     
     def find_related(self, concept: str, max_results: int = 10) -> List[Dict[str, Any]]:
@@ -242,3 +244,7 @@ class ASO:
     def save(self, filepath: str = 'associations.json'):
         """Save association graph."""
         self.graph.save(filepath)
+        
+    def commit(self):
+        """Commit current graph state to brain storage."""
+        self.Brain.mind.commit()

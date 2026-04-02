@@ -2,9 +2,9 @@
 
 
 def hashtag(topic):
-    print("#" * 50)
+    print("=" * 50)
     print(f"# {topic}")
-    print("#" * 50)
+    print("=" * 50)
     print()
 
 
