@@ -36,6 +36,9 @@ print x
 
 
 def doc():
+    """Documentation/details for the Psyche language syntax and features."""
+    
+    
     info = """
     simple functions:
     

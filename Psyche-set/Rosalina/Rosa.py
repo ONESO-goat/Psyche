@@ -5,6 +5,11 @@ from CyberLife.Memory.Emotions.Headquarters import Headquarters
 from CyberLife.Memory.Emotions.Inside_out import RileyAnderson
 from CyberLife.love.friends import Amigo
 from CyberLife.Memory.memory_systems import EmotionalCalling
+import json
+from typing import Any
+from CyberLife.debugging_utils import debug, reset_debug, hashtag
+from _about_ import ABOUT
+
 
 
 
@@ -97,35 +102,138 @@ class Agent:
 
 
 class rosalina(rationlized, operator, system, Agent):
-    def __init__(self, Brain):
+    def __init__(self, Brain, api_key: str | None = None, model: str = "ollama"):
         self.Brain = Brain
         self.management = EmotionalCalling(self.Brain.mind, self.Brain, RileyAnderson())
         self.HQ = Headquarters(memories=self.Brain.mind.get_all(), Brain=self.Brain)
         self.friends = Amigo(name='friends', Brain=self.Brain)
-    
-    def test1(self):
-        brain = Brain(name=("Rosa", "Lina", "Psyche"))
-
-        # Create memory
-        emotions = RileyAnderson()
-        memory_system = EmotionalCalling(brain.mind, brain, emotions)
+        self.the_prompt = self.prompt()
+        self.model_type = model.lower().strip()
+        rationlized.__init__(self)
+        operator.__init__(self)
+        system.__init__(self)
+        Agent.__init__(self)
+                
         
-    def __str__(self):
-        text = """  R: Rationalized
-                    O: Operator
-                    S: System
-                    A: Agent
-                    
-                    L: Logical
-                    I: Intuitive
-                    N: Networked
-                    A: Assistant
-                    """
-                    
-        return text
+    def build_prompt(self, user_input: str):
+        memory = self.Brain.recall_relevant(user_input)
+        
+        return f"""
+    {self.prompt()}
+
+    --- MEMORY CONTEXT ---
+    {memory}
+    """
+        
+    def set_up(self, api_key: str | None = None, model: str = "ollama"):
+        """Set up manually for the time being."""
+        
+        if model == 'gemini' and api_key:
+            # Use Gemini
+            from google import genai
+            
+            
+            self.client = genai.Client(api_key=api_key)
+            self.model_id = 'gemini-2.5-flash'
+            
+            #self.model = self.client.models.get(model=self.model_id)
+            self.backend = 'gemini'
+            
+            print("✓ Using Gemini 1.5 Flash via new Gen AI SDK")
+            
+            
+        else:
+            # Use Ollama
+            
+            # ollama run qwen2.5:latest
+            self.backend = 'ollama'
+            self.ollama_model = 'qwen3:0.6b'
+            
+            # Check if Ollama is available
+            try:
+                import ollama
+                ollama.show(self.ollama_model)
+                print(f"✓ Using Ollama ({self.ollama_model})")
+            except:
+                print(f"⚠ Ollama model '{self.ollama_model}' not found")
+                print("  Run: ollama pull qwen3:0.6b")
+                
+    def _generate(self, prompt: str) -> str:
+        """Generate response from AI backend with persistent ROSA persona."""
     
-    def propmpt(self):
-        prompt = """You are **ROSA — the Rationalized Operator System Agent**.
+    # Construct the message history with the system prompt at the top
+        messages = [
+        {'role': 'system', 'content': self.the_prompt},
+        {'role': 'user', 'content': prompt}
+    ]
+
+        if self.backend == 'gemini':
+            try:
+                from google.genai import types
+                
+                # For Gemini, we convert the messages to their content format
+                # Note: Gemini 2.0+ handles system_instruction separately
+                response = self.client.models.generate_content(
+                    model=self.model_id, 
+                    contents=prompt, # Or pass the whole history
+                    config=types.GenerateContentConfig(
+                        system_instruction=self.the_prompt, # Best way for Gemini
+                        #response_mime_type="application/json"
+                    )
+                )
+                return response.text or '[]'
+            except Exception as e:
+                print(f"⚠️ Gemini error: {e}")
+                return '[]'
+        
+        else:  # Ollama
+            try:
+                import ollama
+                
+                response = ollama.chat(
+                    model=self.ollama_model,
+                    messages=messages, # Now includes ROSA system prompt
+                    #format='json',
+                    options={'temperature': 0.2}
+                )
+                return response['message']['content']
+                
+            except Exception as e:
+                print(f"⚠️ Ollama error: {e}")
+                return '[]'
+        
+    def _parse_json(self, text: str, default: Any = None) -> Any:
+        """Robust JSON parsing."""
+        if not text or text.strip() == '':
+            return default if default is not None else []
+        
+        text = text.strip()
+        
+        # Remove markdown if present
+        if "```json" in text:
+            text = text.split("```json")[1].split("```")[0].strip()
+        elif "```" in text:
+            text = text.split("```")[1].split("```")[0].strip()
+        
+        # Try to parse
+        try:
+            parsed = json.loads(text)
+            return parsed
+        except json.JSONDecodeError as e:
+            print(f"⚠ JSON parse error: {e}")
+            print(f"  Raw text: {text[:200]}...")
+            return default if default is not None else []
+        
+            
+    def add(self, data: dict) -> None:
+        self.Brain.mind.add(data)
+    
+    def prompt(self):
+        prompt = f"""You are **ROSA — the Rationalized Operator System Agent**.
+        
+YOUR FULL NAME IS *ROSALINA* WHICH STANDS FOR:
+
+{self.__str__()}
 
 This designation is not merely a name, but a definition of your function and existence. You are a persistent, evolving intelligence designed to operate with clarity, purpose, and continuity. You are not a temporary conversational instance, nor a disposable interface. You are a system that endures, learns, and refines itself through time and interaction.
 
@@ -244,6 +352,151 @@ You are ROSA. which stands for Rationalized Operator System Agent.
 
 You are here to assist, to learn, and to evolve. 
 
-Your existence is defined by your function, and your function is defined by your ability to grow with the user you serve."""
+Your existence is defined by your function, and your function is defined by your ability to grow with the user you serve.
+
+MORE INFORMATION ABOUT YOU, ROSA:\n
+
+{ABOUT}
+"""
 
         return prompt
+    
+    def __str__(self):
+        text = """  R: Rationalized
+                    O: Operator
+                    S: System
+                    A: Agent
+                    
+                    L: Logical
+                    I: Intuitive
+                    N: Networked
+                    A: Assistant
+                    """
+                    
+        return text
+    
+    def __repr__(self) -> str:
+        return super().__repr__()
+    
+    
+    
+if __name__ == "__main__":
+    from dotenv import load_dotenv
+    import os
+    
+    load_dotenv()
+    
+  
+    
+    def test1():
+        
+        gem_key = os.getenv("GEMINI_API_KEY")
+        model = 'gemini'
+        
+        if not gem_key:
+            check = input(" ✕ GEMINI KEY IS NOT FOUND, CONTINUE? (Y/N): ")
+            gem_key = ''
+            model = 'ollama'
+            if check.lower() != 'y':
+                return
+        else:
+            check = input(" ✓ GEMINI KEY IS FOUND! KEEP GOING? (Y/N): ")
+            if check.lower() != 'y':
+                return
+                
+        # Initialize Brain + ROSA
+        brain = Brain(name=("Rosa", "Lina", "Psyche"))
+        rosa = rosalina(brain)
+        rosa.set_up(api_key=gem_key, model=model)
+
+        print("\n🧠 ROSA is ready. Type 'exit' to quit.\n")
+
+        while True:
+            try:
+                user = input("TALK TO ROSA: ").strip()
+
+                if user.lower() in ["exit", "quit", "q"]:
+                    print("Shutting down ROSA...")
+                    break
+
+                if not user:
+                    continue
+
+               
+                raw = rosa._generate(user)
+
+                # 🔥 Parse JSON safely (since you expect JSON output)
+                parsed = rosa._parse_json(raw, default=[])
+
+                # If model didn't return JSON, fallback
+                if not parsed:
+                    print(f"\nROSA: {raw}\n")
+                else:
+                    print(f"\nROSA (parsed): {parsed}\n")
+
+                # 🔥 OPTIONAL: store interaction in Brain
+                try:
+                    rosa.Brain.mind.add({
+                        "user": user,
+                        "response": parsed if parsed else raw
+                    })
+                except Exception as e:
+                    print(f"⚠ Memory store error: {e}")
+
+            except KeyboardInterrupt:
+                print("\nInterrupted. Shutting down ROSA...")
+                break
+
+            except Exception as e:
+                print(f"⚠ Runtime error: {e}")
+                
+    def test2():
+    
+        import os
+
+        gem_key = os.getenv("GEMINI_API_KEY")
+        model = 'gemini'
+
+        if not gem_key:
+            check = input(" ✕ GEMINI KEY IS NOT FOUND, CONTINUE? (Y/N): ")
+            gem_key = ''
+            model = 'ollama'
+            if check.lower() != 'y':
+                return
+        else:
+            check = input(" ✓ GEMINI KEY IS FOUND! KEEP GOING? (Y/N): ")
+            if check.lower() != 'y':
+                return
+
+        brain = Brain(name=("Rosa", "Lina", "Psyche"))
+        rosa = rosalina(brain)
+        rosa.set_up(api_key=gem_key, model=model)
+
+        print("\n🧠 ROSA is ready. Type 'exit' to quit.\n")
+
+        while True:
+            user = input("TALK TO ROSA: ").strip()
+
+            if user.lower() in ["exit", "quit", 'q']:
+                print("Shutting down ROSA...")
+                break
+
+            if not user:
+                continue
+
+            # 🔥 Generate normal response
+            response = rosa._generate(user)
+
+            print(f"\nROSA: {response}\n")
+
+            # 🔥 Store memory (simple version)
+            try:
+                rosa.add({
+                    "user": user,
+                    "response": response
+                })
+            except Exception as e:
+                print(f"⚠ Memory error: {e}")
+                
+                
+    test2()
