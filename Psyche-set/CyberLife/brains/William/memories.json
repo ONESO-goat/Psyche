@@ -1,7 +1,7 @@
 [
   {
     "brain": {
-      "id": "6c8f73ab-d9bc-4c7b-8c39-9619b469869b",
+      "id": "43cbb13e-485b-4994-9463-25ce5f52b004",
       "_personal_data": {
         "name": {
           "full": "William  Smith",
@@ -14,7 +14,7 @@
       },
       "mind": [
         {
-          "id": "d8d8cdc0-6e97-480b-b200-acd6a8027ca5",
+          "id": "82c807ec-0785-4f55-b291-9e4c32b9fb24",
           "content": "I met my friend who owns a Shih Tzu",
           "dominant_emotion": "happy",
           "emotion": {
@@ -53,10 +53,10 @@
             "1": 1.0
           },
           "why_this_feeling": "You feel this way for an unknown reason.",
-          "timestamp": "2026-04-01T18:08:19.263780"
+          "timestamp": "2026-04-02T01:22:04.249121"
         },
         {
-          "id": "5d91910b-8193-4440-b1b9-841bdf175dcd",
+          "id": "a2406d31-3d29-4347-b14d-822cffcc3c1d",
           "content": "I own a pitbull and love him!",
           "dominant_emotion": "happy",
           "emotion": {
@@ -95,10 +95,10 @@
             "1": 1.0
           },
           "why_this_feeling": "You feel this way for an unknown reason.",
-          "timestamp": "2026-04-01T18:08:19.264141"
+          "timestamp": "2026-04-02T01:22:04.249443"
         },
         {
-          "id": "83ee0b58-8439-46c9-ac97-f379e43d0463",
+          "id": "6b6c68b4-fcd5-4797-88bf-379625c12069",
           "content": "I was rejected from MIT",
           "dominant_emotion": "sad",
           "emotion": {
@@ -137,133 +137,7 @@
             "1": 1.0
           },
           "why_this_feeling": "You feel this way for an unknown reason.",
-          "timestamp": "2026-04-01T18:08:19.264616"
-        },
-        {
-          "id": "963c0898-e296-4a91-9716-34fb099de981",
-          "content": "I met my friend who owns a Shih Tzu",
-          "dominant_emotion": "happy",
-          "emotion": {
-            "joy": {
-              "regulation": {
-                "__numpy__": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=",
-                "dtype": "<f8",
-                "shape": [
-                  4,
-                  4
-                ]
-              }
-            }
-          },
-          "importance": 0.75,
-          "Enthusiasm": {
-            "motivation": {
-              "__numpy__": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-              "dtype": "<f8",
-              "shape": [
-                3,
-                4
-              ]
-            },
-            "inspiration": {
-              "__numpy__": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-              "dtype": "<f8",
-              "shape": [
-                3,
-                4
-              ]
-            }
-          },
-          "association": {},
-          "priority": {
-            "1": 1.0
-          },
-          "why_this_feeling": "You feel this way for an unknown reason.",
-          "timestamp": "2026-04-02T01:18:08.847956"
-        },
-        {
-          "id": "6a43270a-9ddf-4da4-aa7e-df58d6c5f7ff",
-          "content": "I own a pitbull and love him!",
-          "dominant_emotion": "happy",
-          "emotion": {
-            "joy": {
-              "regulation": {
-                "__numpy__": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=",
-                "dtype": "<f8",
-                "shape": [
-                  4,
-                  4
-                ]
-              }
-            }
-          },
-          "importance": 0.75,
-          "Enthusiasm": {
-            "motivation": {
-              "__numpy__": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-              "dtype": "<f8",
-              "shape": [
-                3,
-                4
-              ]
-            },
-            "inspiration": {
-              "__numpy__": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-              "dtype": "<f8",
-              "shape": [
-                3,
-                4
-              ]
-            }
-          },
-          "association": {},
-          "priority": {
-            "1": 1.0
-          },
-          "why_this_feeling": "You feel this way for an unknown reason.",
-          "timestamp": "2026-04-02T01:18:08.849254"
-        },
-        {
-          "id": "5e725c68-d2de-4479-ba27-80fb674f1ff0",
-          "content": "I was rejected from MIT",
-          "dominant_emotion": "sad",
-          "emotion": {
-            "upset": {
-              "regulation": {
-                "__numpy__": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=",
-                "dtype": "<f8",
-                "shape": [
-                  4,
-                  4
-                ]
-              }
-            }
-          },
-          "importance": 0.75,
-          "Enthusiasm": {
-            "motivation": {
-              "__numpy__": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-              "dtype": "<f8",
-              "shape": [
-                3,
-                4
-              ]
-            },
-            "inspiration": {
-              "__numpy__": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-              "dtype": "<f8",
-              "shape": [
-                3,
-                4
-              ]
-            }
-          },
-          "association": {},
-          "priority": {
-            "1": 1.0
-          },
-          "why_this_feeling": "You feel this way for an unknown reason.",
-          "timestamp": "2026-04-02T01:18:08.851041"
+          "timestamp": "2026-04-02T01:22:04.249880"
         }
       ],
       "current_objective": [],
@@ -282,7 +156,7 @@
       },
       "_existence": {
         "_date": "2026-04-01",
-        "_exact_date": "2026-04-01T18:08:19.263452"
+        "_exact_date": "2026-04-02T01:22:04.248834"
       },
       "decayed_memories": []
     }
