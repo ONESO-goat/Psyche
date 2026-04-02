@@ -36,7 +36,7 @@ class ASO:
         self.graph = AssociationGraph(brain_storage=brain_data)
         
         # Initialize AI
-        self.ai = AssociationAI(api_key=api_key, model=model) if api_key or model == 'ollama' else None
+        self.ai = AssociationAI(api_key=api_key, model=model)
     
     # ASO/ASO.py - Update the process_memory method
 

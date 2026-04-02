@@ -8,8 +8,6 @@ from Memory.Emotions.Inside_out import RileyAnderson
 from love.friends import Amigo
 from Memory.memory_systems import EmotionalCalling
 from Drive.Enthusiasm import Enthusiasm
-#from ASO.ASO import ASO
-
 from ASO.ASO import ASO
 
 
@@ -84,7 +82,7 @@ class Psyche:
         # Nicknames
         self.nicknames: List[str] = []
     
-    def remember(self, context: str, emotion: Optional[str] = None, importance: float = 0.5):
+    def new_memory(self, context: str, emotion: Optional[str] = None, importance: float = 0.5):
         """Create a new memory."""
         
         
@@ -136,17 +134,24 @@ class Psyche:
         self.Brain.showcase(mode=mode)
 
 
+ 
 # Example usage
 if __name__ == '__main__':
     # Create psyche
+    import dotenv
+    import os
+    
+    dotenv.load_dotenv()
+    
+    gemini_key = os.getenv('GEMINI_API_KEY', '')
     psyche = Psyche(
         name=('Julius','', 'Smith'),
-        ai_api_key=''  # Or leave empty for Ollama
+        ai_api_key=gemini_key
     )
     
     # Add memories
-    psyche.remember("Met Sarah at the coffee shop", emotion="happy", importance=0.7)
-    psyche.remember("Got rejected from MIT", emotion="sad", importance=0.9)
+    psyche.new_memory("Met Sarah at the coffee shop", emotion="happy", importance=0.7)
+    psyche.new_memory("Got rejected from MIT", emotion="sad", importance=0.9)
     
     # Add friends
     psyche.add_friend(

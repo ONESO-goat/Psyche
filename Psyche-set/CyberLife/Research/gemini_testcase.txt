@@ -1,0 +1,219 @@
+============================================================
+PROCESSING MEMORIES
+============================================================
+Processing 3 memories...
+==================================================
+# LOOPING ASO System - Processing All Memories
+==================================================
+
+  [1/3] Processing: I met my friend who owns a Shih Tzu...
+[DEBUG] 0: Processing memory ID: 459743e4-e100-4fe5-80cc-e3c0ce197c22
+
+    → Extracting concepts from: "I met my friend who owns a Shih Tzu..."
+[DEBUG] 0: Extracting concepts from: "I met my friend who owns a Shih Tzu..."
+
+==================================================
+# EXTRACTING CONCEPTS
+==================================================
+
+[DEBUG] 1: Raw concept extraction response: [
+  {
+    "concept": "Friend",
+    "category": "people",
+    "importance": 0.9
+  },
+  {
+    "concept": "Shih Tzu",
+    "category": "animals",
+    "importance": 1.0
+  },
+  {
+    "concept": "Meeting",
+ ...
+
+[DEBUG] 2: Parsed concepts: [{'concept': 'Friend', 'category': 'people', 'importance': 0.9}, {'concept': 'Shih Tzu', 'category': 'animals', 'importance': 1.0}, {'concept': 'Meeting', 'category': 'activities', 'importance': 0.7}]
+
+[DEBUG] 3: Data for concept: {'concept': 'Friend', 'category': 'people', 'importance': 0.9}
+
+[DEBUG] 4: Valid concept found: {'concept': 'Friend', 'category': 'people', 'importance': 0.9}
+
+[DEBUG] 5: CURRENT valid concepts: [{'concept': 'friend', 'category': 'people', 'importance': 0.9}]
+
+[DEBUG] 6: Data for concept: {'concept': 'Shih Tzu', 'category': 'animals', 'importance': 1.0}
+
+[DEBUG] 7: Valid concept found: {'concept': 'Shih Tzu', 'category': 'animals', 'importance': 1.0}
+
+[DEBUG] 8: CURRENT valid concepts: [{'concept': 'friend', 'category': 'people', 'importance': 0.9}, {'concept': 'shih tzu', 'category': 'animals', 'importance': 1.0}]
+
+[DEBUG] 9: Data for concept: {'concept': 'Meeting', 'category': 'activities', 'importance': 0.7}
+
+[DEBUG] 10: Valid concept found: {'concept': 'Meeting', 'category': 'activities', 'importance': 0.7}
+
+[DEBUG] 11: CURRENT valid concepts: [{'concept': 'friend', 'category': 'people', 'importance': 0.9}, {'concept': 'shih tzu', 'category': 'animals', 'importance': 1.0}, {'concept': 'meeting', 'category': 'activities', 'importance': 0.7}]
+
+[DEBUG] 12: Extracted concepts: [{'concept': 'friend', 'category': 'people', 'importance': 0.9}, {'concept': 'shih tzu', 'category': 'animals', 'importance': 1.0}, {'concept': 'meeting', 'category': 'activities', 'importance': 0.7}]
+
+    ✓ Found 3 concepts: ['friend', 'shih tzu', 'meeting']
+      → friend: 7 associations
+      → shih tzu: 8 associations
+      → meeting: 8 associations
+    → Finding connections to 2 other memories...
+    ✓ Found 1 memory connections
+
+
+[DEBUG] 14: CURRENT Result: {'concepts': [{'concept': 'friend', 'category': 'people', 'importance': 0.9}, {'concept': 'shih tzu', 'category': 'animals', 'importance': 1.0}, {'concept': 'meeting', 'category': 'activities', 'importance': 0.7}], 'associations_added': 23, 'memory_connections': 1}
+
+      ✓ 23 associations, 1 connections
+  [2/3] Processing: I was rejected from MIT...
+[DEBUG] 15: Processing memory ID: 0cbdb737-59e3-41df-b9e3-b7d41b6ecabb
+
+    → Extracting concepts from: "I was rejected from MIT..."
+[DEBUG] 0: Extracting concepts from: "I was rejected from MIT..."
+
+==================================================
+# EXTRACTING CONCEPTS
+==================================================
+
+[DEBUG] 1: Raw concept extraction response: [
+  {
+    "concept": "Applicant",
+    "category": "people",
+    "importance": 0.7
+  },
+  {
+    "concept": "Rejection",
+    "category": "abstract",
+    "importance": 1.0
+  },
+  {
+    "concept": "MIT",
+...
+
+[DEBUG] 2: Parsed concepts: [{'concept': 'Applicant', 'category': 'people', 'importance': 0.7}, {'concept': 'Rejection', 'category': 'abstract', 'importance': 1.0}, {'concept': 'MIT', 'category': 'places', 'importance': 0.9}]
+
+[DEBUG] 3: Data for concept: {'concept': 'Applicant', 'category': 'people', 'importance': 0.7}
+
+[DEBUG] 4: Valid concept found: {'concept': 'Applicant', 'category': 'people', 'importance': 0.7}
+
+[DEBUG] 5: CURRENT valid concepts: [{'concept': 'applicant', 'category': 'people', 'importance': 0.7}]
+
+[DEBUG] 6: Data for concept: {'concept': 'Rejection', 'category': 'abstract', 'importance': 1.0}
+
+[DEBUG] 7: Valid concept found: {'concept': 'Rejection', 'category': 'abstract', 'importance': 1.0}
+
+[DEBUG] 8: CURRENT valid concepts: [{'concept': 'applicant', 'category': 'people', 'importance': 0.7}, {'concept': 'rejection', 'category': 'abstract', 'importance': 1.0}]
+
+[DEBUG] 9: Data for concept: {'concept': 'MIT', 'category': 'places', 'importance': 0.9}
+
+[DEBUG] 10: Valid concept found: {'concept': 'MIT', 'category': 'places', 'importance': 0.9}
+
+[DEBUG] 11: CURRENT valid concepts: [{'concept': 'applicant', 'category': 'people', 'importance': 0.7}, {'concept': 'rejection', 'category': 'abstract', 'importance': 1.0}, {'concept': 'mit', 'category': 'places', 'importance': 0.9}]
+
+[DEBUG] 12: Extracted concepts: [{'concept': 'applicant', 'category': 'people', 'importance': 0.7}, {'concept': 'rejection', 'category': 'abstract', 'importance': 1.0}, {'concept': 'mit', 'category': 'places', 'importance': 0.9}]
+
+    ✓ Found 3 concepts: ['applicant', 'rejection', 'mit']
+
+
+[DEBUG] 14: CURRENT Result: {'concepts': [{'concept': 'applicant', 'category': 'people', 'importance': 0.7}, {'concept': 'rejection', 'category': 'abstract', 'importance': 1.0}, {'concept': 'mit', 'category': 'places', 'importance': 0.9}], 'associations_added': 0, 'memory_connections': 0}
+
+      ✓ 0 associations, 0 connections
+  [3/3] Skipping (already processed)
+
+✓ Complete! 46 total associations
+
+============================================================
+ASSOCIATION NETWORK STATS
+============================================================
+{
+  "total_concepts": 23,
+  "total_associations": 46,
+  "avg_associations_per_concept": 2.0,
+  "most_connected": [
+    {
+      "concept": "shih tzu",
+      "count": 9
+    },
+    {
+      "concept": "friend",
+      "count": 8
+    },
+    {
+      "concept": "meeting",
+      "count": 8
+    },
+    {
+      "concept": "conversation",
+      "count": 2
+    },
+    {
+      "concept": "trust",
+      "count": 1
+    },
+    {
+      "concept": "support",
+      "count": 1
+    },
+    {
+      "concept": "laughter",
+      "count": 1
+    },
+    {
+      "concept": "loyalty",
+      "count": 1
+    },
+    {
+      "concept": "companion",
+      "count": 1
+    },
+    {
+      "concept": "shared experience",
+      "count": 1
+    }
+  ]
+}
+
+============================================================
+WHAT'S RELATED TO 'DOG'?
+============================================================
+  shih tzu: 1.00 (semantic)
+
+============================================================
+PATH FROM 'DOG' TO 'FRIEND'?
+============================================================
+  dog → shih tzu → meeting → friend
+
+============================================================
+WHAT DOES 'DOG' REMIND ME OF?
+============================================================
+  dog: 1.00
+  shih tzu: 0.70
+  long hair: 0.44
+  meeting: 0.44
+  small breed: 0.39
+  lap dog: 0.34
+  grooming: 0.34
+  cute: 0.34
+  friend: 0.31
+  owner: 0.29
+
+============================================================
+INFO ABOUT 'DOG'
+============================================================
+{
+  "concept": "dog",
+  "association_count": 1,
+  "associations": [
+    {
+      "target": "shih tzu",
+      "strength": 1.0,
+      "type": "semantic"
+    }
+  ],
+  "related_memories": []
+}
+
+============================================================
+BRAIN STRUCTURE (associations stored here)
+============================================================
+Associations in brain: 23
+Metadata: {'total_concepts': 23, 'total_associations': 46, 'last_updated': '2026-04-02T11:54:38.714642'}
