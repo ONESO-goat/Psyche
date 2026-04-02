@@ -121,11 +121,12 @@ class ASO:
             'processed': True
         }
         
+        debug(f"Memory after ASO processing: {memory_copy}\n")
         # Update memory in brain
         self.Brain.mind.replace(old=memory, new=memory_copy)
         self.Brain.mind.commit()
         
-        self.commit()  # Save graph state to brain storage
+        #self.commit()  # Save graph state to brain storage
         return {
             'concepts': concepts,
             'associations_added': associations_added,
@@ -155,11 +156,14 @@ class ASO:
             
             print(f"  [{i}/{len(memories)}] Processing: {memory.get('content', '')[:50]}...")
             
+            debug(f"Processing memory ID: {memory.get('id', '')}\n")
+            
             try:
                 result = self.process_memory(memory)
                 debug(f"CURRENT Result: {result}\n")  
                 #debug(f"TESTING: {result.get('test', 'no test value')}\n") 
                 print(f"      ✓ {result['associations_added']} associations, {result['memory_connections']} connections")
+            
             except Exception as e:
                 
                 print(f"      ✗ Error: {e}")

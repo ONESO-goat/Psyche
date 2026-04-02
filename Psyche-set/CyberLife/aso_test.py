@@ -26,7 +26,7 @@ aso = ASO(
 print("=" * 60)
 print("PROCESSING MEMORIES")
 print("=" * 60)
-aso.process_all_memories()
+aso.process_all_memories(reprocess=False)
 
 # Check stats
 print("\n" + "=" * 60)

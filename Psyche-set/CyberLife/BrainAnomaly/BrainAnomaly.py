@@ -182,7 +182,7 @@ class Brain(BrainAnomaly):
         for i in range(3):
             if any(char in special_chars for char in name[i]) and i != 1:
                 raise NameError(f"Name cannot contain special characters: {[c for c in name[i] if c in special_chars]}")
-            
+
 
         return first_name, middle_name, last_name
 
@@ -537,9 +537,9 @@ class Storage():
                         if data['id'] == old['id']:
                             self.memories[0]['brain']['mind'].remove(data)
                             for key, value in new.items():
-                                print(f"KEY: {key}, VALUE: {value}\n")
+                                #print(f"KEY: {key}, VALUE: {value}\n")
                                 data[key] = new[key]
-                                print(f"NEW DATA: {data}\n")
+                                #print(f"NEW DATA: {data}\n")
                             self.memories[0]['brain']['mind'].append(data)
                             break
 

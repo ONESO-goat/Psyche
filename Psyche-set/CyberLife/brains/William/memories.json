@@ -1,0 +1,196 @@
+[
+  {
+    "brain": {
+      "id": "8ffdd76c-b096-4514-83d4-721b945a28d5",
+      "_personal_data": {
+        "name": {
+          "full": "William  Smith",
+          "middle": "",
+          "first": "William",
+          "last": "Smith",
+          "nickname": []
+        },
+        "firends": {}
+      },
+      "mind": [
+        {
+          "id": "15926dc0-1aa3-464d-90da-f0444b93c004",
+          "content": "I own a pitbull and love him!",
+          "dominant_emotion": "happy",
+          "emotion": {
+            "joy": {
+              "regulation": {
+                "__numpy__": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=",
+                "dtype": "<f8",
+                "shape": [
+                  4,
+                  4
+                ]
+              }
+            }
+          },
+          "importance": 0.75,
+          "Enthusiasm": {
+            "motivation": {
+              "__numpy__": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "dtype": "<f8",
+              "shape": [
+                3,
+                4
+              ]
+            },
+            "inspiration": {
+              "__numpy__": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "dtype": "<f8",
+              "shape": [
+                3,
+                4
+              ]
+            }
+          },
+          "association": {},
+          "priority": {
+            "1": 1.0
+          },
+          "why_this_feeling": "You feel this way for an unknown reason.",
+          "timestamp": "2026-04-02T13:23:12.172389"
+        },
+        {
+          "id": "596f7bb1-e9a6-4636-a735-a47571f8412c",
+          "content": "I met my friend who owns a Shih Tzu",
+          "dominant_emotion": "happy",
+          "emotion": {
+            "joy": {
+              "regulation": {
+                "__numpy__": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=",
+                "dtype": "<f8",
+                "shape": [
+                  4,
+                  4
+                ]
+              }
+            }
+          },
+          "importance": 0.75,
+          "Enthusiasm": {
+            "motivation": {
+              "__numpy__": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "dtype": "<f8",
+              "shape": [
+                3,
+                4
+              ]
+            },
+            "inspiration": {
+              "__numpy__": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "dtype": "<f8",
+              "shape": [
+                3,
+                4
+              ]
+            }
+          },
+          "association": {},
+          "priority": {
+            "1": 1.0
+          },
+          "why_this_feeling": "You feel this way for an unknown reason.",
+          "timestamp": "2026-04-02T13:23:12.172126",
+          "aso_data": {
+            "concepts": [
+              {
+                "concept": "animals",
+                "category": "animals",
+                "importance": 0.9
+              }
+            ],
+            "associations_count": 0,
+            "memory_connections": [],
+            "processed": true
+          }
+        },
+        {
+          "id": "aee28bf3-32d0-4cf5-8e21-ddce0314c480",
+          "content": "I was rejected from MIT",
+          "dominant_emotion": "sad",
+          "emotion": {
+            "upset": {
+              "regulation": {
+                "__numpy__": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=",
+                "dtype": "<f8",
+                "shape": [
+                  4,
+                  4
+                ]
+              }
+            }
+          },
+          "importance": 0.75,
+          "Enthusiasm": {
+            "motivation": {
+              "__numpy__": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "dtype": "<f8",
+              "shape": [
+                3,
+                4
+              ]
+            },
+            "inspiration": {
+              "__numpy__": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "dtype": "<f8",
+              "shape": [
+                3,
+                4
+              ]
+            }
+          },
+          "association": {},
+          "priority": {
+            "1": 1.0
+          },
+          "why_this_feeling": "You feel this way for an unknown reason.",
+          "timestamp": "2026-04-02T13:23:12.172768",
+          "aso_data": {
+            "concepts": [
+              {
+                "concept": "places",
+                "category": "places",
+                "importance": 1.0
+              }
+            ],
+            "associations_count": 0,
+            "memory_connections": [],
+            "processed": true
+          }
+        }
+      ],
+      "current_objective": [],
+      "main_objectives": [],
+      "current_objectives": [],
+      "main_goal": [],
+      "overall_Enthusiam": {
+        "inspiration": {
+          "scale": 0.0,
+          "details": "No data avilable for this brain yet."
+        },
+        "motivation": {
+          "scale": 0.0,
+          "details": "No data avilable for this brain yet."
+        }
+      },
+      "_existence": {
+        "_date": "2026-04-02",
+        "_exact_date": "2026-04-02T13:23:12.171854"
+      },
+      "decayed_memories": [],
+      "associations": {
+        "graph": {},
+        "metadata": {
+          "total_concepts": 0,
+          "total_associations": 0,
+          "last_updated": "2026-04-02T09:23:12.173372"
+        }
+      }
+    }
+  }
+]
