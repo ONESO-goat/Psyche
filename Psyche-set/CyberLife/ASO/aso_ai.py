@@ -21,12 +21,16 @@ class AssociationAI:
         
         if self.model_type == 'gemini' and api_key:
             # Use Gemini
-            import google.generativeai as genai
+            from google import genai
             
-            genai.configure(api_key=api_key)
-            self.model = genai.GenerativeModel('gemini-1.5-flash')
+            
+            self.client = genai.Client(api_key=api_key)
+            self.model_id = 'gemini-2.5-flash'
+            
+            #self.model = self.client.models.get(model=self.model_id)
             self.backend = 'gemini'
-            print("✓ Using Gemini 1.5 Flash")
+            
+            print("✓ Using Gemini 1.5 Flash via new Gen AI SDK")
             
             
         else:
@@ -173,7 +177,19 @@ class AssociationAI:
         
         if self.backend == 'gemini':
             try:
-                response = self.model.generate_content(prompt)
+                from google.genai import types
+                
+                response = self.client.models.generate_content(
+                    model=self.model_id, 
+                    contents=prompt,
+                    config=types.GenerateContentConfig(
+                        response_mime_type="application/json"
+                    )
+                )
+                if not response.text:
+                    debug("⚠ Gemini returned empty response (possibly blocked).\n")
+                    return '[]'
+                
                 return response.text
             except Exception as e:
                 print(f"⚠ Gemini error: {e}")

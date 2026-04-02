@@ -1,7 +1,7 @@
 [
   {
     "brain": {
-      "id": "8ffdd76c-b096-4514-83d4-721b945a28d5",
+      "id": "e6024297-5ac2-4fd0-a66b-21b315f45276",
       "_personal_data": {
         "name": {
           "full": "William  Smith",
@@ -14,7 +14,7 @@
       },
       "mind": [
         {
-          "id": "15926dc0-1aa3-464d-90da-f0444b93c004",
+          "id": "58d6c404-f450-4017-aea2-209624bed70a",
           "content": "I own a pitbull and love him!",
           "dominant_emotion": "happy",
           "emotion": {
@@ -53,10 +53,10 @@
             "1": 1.0
           },
           "why_this_feeling": "You feel this way for an unknown reason.",
-          "timestamp": "2026-04-02T13:23:12.172389"
+          "timestamp": "2026-04-02T15:54:13.626027"
         },
         {
-          "id": "596f7bb1-e9a6-4636-a735-a47571f8412c",
+          "id": "459743e4-e100-4fe5-80cc-e3c0ce197c22",
           "content": "I met my friend who owns a Shih Tzu",
           "dominant_emotion": "happy",
           "emotion": {
@@ -95,22 +95,43 @@
             "1": 1.0
           },
           "why_this_feeling": "You feel this way for an unknown reason.",
-          "timestamp": "2026-04-02T13:23:12.172126",
+          "timestamp": "2026-04-02T15:54:13.625169",
           "aso_data": {
             "concepts": [
               {
-                "concept": "animals",
-                "category": "animals",
+                "concept": "friend",
+                "category": "people",
                 "importance": 0.9
+              },
+              {
+                "concept": "shih tzu",
+                "category": "animals",
+                "importance": 1.0
+              },
+              {
+                "concept": "meeting",
+                "category": "activities",
+                "importance": 0.7
               }
             ],
-            "associations_count": 0,
-            "memory_connections": [],
+            "associations_count": 23,
+            "memory_connections": [
+              {
+                "memory_id": "58d6c404-f450-4017-aea2-209624bed70a",
+                "shared_concepts": [
+                  "dog",
+                  "pet",
+                  "happiness"
+                ],
+                "strength": 0.85,
+                "reason": "Both memories share the central theme of dogs as pets and are associated with a happy emotion."
+              }
+            ],
             "processed": true
           }
         },
         {
-          "id": "aee28bf3-32d0-4cf5-8e21-ddce0314c480",
+          "id": "0cbdb737-59e3-41df-b9e3-b7d41b6ecabb",
           "content": "I was rejected from MIT",
           "dominant_emotion": "sad",
           "emotion": {
@@ -149,13 +170,23 @@
             "1": 1.0
           },
           "why_this_feeling": "You feel this way for an unknown reason.",
-          "timestamp": "2026-04-02T13:23:12.172768",
+          "timestamp": "2026-04-02T15:54:13.627189",
           "aso_data": {
             "concepts": [
               {
-                "concept": "places",
-                "category": "places",
+                "concept": "applicant",
+                "category": "people",
+                "importance": 0.7
+              },
+              {
+                "concept": "rejection",
+                "category": "abstract",
                 "importance": 1.0
+              },
+              {
+                "concept": "mit",
+                "category": "places",
+                "importance": 0.9
               }
             ],
             "associations_count": 0,
@@ -180,15 +211,476 @@
       },
       "_existence": {
         "_date": "2026-04-02",
-        "_exact_date": "2026-04-02T13:23:12.171854"
+        "_exact_date": "2026-04-02T15:54:13.624294"
       },
       "decayed_memories": [],
       "associations": {
-        "graph": {},
+        "graph": {
+          "friend": [
+            {
+              "source": "friend",
+              "target": "trust",
+              "strength": 0.9,
+              "type": "emotional",
+              "reason": "Trust is a fundamental pillar upon which strong friendships are built and maintained.",
+              "memory_id": "459743e4-e100-4fe5-80cc-e3c0ce197c22",
+              "created": "2026-04-02T11:54:25.642843"
+            },
+            {
+              "source": "friend",
+              "target": "support",
+              "strength": 0.85,
+              "type": "functional",
+              "reason": "Friends provide emotional and practical support to each other during various life events.",
+              "memory_id": "459743e4-e100-4fe5-80cc-e3c0ce197c22",
+              "created": "2026-04-02T11:54:25.642957"
+            },
+            {
+              "source": "friend",
+              "target": "laughter",
+              "strength": 0.7,
+              "type": "emotional",
+              "reason": "Shared joy and humor are common experiences that deepen the bond between friends.",
+              "memory_id": "459743e4-e100-4fe5-80cc-e3c0ce197c22",
+              "created": "2026-04-02T11:54:25.643010"
+            },
+            {
+              "source": "friend",
+              "target": "loyalty",
+              "strength": 0.8,
+              "type": "emotional",
+              "reason": "Loyalty signifies a friend's commitment and steadfastness in their relationship.",
+              "memory_id": "459743e4-e100-4fe5-80cc-e3c0ce197c22",
+              "created": "2026-04-02T11:54:25.643083"
+            },
+            {
+              "source": "friend",
+              "target": "companion",
+              "strength": 0.75,
+              "type": "semantic",
+              "reason": "A friend often serves as a companion for shared activities and life's journey.",
+              "memory_id": "459743e4-e100-4fe5-80cc-e3c0ce197c22",
+              "created": "2026-04-02T11:54:25.643141"
+            },
+            {
+              "source": "friend",
+              "target": "conversation",
+              "strength": 0.65,
+              "type": "functional",
+              "reason": "Friends engage in open and honest conversations, sharing thoughts and feelings.",
+              "memory_id": "459743e4-e100-4fe5-80cc-e3c0ce197c22",
+              "created": "2026-04-02T11:54:25.643197"
+            },
+            {
+              "source": "friend",
+              "target": "shared experience",
+              "strength": 0.6,
+              "type": "semantic",
+              "reason": "Friendships are often forged and strengthened through common activities and memories.",
+              "memory_id": "459743e4-e100-4fe5-80cc-e3c0ce197c22",
+              "created": "2026-04-02T11:54:25.643256"
+            },
+            {
+              "source": "friend",
+              "target": "meeting",
+              "strength": 1.0,
+              "type": "semantic",
+              "reason": "The concept directly states 'I met my friend', making 'friend' an essential part of this specific meeting.",
+              "memory_id": "459743e4-e100-4fe5-80cc-e3c0ce197c22",
+              "created": "2026-04-02T11:54:38.714350"
+            }
+          ],
+          "trust": [
+            {
+              "source": "trust",
+              "target": "friend",
+              "strength": 0.9,
+              "type": "emotional",
+              "reason": "Trust is a fundamental pillar upon which strong friendships are built and maintained.",
+              "memory_id": "459743e4-e100-4fe5-80cc-e3c0ce197c22",
+              "created": "2026-04-02T11:54:25.642915"
+            }
+          ],
+          "support": [
+            {
+              "source": "support",
+              "target": "friend",
+              "strength": 0.85,
+              "type": "functional",
+              "reason": "Friends provide emotional and practical support to each other during various life events.",
+              "memory_id": "459743e4-e100-4fe5-80cc-e3c0ce197c22",
+              "created": "2026-04-02T11:54:25.642979"
+            }
+          ],
+          "laughter": [
+            {
+              "source": "laughter",
+              "target": "friend",
+              "strength": 0.7,
+              "type": "emotional",
+              "reason": "Shared joy and humor are common experiences that deepen the bond between friends.",
+              "memory_id": "459743e4-e100-4fe5-80cc-e3c0ce197c22",
+              "created": "2026-04-02T11:54:25.643053"
+            }
+          ],
+          "loyalty": [
+            {
+              "source": "loyalty",
+              "target": "friend",
+              "strength": 0.8,
+              "type": "emotional",
+              "reason": "Loyalty signifies a friend's commitment and steadfastness in their relationship.",
+              "memory_id": "459743e4-e100-4fe5-80cc-e3c0ce197c22",
+              "created": "2026-04-02T11:54:25.643111"
+            }
+          ],
+          "companion": [
+            {
+              "source": "companion",
+              "target": "friend",
+              "strength": 0.75,
+              "type": "semantic",
+              "reason": "A friend often serves as a companion for shared activities and life's journey.",
+              "memory_id": "459743e4-e100-4fe5-80cc-e3c0ce197c22",
+              "created": "2026-04-02T11:54:25.643166"
+            }
+          ],
+          "conversation": [
+            {
+              "source": "conversation",
+              "target": "friend",
+              "strength": 0.65,
+              "type": "functional",
+              "reason": "Friends engage in open and honest conversations, sharing thoughts and feelings.",
+              "memory_id": "459743e4-e100-4fe5-80cc-e3c0ce197c22",
+              "created": "2026-04-02T11:54:25.643229"
+            },
+            {
+              "source": "conversation",
+              "target": "meeting",
+              "strength": 0.8,
+              "type": "functional",
+              "reason": "Meetings with friends typically involve dialogue and discussion as a primary activity.",
+              "memory_id": "459743e4-e100-4fe5-80cc-e3c0ce197c22",
+              "created": "2026-04-02T11:54:38.714393"
+            }
+          ],
+          "shared experience": [
+            {
+              "source": "shared experience",
+              "target": "friend",
+              "strength": 0.6,
+              "type": "semantic",
+              "reason": "Friendships are often forged and strengthened through common activities and memories.",
+              "memory_id": "459743e4-e100-4fe5-80cc-e3c0ce197c22",
+              "created": "2026-04-02T11:54:25.643276"
+            }
+          ],
+          "shih tzu": [
+            {
+              "source": "shih tzu",
+              "target": "dog",
+              "strength": 1.0,
+              "type": "semantic",
+              "reason": "A Shih Tzu is a specific breed classified as a domestic dog.",
+              "memory_id": "459743e4-e100-4fe5-80cc-e3c0ce197c22",
+              "created": "2026-04-02T11:54:33.904821"
+            },
+            {
+              "source": "shih tzu",
+              "target": "long hair",
+              "strength": 0.9,
+              "type": "semantic",
+              "reason": "Shih Tzus are famously characterized by their distinctive long, flowing coat.",
+              "memory_id": "459743e4-e100-4fe5-80cc-e3c0ce197c22",
+              "created": "2026-04-02T11:54:33.904906"
+            },
+            {
+              "source": "shih tzu",
+              "target": "small breed",
+              "strength": 0.8,
+              "type": "semantic",
+              "reason": "Shih Tzus are consistently recognized as a small, toy dog breed.",
+              "memory_id": "459743e4-e100-4fe5-80cc-e3c0ce197c22",
+              "created": "2026-04-02T11:54:33.904945"
+            },
+            {
+              "source": "shih tzu",
+              "target": "lap dog",
+              "strength": 0.7,
+              "type": "functional",
+              "reason": "Shih Tzus are often bred and kept primarily as companion animals that enjoy sitting on laps.",
+              "memory_id": "459743e4-e100-4fe5-80cc-e3c0ce197c22",
+              "created": "2026-04-02T11:54:33.904977"
+            },
+            {
+              "source": "shih tzu",
+              "target": "grooming",
+              "strength": 0.7,
+              "type": "causal",
+              "reason": "The Shih Tzu's long coat requires frequent and diligent grooming to prevent matting and maintain health.",
+              "memory_id": "459743e4-e100-4fe5-80cc-e3c0ce197c22",
+              "created": "2026-04-02T11:54:33.905006"
+            },
+            {
+              "source": "shih tzu",
+              "target": "owner",
+              "strength": 0.6,
+              "type": "semantic",
+              "reason": "A Shih Tzu, like any pet, has an owner responsible for its care, as implied by the context.",
+              "memory_id": "459743e4-e100-4fe5-80cc-e3c0ce197c22",
+              "created": "2026-04-02T11:54:33.905055"
+            },
+            {
+              "source": "shih tzu",
+              "target": "playful",
+              "strength": 0.6,
+              "type": "emotional",
+              "reason": "Shih Tzus are known for their lively and affectionate temperament, often engaging in playful behavior.",
+              "memory_id": "459743e4-e100-4fe5-80cc-e3c0ce197c22",
+              "created": "2026-04-02T11:54:33.905085"
+            },
+            {
+              "source": "shih tzu",
+              "target": "cute",
+              "strength": 0.7,
+              "type": "emotional",
+              "reason": "Many people find Shih Tzus to be adorable due to their small size, fluffy appearance, and expressive faces.",
+              "memory_id": "459743e4-e100-4fe5-80cc-e3c0ce197c22",
+              "created": "2026-04-02T11:54:33.905113"
+            },
+            {
+              "source": "shih tzu",
+              "target": "meeting",
+              "strength": 0.9,
+              "type": "semantic",
+              "reason": "The context explicitly mentions the friend owns a Shih Tzu, making it a direct and strong association for this particular meeting.",
+              "memory_id": "459743e4-e100-4fe5-80cc-e3c0ce197c22",
+              "created": "2026-04-02T11:54:38.714542"
+            }
+          ],
+          "dog": [
+            {
+              "source": "dog",
+              "target": "shih tzu",
+              "strength": 1.0,
+              "type": "semantic",
+              "reason": "A Shih Tzu is a specific breed classified as a domestic dog.",
+              "memory_id": "459743e4-e100-4fe5-80cc-e3c0ce197c22",
+              "created": "2026-04-02T11:54:33.904873"
+            }
+          ],
+          "long hair": [
+            {
+              "source": "long hair",
+              "target": "shih tzu",
+              "strength": 0.9,
+              "type": "semantic",
+              "reason": "Shih Tzus are famously characterized by their distinctive long, flowing coat.",
+              "memory_id": "459743e4-e100-4fe5-80cc-e3c0ce197c22",
+              "created": "2026-04-02T11:54:33.904923"
+            }
+          ],
+          "small breed": [
+            {
+              "source": "small breed",
+              "target": "shih tzu",
+              "strength": 0.8,
+              "type": "semantic",
+              "reason": "Shih Tzus are consistently recognized as a small, toy dog breed.",
+              "memory_id": "459743e4-e100-4fe5-80cc-e3c0ce197c22",
+              "created": "2026-04-02T11:54:33.904959"
+            }
+          ],
+          "lap dog": [
+            {
+              "source": "lap dog",
+              "target": "shih tzu",
+              "strength": 0.7,
+              "type": "functional",
+              "reason": "Shih Tzus are often bred and kept primarily as companion animals that enjoy sitting on laps.",
+              "memory_id": "459743e4-e100-4fe5-80cc-e3c0ce197c22",
+              "created": "2026-04-02T11:54:33.904990"
+            }
+          ],
+          "grooming": [
+            {
+              "source": "grooming",
+              "target": "shih tzu",
+              "strength": 0.7,
+              "type": "causal",
+              "reason": "The Shih Tzu's long coat requires frequent and diligent grooming to prevent matting and maintain health.",
+              "memory_id": "459743e4-e100-4fe5-80cc-e3c0ce197c22",
+              "created": "2026-04-02T11:54:33.905020"
+            }
+          ],
+          "owner": [
+            {
+              "source": "owner",
+              "target": "shih tzu",
+              "strength": 0.6,
+              "type": "semantic",
+              "reason": "A Shih Tzu, like any pet, has an owner responsible for its care, as implied by the context.",
+              "memory_id": "459743e4-e100-4fe5-80cc-e3c0ce197c22",
+              "created": "2026-04-02T11:54:33.905069"
+            }
+          ],
+          "playful": [
+            {
+              "source": "playful",
+              "target": "shih tzu",
+              "strength": 0.6,
+              "type": "emotional",
+              "reason": "Shih Tzus are known for their lively and affectionate temperament, often engaging in playful behavior.",
+              "memory_id": "459743e4-e100-4fe5-80cc-e3c0ce197c22",
+              "created": "2026-04-02T11:54:33.905097"
+            }
+          ],
+          "cute": [
+            {
+              "source": "cute",
+              "target": "shih tzu",
+              "strength": 0.7,
+              "type": "emotional",
+              "reason": "Many people find Shih Tzus to be adorable due to their small size, fluffy appearance, and expressive faces.",
+              "memory_id": "459743e4-e100-4fe5-80cc-e3c0ce197c22",
+              "created": "2026-04-02T11:54:33.905125"
+            }
+          ],
+          "meeting": [
+            {
+              "source": "meeting",
+              "target": "friend",
+              "strength": 1.0,
+              "type": "semantic",
+              "reason": "The concept directly states 'I met my friend', making 'friend' an essential part of this specific meeting.",
+              "memory_id": "459743e4-e100-4fe5-80cc-e3c0ce197c22",
+              "created": "2026-04-02T11:54:38.714292"
+            },
+            {
+              "source": "meeting",
+              "target": "conversation",
+              "strength": 0.8,
+              "type": "functional",
+              "reason": "Meetings with friends typically involve dialogue and discussion as a primary activity.",
+              "memory_id": "459743e4-e100-4fe5-80cc-e3c0ce197c22",
+              "created": "2026-04-02T11:54:38.714377"
+            },
+            {
+              "source": "meeting",
+              "target": "location",
+              "strength": 0.7,
+              "type": "semantic",
+              "reason": "Every meeting occurs at a specific physical place or setting.",
+              "memory_id": "459743e4-e100-4fe5-80cc-e3c0ce197c22",
+              "created": "2026-04-02T11:54:38.714419"
+            },
+            {
+              "source": "meeting",
+              "target": "time",
+              "strength": 0.7,
+              "type": "temporal",
+              "reason": "Meetings always take place at a particular point in time or duration.",
+              "memory_id": "459743e4-e100-4fe5-80cc-e3c0ce197c22",
+              "created": "2026-04-02T11:54:38.714450"
+            },
+            {
+              "source": "meeting",
+              "target": "greeting",
+              "strength": 0.6,
+              "type": "temporal",
+              "reason": "The act of greeting usually marks the beginning of an encounter or meeting.",
+              "memory_id": "459743e4-e100-4fe5-80cc-e3c0ce197c22",
+              "created": "2026-04-02T11:54:38.714481"
+            },
+            {
+              "source": "meeting",
+              "target": "shih tzu",
+              "strength": 0.9,
+              "type": "semantic",
+              "reason": "The context explicitly mentions the friend owns a Shih Tzu, making it a direct and strong association for this particular meeting.",
+              "memory_id": "459743e4-e100-4fe5-80cc-e3c0ce197c22",
+              "created": "2026-04-02T11:54:38.714519"
+            },
+            {
+              "source": "meeting",
+              "target": "catch up",
+              "strength": 0.7,
+              "type": "functional",
+              "reason": "A common purpose for meeting friends is to exchange updates and information about each other's lives.",
+              "memory_id": "459743e4-e100-4fe5-80cc-e3c0ce197c22",
+              "created": "2026-04-02T11:54:38.714567"
+            },
+            {
+              "source": "meeting",
+              "target": "happiness",
+              "strength": 0.6,
+              "type": "emotional",
+              "reason": "Meeting a friend often evokes positive feelings and joy.",
+              "memory_id": "459743e4-e100-4fe5-80cc-e3c0ce197c22",
+              "created": "2026-04-02T11:54:38.714610"
+            }
+          ],
+          "location": [
+            {
+              "source": "location",
+              "target": "meeting",
+              "strength": 0.7,
+              "type": "semantic",
+              "reason": "Every meeting occurs at a specific physical place or setting.",
+              "memory_id": "459743e4-e100-4fe5-80cc-e3c0ce197c22",
+              "created": "2026-04-02T11:54:38.714432"
+            }
+          ],
+          "time": [
+            {
+              "source": "time",
+              "target": "meeting",
+              "strength": 0.7,
+              "type": "temporal",
+              "reason": "Meetings always take place at a particular point in time or duration.",
+              "memory_id": "459743e4-e100-4fe5-80cc-e3c0ce197c22",
+              "created": "2026-04-02T11:54:38.714464"
+            }
+          ],
+          "greeting": [
+            {
+              "source": "greeting",
+              "target": "meeting",
+              "strength": 0.6,
+              "type": "temporal",
+              "reason": "The act of greeting usually marks the beginning of an encounter or meeting.",
+              "memory_id": "459743e4-e100-4fe5-80cc-e3c0ce197c22",
+              "created": "2026-04-02T11:54:38.714494"
+            }
+          ],
+          "catch up": [
+            {
+              "source": "catch up",
+              "target": "meeting",
+              "strength": 0.7,
+              "type": "functional",
+              "reason": "A common purpose for meeting friends is to exchange updates and information about each other's lives.",
+              "memory_id": "459743e4-e100-4fe5-80cc-e3c0ce197c22",
+              "created": "2026-04-02T11:54:38.714587"
+            }
+          ],
+          "happiness": [
+            {
+              "source": "happiness",
+              "target": "meeting",
+              "strength": 0.6,
+              "type": "emotional",
+              "reason": "Meeting a friend often evokes positive feelings and joy.",
+              "memory_id": "459743e4-e100-4fe5-80cc-e3c0ce197c22",
+              "created": "2026-04-02T11:54:38.714629"
+            }
+          ]
+        },
         "metadata": {
-          "total_concepts": 0,
-          "total_associations": 0,
-          "last_updated": "2026-04-02T09:23:12.173372"
+          "total_concepts": 23,
+          "total_associations": 46,
+          "last_updated": "2026-04-02T11:54:38.714642"
         }
       }
     }

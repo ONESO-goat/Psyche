@@ -5,7 +5,7 @@ from ASO.aso_core import Association, AssociationGraph
 from ASO.aso_ai import AssociationAI
 from debugging_utils import debug, reset_debug, hashtag
 import copy
-from _info_ import _explaination
+from ASO._info_ import _explaination
 
 class ASO:
     """

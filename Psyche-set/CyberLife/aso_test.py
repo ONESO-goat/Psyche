@@ -6,8 +6,32 @@ from Memory.memory_systems import EmotionalCalling
 from Memory.Emotions.Inside_out import RileyAnderson
 import json
 import os
+from dotenv import load_dotenv
 
-gemini_key = os.environ.get("GEMINI_API_KEY")
+load_dotenv()
+
+
+gemini_key = os.getenv("GEMINI_API_KEY")
+
+
+if gemini_key is None or not gemini_key.strip():
+    print(f"Gemini key is NONE: {gemini_key}")
+    gemini_key = ''
+    model = 'ollama'
+    check = input("Keep going? (Y/N)")
+    if check.lower() != 'y':
+        exit()
+else:
+    print(" ======= SUCCESS =======")
+    print(f" ✓ Gemini key is: {gemini_key}")
+    model = 'gemini'
+    check = input("Keep going? (Y/N)")
+    if check.lower() != 'y':
+        exit()
+    
+
+
+    
 
 # Create brain
 brain = Brain(name=('William', '', 'Smith'))
@@ -21,8 +45,8 @@ management.encode_memory("I was rejected from MIT", {'emotion': "sad", 'importan
 # Initialize ASO
 aso = ASO(
     Brain=brain,
-    api_key='',  # Or None for Ollama
-    model='ollama'  # Or 'ollama'
+    api_key=gemini_key,  # Or None for Ollama
+    model=model  # Or 'ollama'
 )
 
 # Process all memories
