@@ -5,6 +5,7 @@ from ASO.aso_core import Association, AssociationGraph
 from ASO.aso_ai import AssociationAI
 from debugging_utils import debug, reset_debug, hashtag
 import copy
+from _info_ import _explaination
 
 class ASO:
     """
@@ -252,3 +253,50 @@ class ASO:
     def commit(self):
         """Commit current graph state to brain storage."""
         self.Brain.mind.commit()
+        
+    def about_ASO(self, more_details: bool = False) -> str:
+        """Explain what ASO is in a human-friendly way."""
+        
+        explaination = r"""
+        The key part of the brain. ASO is short for association.
+
+        Associtation works on connect 1 memory to another, or 1 known fact or opinion to another,
+
+        example when I think bat, I think fox, I thought of fox because they're both mammals and a bat reminds me of a fox facially, key word 'remind'. 
+
+        When I think mammals, I think programming, because (some) humans which are mammal creatures, code which includes programming.
+
+        When I think ferret, I think of a memory where I pet and feed a goat: 
+
+         ferret - zoo  _ animals
+           |       | /  \ 
+         mammal - goat - farm - early memory I feed the goat. 
+         
+        ASO uses machine learning and AI to help assist as associtation can reach hundreds to even millions of chains even 
+        just thinking of the letter 2 or a simple onject like a cup, 
+        example when I think cup i think concrete because they're both solid objects, or water or tea.
+
+        The difficult part of this will likely be the speed, as this alone can span 1 memory to thousands lines of JSON code,
+        stunting thinking power, but this is natural behavior.
+
+        If you are confused I wrote a long page just on associtations, using my mind as an example, you might cringe but you're here to understand |:3\n\n\n\n
+        
+        """
+        if more_details:
+            explaination += _explaination()
+            
+        return explaination.strip()
+    
+    def __enter__(self):
+        """Context manager entry."""
+        return self
+    
+    def __str__(self):
+        
+        return "ASO (Association System): connects ideas and memories."
+    
+    def __exit__(self, exc_type, exc_val, exc_tb):
+        """Context manager exit - commit changes."""
+        self.commit()   
+    
+    

@@ -10,3 +10,5 @@ fastapi
 uvicorn
 ollama
 google
+google-generativeai
+python-dotenv

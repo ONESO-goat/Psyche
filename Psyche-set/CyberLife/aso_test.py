@@ -5,6 +5,9 @@ from ASO.ASO import ASO
 from Memory.memory_systems import EmotionalCalling
 from Memory.Emotions.Inside_out import RileyAnderson
 import json
+import os
+
+gemini_key = os.environ.get("GEMINI_API_KEY")
 
 # Create brain
 brain = Brain(name=('William', '', 'Smith'))

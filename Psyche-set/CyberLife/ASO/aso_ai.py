@@ -17,11 +17,12 @@ class AssociationAI:
             api_key: Gemini API key (if using Gemini)
             model: 'gemini' or 'ollama'
         """
-        self.model_type = model.lower()
+        self.model_type = model.lower().strip()
         
         if self.model_type == 'gemini' and api_key:
             # Use Gemini
             import google.generativeai as genai
+            
             genai.configure(api_key=api_key)
             self.model = genai.GenerativeModel('gemini-1.5-flash')
             self.backend = 'gemini'
