@@ -693,8 +693,8 @@ class Storage():
             except ValueError as e:
                 raise e
             
-        def avilable_space(self):
-            """Check how much space is avilable for the mind."""
+        def available_space(self):
+            """Check how much space is available for the mind."""
             space =  self.STORAGE_size - len(self.memories)
             if space <= 0:
                 print(f"space left: {space}\n")

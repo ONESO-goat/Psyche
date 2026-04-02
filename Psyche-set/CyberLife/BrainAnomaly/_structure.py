@@ -39,11 +39,11 @@ class _Structure:
                 'overall_Enthusiam': {
                     'inspiration': {
                         'scale': 0.0,
-                        'details': 'No data avilable for this brain yet.'
+                        'details': 'No data available for this brain yet.'
                     },
                     'motivation': {
                         'scale': 0.0,
-                        'details': 'No data avilable for this brain yet.'
+                        'details': 'No data available for this brain yet.'
                     }
                     
                 },
