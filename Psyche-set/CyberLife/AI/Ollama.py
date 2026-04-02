@@ -97,7 +97,7 @@ Return as JSON:
         
         
 class AssociationAI_qwen():
-    def __init__(self, model_name: str = "qwen-0.5-flash"):
+    def __init__(self, model_name: str = "qwen3:0.6b"):
         """
         Initialize with a local model. 
         'llama3.2' is great for speed, 'mistral' or 'phi3' are good alternatives.

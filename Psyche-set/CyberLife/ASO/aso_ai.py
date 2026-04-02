@@ -26,10 +26,13 @@ class AssociationAI:
             self.backend = 'gemini'
             print("✓ Using Gemini 1.5 Flash")
             
+            
         else:
             # Use Ollama
+            
+            # ollama run qwen2.5:latest
             self.backend = 'ollama'
-            self.ollama_model = 'qwen2.5:latest'
+            self.ollama_model = 'qwen3:0.6b'
             
             # Check if Ollama is available
             try:
@@ -38,7 +41,7 @@ class AssociationAI:
                 print(f"✓ Using Ollama ({self.ollama_model})")
             except:
                 print(f"⚠ Ollama model '{self.ollama_model}' not found")
-                print("  Run: ollama pull qwen2.5:latest")
+                print("  Run: ollama pull qwen3:0.6b")
     
     def extract_concepts(self, text: str) -> List[Dict[str, Any]]:
         """

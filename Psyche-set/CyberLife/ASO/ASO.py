@@ -37,30 +37,38 @@ class ASO:
         # Initialize AI
         self.ai = AssociationAI(api_key=api_key, model=model) if api_key or model == 'ollama' else None
     
+    # ASO/ASO.py - Update the process_memory method
+
     def process_memory(self, memory: Dict[str, Any]) -> Dict[str, Any]:
         """
         Process a memory to extract and store associations.
-        
-        Args:
-            memory: Memory dict with 'content', 'id', 'dominant_emotion'
-        
-        Returns:
-            Stats about processing
         """
         if not self.ai:
-            return {'error': 'No AI configured'}
-        
-        
+            return {
+                'error': 'No AI configured',
+                'concepts': [],
+                'associations_added': 0,
+                'memory_connections': 0
+            }
         
         content = memory.get('content', '')
         memory_id = memory.get('id', '')
         emotion = memory.get('dominant_emotion', 'neutral')
         
+        print(f"    → Extracting concepts from: \"{content[:50]}...\"")
+        
         # Step 1: Extract concepts
         concepts = self.ai.extract_concepts(content)
         
         if not concepts:
-            return {'concepts': [], 'associations_added': 0}
+            print(f"    ⚠ No concepts extracted")
+            return {
+                'concepts': [],
+                'associations_added': 0,
+                'memory_connections': 0
+            }
+        
+        print(f"    ✓ Found {len(concepts)} concepts: {[c['concept'] for c in concepts]}")
         
         # Step 2: For each concept, find associations
         associations_added = 0
@@ -73,6 +81,8 @@ class ASO:
                 concept=concept,
                 context=content
             )
+            
+            print(f"      → {concept}: {len(associations)} associations")
             
             # Add to graph
             for assoc_data in associations:
@@ -92,11 +102,15 @@ class ASO:
         all_memories = self.Brain.mind.get_all()
         other_memories = [m for m in all_memories if m.get('id') != memory_id]
         
-        memory_connections = self.ai.find_memory_connections(
-            memory_content=content,
-            memory_emotion=emotion,
-            existing_memories=other_memories
-        )
+        memory_connections = []
+        if other_memories:
+            print(f"    → Finding connections to {len(other_memories)} other memories...")
+            memory_connections = self.ai.find_memory_connections(
+                memory_content=content,
+                memory_emotion=emotion,
+                existing_memories=other_memories
+            )
+            print(f"    ✓ Found {len(memory_connections)} memory connections")
         
         # Store in memory
         memory_copy = copy.deepcopy(memory)
@@ -113,7 +127,6 @@ class ASO:
         
         return {
             'concepts': concepts,
-            'test':'test_value',
             'associations_added': associations_added,
             'memory_connections': len(memory_connections)
         }
