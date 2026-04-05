@@ -1,5 +1,12 @@
 
+"""  
+run: 
 
+export PYTHONPATH=~/Psyche/Psyche-set
+python Psyche-set/Rosalina/Rosa.py
+  
+"""
+from typing import Protocol
 from CyberLife.BrainAnomaly.BrainAnomaly import Brain
 from CyberLife.Memory.Emotions.Headquarters import Headquarters
 from CyberLife.Memory.Emotions.Inside_out import RileyAnderson
@@ -8,10 +15,18 @@ from CyberLife.Memory.memory_systems import EmotionalCalling
 import json
 from typing import Any
 from CyberLife.debugging_utils import debug, reset_debug, hashtag
-from _about_ import ABOUT
+from Rosalina._about_ import ABOUT
 
 
-
+class FavoriteSong(Protocol):
+    title: str
+    artist: str
+    
+class Song:
+    def __init__(self, title: str, artist: str) -> None:
+        self.title = title
+        self.artist = artist
+        
 
 class rationlized:
     def __init__(self):
@@ -109,6 +124,7 @@ class rosalina(rationlized, operator, system, Agent):
         self.friends = Amigo(name='friends', Brain=self.Brain)
         self.the_prompt = self.prompt()
         self.model_type = model.lower().strip()
+        self.initialized = False
         rationlized.__init__(self)
         operator.__init__(self)
         system.__init__(self)
@@ -361,6 +377,12 @@ MORE INFORMATION ABOUT YOU, ROSA:\n
 
         return prompt
     
+    
+    def rosalinas_favorite_song(self) -> FavoriteSong:
+        """Roselina has a personity too!"""
+        
+        return Song("It Ain't me", "Selena Gomez & Kygo")
+    
     def __str__(self):
         text = """  R: Rationalized
                     O: Operator
@@ -380,123 +402,6 @@ MORE INFORMATION ABOUT YOU, ROSA:\n
     
     
     
-if __name__ == "__main__":
-    from dotenv import load_dotenv
-    import os
+if __name__ == '__main__':
+    pass
     
-    load_dotenv()
-    
-  
-    
-    def test1():
-        
-        gem_key = os.getenv("GEMINI_API_KEY")
-        model = 'gemini'
-        
-        if not gem_key:
-            check = input(" ✕ GEMINI KEY IS NOT FOUND, CONTINUE? (Y/N): ")
-            gem_key = ''
-            model = 'ollama'
-            if check.lower() != 'y':
-                return
-        else:
-            check = input(" ✓ GEMINI KEY IS FOUND! KEEP GOING? (Y/N): ")
-            if check.lower() != 'y':
-                return
-                
-        # Initialize Brain + ROSA
-        brain = Brain(name=("Rosa", "Lina", "Psyche"))
-        rosa = rosalina(brain)
-        rosa.set_up(api_key=gem_key, model=model)
-
-        print("\n🧠 ROSA is ready. Type 'exit' to quit.\n")
-
-        while True:
-            try:
-                user = input("TALK TO ROSA: ").strip()
-
-                if user.lower() in ["exit", "quit", "q"]:
-                    print("Shutting down ROSA...")
-                    break
-
-                if not user:
-                    continue
-
-               
-                raw = rosa._generate(user)
-
-                # 🔥 Parse JSON safely (since you expect JSON output)
-                parsed = rosa._parse_json(raw, default=[])
-
-                # If model didn't return JSON, fallback
-                if not parsed:
-                    print(f"\nROSA: {raw}\n")
-                else:
-                    print(f"\nROSA (parsed): {parsed}\n")
-
-                # 🔥 OPTIONAL: store interaction in Brain
-                try:
-                    rosa.Brain.mind.add({
-                        "user": user,
-                        "response": parsed if parsed else raw
-                    })
-                except Exception as e:
-                    print(f"⚠ Memory store error: {e}")
-
-            except KeyboardInterrupt:
-                print("\nInterrupted. Shutting down ROSA...")
-                break
-
-            except Exception as e:
-                print(f"⚠ Runtime error: {e}")
-                
-    def test2():
-    
-        import os
-
-        gem_key = os.getenv("GEMINI_API_KEY")
-        model = 'gemini'
-
-        if not gem_key:
-            check = input(" ✕ GEMINI KEY IS NOT FOUND, CONTINUE? (Y/N): ")
-            gem_key = ''
-            model = 'ollama'
-            if check.lower() != 'y':
-                return
-        else:
-            check = input(" ✓ GEMINI KEY IS FOUND! KEEP GOING? (Y/N): ")
-            if check.lower() != 'y':
-                return
-
-        brain = Brain(name=("Rosa", "Lina", "Psyche"))
-        rosa = rosalina(brain)
-        rosa.set_up(api_key=gem_key, model=model)
-
-        print("\n🧠 ROSA is ready. Type 'exit' to quit.\n")
-
-        while True:
-            user = input("TALK TO ROSA: ").strip()
-
-            if user.lower() in ["exit", "quit", 'q']:
-                print("Shutting down ROSA...")
-                break
-
-            if not user:
-                continue
-
-            # 🔥 Generate normal response
-            response = rosa._generate(user)
-
-            print(f"\nROSA: {response}\n")
-
-            # 🔥 Store memory (simple version)
-            try:
-                rosa.add({
-                    "user": user,
-                    "response": response
-                })
-            except Exception as e:
-                print(f"⚠ Memory error: {e}")
-                
-                
-    test2()
