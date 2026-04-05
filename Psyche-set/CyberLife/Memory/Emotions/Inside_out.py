@@ -1737,6 +1737,82 @@ class RileyAnderson:
         """Emotions decay over time (return to baseline)."""
         for emotion in self.emotions:
             emotion.level *= 0.95  # 5% decay
+            
+    def all_valid_emotions(self) -> str:
+        n = """
+        DISGUST:
+            'disgust' 
+            'disgusted'
+            'revulsion'
+            'revolted'
+            'contempt'
+            'contemptuous'
+            'aversion'
+            'disapproval'
+            'disapproving'
+            
+        FEAR:
+            'fearful'
+            'fear'
+            'afraid'
+            'scared'
+            'anxiety'
+            'anxious'
+            'panic'
+            'panicked'
+            'worry'
+            'worried'
+            'dread'
+            'dreadful'
+         
+        ANGER:   
+            'angry' 
+            'mad'
+            'frustrated' 
+            'frustration'
+            'rage' 
+            'furious'
+            'irritation' 
+            'irritated'
+            'resentment'
+            'resentful'
+        
+        SURPRISE:
+            'shock'
+            'surprised'
+            'surprise' 
+            'shocked'
+            'amazement'
+            'amazed'
+            'confusion'
+            'confused'
+            'curiosity'
+            'confusion'
+        
+        SADNESS:
+            'upset'
+            'sadness'
+            'sad'
+            'disappointment'
+            'disappointed'
+            'grief'
+            'grieving'
+            'loneliness'
+            'lonely'
+            
+        HAPPINESS:
+            'joy'
+            'joyful'
+            'happy'
+            'excitment'
+            'excitement'
+            'contentment'
+            'pride'
+            'proud'
+            'prideful'
+        """
+        return n
+        
     def why(self, 
             memory: Dict[str, str], 
             string: str, 

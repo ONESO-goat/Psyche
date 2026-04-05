@@ -44,6 +44,8 @@ class EmotionalCalling:
         self.storage = storage
         self.emotions = emotions  # RileyAnderson instance
         
+        self.__rosa__: bool = False
+        
     def encode_memory(self, content: str, emotion_data: Dict, add_timestamp: bool = True):
         """
         Store memory with emotional tagging.
@@ -75,10 +77,15 @@ class EmotionalCalling:
 
 
         memory = self.emotions.emotion_query(memory)
+        
+        if self.__rosa__:
+            learn = emotion_data['rosa_lesson']
+            memory['what_was_learned_from_this'] = learn
 
         if add_timestamp:
             
             memory['timestamp'] = datetime.utcnow().isoformat()
+        
 
         self.storage.add(memory)
 
@@ -185,4 +192,21 @@ class EmotionalCalling:
         if id.strip() == '':
             raise ValueError(f"Data doesn't have vald id structure: {memory}")
         return id
+    
+    def __code_rosa__(self, code: str):
+        """ROSA operator switch"""
+        import dotenv
+        import os
+        dotenv.load_dotenv()
+        
+        correct_code = os.getenv('ROSA_CODE')
+
+        if code == correct_code:
+            self.__rosa__ = True
+            print("code green.")
+            return
+
+        else:
+            print("code red.")
+            return
 

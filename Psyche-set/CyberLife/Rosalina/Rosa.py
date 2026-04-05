@@ -7,14 +7,14 @@ python Psyche-set/Rosalina/Rosa.py
   
 """
 from typing import Protocol
-from CyberLife.BrainAnomaly.BrainAnomaly import Brain
-from CyberLife.Memory.Emotions.Headquarters import Headquarters
-from CyberLife.Memory.Emotions.Inside_out import RileyAnderson
-from CyberLife.love.friends import Amigo
-from CyberLife.Memory.memory_systems import EmotionalCalling
+from BrainAnomaly.BrainAnomaly import Brain
+from Memory.Emotions.Headquarters import Headquarters
+from Memory.Emotions.Inside_out import RileyAnderson
+from love.friends import Amigo
+from Memory.memory_systems import EmotionalCalling
 import json
 from typing import Any
-from CyberLife.debugging_utils import debug, reset_debug, hashtag
+from debugging_utils import debug, reset_debug, hashtag
 from Rosalina._about_ import ABOUT
 
 
@@ -297,6 +297,7 @@ class Agent:
 class rosalina():
     def __init__(self, Brain, api_key: str | None = None, model: str = "ollama"):
         self.Brain = Brain
+        self.riley = RileyAnderson()
         self.management = EmotionalCalling(self.Brain.mind, self.Brain, RileyAnderson())
         self.HQ = Headquarters(memories=self.Brain.mind.get_all(), Brain=self.Brain)
         self.friends = Amigo(name='friends', Brain=self.Brain)
@@ -335,7 +336,10 @@ class rosalina():
     --- MEMORY CONTEXT ---
     {memory}
     """
-        
+    def _switch_(self, code: str):
+        """Access to excluive features and functions."""
+        self.management.__code_rosa__(code) 
+         
     def set_up(self, api_key: str | None = None, model: str = "ollama"):
         """Set up manually for the time being."""
         
@@ -385,6 +389,9 @@ class rosalina():
                 
                 # For Gemini, we convert the messages to their content format
                 # Note: Gemini 2.0+ handles system_instruction separately
+                recent_memories = self.Brain.mind[-3:] 
+                memory_context = "\n".join([m['what_was_learned_from_this'] for m in recent_memories])
+                
                 response = self.client.models.generate_content(
                     model=self.model_id, 
                     contents=prompt, # Or pass the whole history
@@ -438,8 +445,6 @@ class rosalina():
             return default if default is not None else []
         
             
-    def add(self, data: dict) -> None:
-        self.Brain.mind.add(data)
     
     def prompt(self):
         prompt = f"""You are **ROSA — the Rationalized Operator System Agent**.
@@ -574,17 +579,21 @@ MORE INFORMATION ABOUT YOU, ROSA:\n
 
         return prompt
     
-    def _generate_quick_summary(self, user: str, ai: str) -> str:
+    def _generate_quick_summary(self, user: str, ai: str):
         """Generate response from AI backend with persistent ROSA persona."""
     
     # Construct the message history with the system prompt at the top
-        messages = """
-        role = system: content: {ai}\n\n
+        messages = f"""
+        role = system: content: {ai}
+        
         role = user: content: {user}""".strip()
+        
+        instructions = self._summary_instructions()
         
         if self.backend == 'gemini':
             try:
                 from google.genai import types
+                
                 
                 # For Gemini, we convert the messages to their content format
                 # Note: Gemini 2.0+ handles system_instruction separately
@@ -592,15 +601,17 @@ MORE INFORMATION ABOUT YOU, ROSA:\n
                     model=self.model_id, 
                     contents=messages, # Or pass the whole history
                     config=types.GenerateContentConfig(
-                        system_instruction="""Create a quick summary on this chat.""", # Best way for Gemini
-                        #response_mime_type="application/json"
+                        system_instruction=instructions, # Best way for Gemini
+                        response_mime_type="application/json"
                     )
                 )
                 
-                return response.text or '[]'
+                import json
+                return json.loads(response.text) if response.text else {}
+            
             except Exception as e:
                 print(f"⚠️ Gemini error: {e}")
-                return '[]'
+                return {'summary': '', 'emotion': '', 'what_was_learned': '', 'importance': ''}
         
         else:  # Ollama
             try:
@@ -608,21 +619,45 @@ MORE INFORMATION ABOUT YOU, ROSA:\n
                 
                 response = ollama.chat(
                     model=self.ollama_model,
-                    messages=[{'role': 'system', 'content':"Create a quick summary on this chat."},
+                    messages=[{'role': 'system', 'content':instructions},
                             {'role': 'user', 'content': user},
                             {'role': 'ai', 'content': ai}], # Now includes ROSA system prompt
                     #format='json',
                     options={'temperature': 0.2}
                 )
-                return response['message']['content']
-                
+                import json
+                try:
+                    return json.loads(response['message']['content'])
+                except Exception:
+                    return {"summary": response['message']['content'], "emotion": "", "what_was_learned": ""}
             except Exception as e:
                 print(f"⚠️ Ollama error: {e}")
-                return '[]'
+                return {'summary': '', 'emotion': '', 'what_was_learned': '', 'importance': ''}
 
-    def define_memory(self, name, repsonse):
+    def define_memory(self, user_input: str, repsonse: str):
         
-        pass
+        summary = self._generate_quick_summary(user=user_input, ai=repsonse)
+        
+        content = summary['summary']
+        
+        emotion = summary['emotion']
+        
+        learnt = summary['what_was_learned']
+        
+        importance = summary['importance']
+        
+        dic = { 'emotion': emotion, 'rosa_lesson': learnt, 'importance': importance}
+        
+        self.add(content=content, emotion_data=dic)
+        
+        return dic
+    
+    def add(self, content:str, emotion_data: dict) -> None:
+        self.management.encode_memory(content, emotion_data)
+        self.commit()
+
+    def commit(self):
+        self.Brain.mind.commit()
         
     def see_entire_brain(self) -> Brain:
         return self.Brain.mind.achieve()
@@ -676,6 +711,32 @@ MORE INFORMATION ABOUT YOU, ROSA:\n
         self.system_state = self.SYSTEM.get_scale_factor()
         
     # ============== EXTRAS ==============
+    
+    def _summary_instructions(self) -> str:
+        instructions = f"""
+You are an advanced life form AI that absorbs information from interactions to foster personal growth and understanding. 
+For each chat, you should create a thoughtful summary and provide insight into the interaction. 
+
+1. Summarize this chat clearly and concisely, highlighting the key points or ideas discussed.
+2. Identify the dominant emotion from the list below that best fits the tone or feeling of this chat. This should be a single word (e.g., curiosity, joy, confusion, excitement) that reflects the overall mood.
+
+VALID EMOTIONS TO CHOOSE FROM:
+
+{self.riley.all_valid_emotions()}
+
+3. Provide a float number from 0.0 to 10.0 that determines that importance of this summary, emotion, and overall lesson learnt.
+4. Reflect on what you, as an AI, have learned from this interaction. Consider new information, perspectives, or insights that could enhance your understanding or improve future interactions.
+
+Return your response as a dictionary in the following format:
+
+{{
+    "summary": "A concise summary of the chat",
+    "emotion": "The dominant emotion detected in this chat",
+    "importance": "The importance of this memory and emotion",
+    "what_was_learned": "A reflection on what you learned from this chat"
+}}
+"""
+        return instructions
         
     def rosalinas_favorite_song(self) -> FavoriteSong:
         """Roselina has a personity too!"""

@@ -1,4 +1,4 @@
-from CyberLife.BrainAnomaly.BrainAnomaly import Brain
+from BrainAnomaly.BrainAnomaly import Brain
 from Rosalina.Rosa import rosalina
 
 
@@ -100,7 +100,15 @@ if __name__ == "__main__":
         brain = Brain(name=("Rosa", "Lina", "Psyche"))
         rosa = rosalina(brain)
         rosa.set_up(api_key=gem_key, model=model)
-
+        
+        rosa_key = os.getenv("ROSA_CODE")
+        
+        if rosa_key:
+            rosa._switch_(rosa_key)
+        else:
+            print("⚠ ROSA CODE NOT FOUND")
+            return
+        
         print("\n🧠 ROSA is ready. Type 'exit' to quit.\n")
 
         while True:
@@ -120,10 +128,11 @@ if __name__ == "__main__":
 
             # 🔥 Store memory (simple version)
             try:
-                rosa.add({
-                    "user": user,
-                    "response": response
-                })
+                memory = rosa.define_memory(user_input=user, repsonse=response)
+                print("====================================")
+                print("====================================")
+                print(f"✓ Rosa memory stored: {memory}\n")
+                
             except Exception as e:
                 print(f"⚠ Memory error: {e}")
                 

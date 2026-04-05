@@ -23,7 +23,7 @@ class _Structure:
                     'name': {'full': name, 'middle': middle_name, 'first': first_name, 'last': last_name, 'nickname': []},
                              
                     
-                    'firends': {}
+                    'friends': {}
                 },
 
                 'mind':[],

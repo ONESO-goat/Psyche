@@ -3,7 +3,7 @@
 
 import numpy as np
 import importlib as lib
-from CyberLife.Excepts_and_hints import ValidEmotion, NoArgumentCalled_or_AllNone
+from Excepts_and_hints import ValidEmotion, NoArgumentCalled_or_AllNone
 import uuid
 from BrainAnomaly._structure import _Structure
 from datetime import datetime
