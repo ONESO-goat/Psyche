@@ -4,7 +4,7 @@
 *.pyo
 *.pyd
 __pycache__/
-*/_about_.py
+#*/_about_.py
 *.so
 *.dylib
 *.egg
