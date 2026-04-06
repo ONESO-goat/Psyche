@@ -28,7 +28,9 @@ class Song:
 
 
 class rosalina(BaseAI):
-    def __init__(self, Brain, 
+    def __init__(self, 
+                 Brain, 
+                 meta_rosa, 
                  api_key: str | None = None,
                  model: str = "ollama", 
                  __rosa__: bool = False):
@@ -42,6 +44,9 @@ class rosalina(BaseAI):
         self.the_prompt = self.prompt()
         self.model_type = model.lower().strip()
         self.initialized = False
+        
+        self.meta_rosa = meta_rosa
+        #self.__rosa__ = __rosa__
         
         
         # ================= STATES =================

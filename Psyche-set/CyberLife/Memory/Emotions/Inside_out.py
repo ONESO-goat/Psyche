@@ -1701,7 +1701,7 @@ class RileyAnderson:
             self.Joy, self.Sadness, self.Anger,
             self.Fear, self.Disgust, self.Surprise
         ]
-    def emotion_query(self, data: Dict[str, str]):
+    def emotion_query(self, data: Dict, wisdom=None):
         if self.Joy._feeling_happy(data):
             test = self.Joy.happy_keyword_query(emotion=data['emotion'], data=data)
         elif self.Anger._feeling_angry(data):
@@ -1714,8 +1714,22 @@ class RileyAnderson:
             test = self.Surprise.shock_keyword_query(emotion=data['emotion'], data=data)
         elif self.Fear._feeling_fear(data):
             test = self.Fear.fear_keyword_query(emotion=data['emotion'], data=data)
-        elif data['emotion'] == 'analytical':
-            print("ROSA")
+        elif data['emotion'] in ['analytical', 
+                                 'confident', 
+                                 'confident', 
+                                 'questionable',
+                                 'confirmation',
+                                 'tentative', 
+                                 'understanding']:
+            print(" --- ROSA --- ")
+            
+            if wisdom == None:
+               wisdom = ''
+            struct = {data['emotion']: wisdom}
+            data['emotion'] = struct
+            test = data
+            
+            
         else:
             raise RuntimeError(f"Data doesn't fit any emotions {data['emotion']}, please double check.")
         return test

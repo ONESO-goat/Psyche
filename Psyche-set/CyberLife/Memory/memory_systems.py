@@ -76,15 +76,21 @@ class EmotionalCalling:
 
         }
 
-
-        memory = self.emotions.emotion_query(memory)
+        wisdom = ''
+        if emotion_data.get('wisdom', None):
+            wisdom = emotion_data['wisdom']
         
+        memory = self.emotions.emotion_query(memory, wisdom=wisdom)
+        
+        print(f"MEMORY: {memory}\n")
+
         if self.__rosa__:
             learn = emotion_data['rosa_lesson']
             memory['what_was_learned_from_this'] = learn
             
         learn = emotion_data.get('lesson','')
-        memory['what_was_learned_from_this'] = learn
+        if learn:
+            memory['what_was_learned_from_this'] = learn
 
         if add_timestamp:
             
@@ -113,8 +119,14 @@ class EmotionalCalling:
             return 'disgusted'
         elif self.emotions.Surprise._feeling_surprised({'emotion': emotion_type}):
             return 'surprised'
-        elif emotion_type in ['analytical', 'confident', 'tentative', 'understanding']:
-            return 'analytical'
+        elif emotion_type in ['analytical', 
+                              'confident', 
+                              'enthusiastic', 
+                              'tentative', 
+                              'understanding', 
+                              'confirmation',
+                              'questionable']:
+            return emotion_type
         else:
             return 'neutral'
     

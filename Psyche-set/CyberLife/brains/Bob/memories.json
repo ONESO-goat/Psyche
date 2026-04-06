@@ -1,7 +1,7 @@
 [
   {
     "brain": {
-      "id": "ff48fc70-e8d3-4ab7-9780-2ad3e0b6f7fd",
+      "id": "4b5b7e42-75e2-4b2b-a151-5fd2498267a0",
       "_personal_data": {
         "name": {
           "full": "Bob  Operator",
@@ -12,7 +12,77 @@
         },
         "friends": {}
       },
-      "mind": [],
+      "mind": [
+        {
+          "id": "fb7b2b27-4e5d-4ae1-a95a-b49c4c95d30d",
+          "content": "Interview prep is so disconnected from real work",
+          "dominant_emotion": "angry",
+          "emotion": {
+            "frustration": {
+              "regulation": {
+                "__numpy__": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=",
+                "dtype": "<f8",
+                "shape": [
+                  4,
+                  4
+                ]
+              }
+            }
+          },
+          "importance": 0.75,
+          "Enthusiasm": {
+            "motivation": {
+              "__numpy__": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "dtype": "<f8",
+              "shape": [
+                3,
+                4
+              ]
+            },
+            "inspiration": {
+              "__numpy__": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "dtype": "<f8",
+              "shape": [
+                3,
+                4
+              ]
+            }
+          },
+          "association": {},
+          "priority": {
+            "1": 1.0
+          },
+          "why_this_feeling": "You feel this way for an unknown reason.",
+          "timestamp": "2026-04-06T20:21:54.712446",
+          "rosa_meta": {
+            "meta_insight": {
+              "pattern": "Frustration arising from a perceived disconnect between the skills or methods required for assessment/preparation and those required for actual performance or real-world application.",
+              "principle": "Humans are driven by a need for perceived utility and direct relevance in their efforts. When preparatory activities feel artificial or misaligned with the ultimate goal, it leads to demotivation, cognitive dissonance, and a sense of wasted effort.",
+              "strategy": "When designing assessment or training protocols, explicitly bridge the gap between the simulated environment and real-world application. Clearly articulate the 'why' behind specific tasks, demonstrating how they develop transferable skills or test underlying competencies crucial for the actual job, even if the immediate context differs.",
+              "confidence": 0.92,
+              "tags": [
+                "job search",
+                "interview prep",
+                "relevance",
+                "utility",
+                "motivation",
+                "frustration",
+                "cognitive dissonance",
+                "assessment design",
+                "skill transfer"
+              ]
+            },
+            "patterns": [],
+            "strategy": {
+              "use_case": "When designing assessment or training protocols, explicitly bridge the gap between the simulated environment and real-world application. Clearly articulate the 'why' behind specific tasks, demonstrating how they develop transferable skills or test underlying competencies crucial for the actual job, even if the immediate context differs.",
+              "confidence": 0.92,
+              "cross_instance_validated": false,
+              "recommendation": "When designing assessment or training protocols, explicitly bridge the gap between the simulated environment and real-world application. Clearly articulate the 'why' behind specific tasks, demonstrating how they develop transferable skills or test underlying competencies crucial for the actual job, even if the immediate context differs."
+            },
+            "rosa_processed": true
+          }
+        }
+      ],
       "current_objective": [],
       "main_objectives": [],
       "current_objectives": [],
@@ -29,7 +99,7 @@
       },
       "_existence": {
         "_date": "2026-04-06",
-        "_exact_date": "2026-04-06T16:04:28.002466"
+        "_exact_date": "2026-04-06T20:19:49.405198"
       },
       "decayed_memories": []
     }

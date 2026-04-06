@@ -31,16 +31,17 @@ class MetaROSA:
         self.brain = brain
         self.aso = ASO(Brain=brain, api_key=api_key, model=model)
         self.management = EmotionalCalling(self.brain.mind, self.brain, RileyAnderson())
+        self.memories = self.brain.mind.memories
         
         # ROSA uses Gemini for reasoning
         if model == 'gemini' and api_key:
             from google import genai
             self.client = genai.Client(api_key=api_key)
-            self.model_id = 'gemini-2.0-flash-exp'
+            self.model_id = 'gemini-2.5-flash'
             self.backend = 'gemini'
         else:
             self.backend = 'ollama'
-            self.ollama_model = 'qwen2.5:latest'
+            self.ollama_model = 'qwen3:0.6b'
         
         # Cross-instance tracking
         self.linx_instances: Dict[str, Dict] = {}
@@ -129,28 +130,34 @@ class MetaROSA:
             'strategy': strategy,
             'timestamp': datetime.now().isoformat()
         }
-        emotion_data = {'emotion':'analytical',
-                        'importance': meta_insight.get('confidence', 0.5)}
         
         # Add to ROSA's brain
+        wisdom = self.query_wisdom("How do people feel about interview preparation?") # placeholder for now, add another for the AI to create a 1 sentence question
+        
+        print(json.dumps(wisdom, indent=2))
+        
+        emotion_data = {'emotion':'analytical',
+                        'wisdom': json.dumps(wisdom, indent=2),
+                        'importance': meta_insight.get('confidence', 0.5)}
+        
+        
         self.management.encode_memory(
             content=json.dumps(rosa_memory, indent=2),
             emotion_data=emotion_data
         )
-        #self.brain.remember(
-           # content=json.dumps(rosa_memory, indent=2),
-          #  emotion='analytical',
-           # importance=meta_insight.get('confidence', 0.5))
         
+       
+        
+       
         # Process through ASO
         rosa_memories = self.brain.mind.get_all()
         if rosa_memories:
-            self.aso.process_memory(rosa_memories[-1])
+            processed_memory = self.aso.process_memory(rosa_memories[-1])
         
         # Update instance stats
         self.linx_instances[linx_id]['memory_count'] += 1
         self.linx_instances[linx_id]['last_sync'] = datetime.now().isoformat()
-        
+        self.commit()
         return {
             'meta_insight': meta_insight,
             'patterns': patterns,
@@ -158,6 +165,8 @@ class MetaROSA:
             'rosa_processed': True
         }
     
+    def commit(self):
+        self.brain.mind.commit()
     def _extract_meta_insight(self, 
                              content: str, 
                              emotion: str, 
@@ -375,6 +384,7 @@ Return ONLY valid JSON:
 
         response_text = self._generate(prompt)
         wisdom = self._parse_json(response_text, default={})
+        
         
         return wisdom
     

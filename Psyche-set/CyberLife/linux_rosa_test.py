@@ -3,14 +3,19 @@
 from BrainAnomaly.BrainAnomaly import Brain
 from BaseAI.Rosalina.meta_rosa import MetaROSA
 from BaseAI.Rosalina.Rosa import rosalina
+import dotenv
+import os
 from BaseAI.LinaXLino.MODEL_LINX import LinaXLino
 import json
+
+dotenv.load_dotenv()
+gem_key = os.getenv("GEMINI_API_KEY")
 
 # Create ROSA (the queen brain)
 rosa_brain = Brain(name=('ROSA', '', 'CORE'))
 rosa = MetaROSA(
     brain=rosa_brain,
-    api_key='your_gemini_key',
+    api_key=gem_key,
     model='gemini'
 )
 
@@ -25,11 +30,9 @@ linx_a = LinaXLino(
     owners_name='Alice',
     gender='female',
     passcode_between_me_and_owner='secret123',
-    api_key='your_gemini_key',
+    api_key=gem_key,
     rosa=rosa  # Connect to ROSA
 )
-
-print(f"DEBUG inside LINUX ROSA TEST: {linx_a.get_gender()}\n")
 
 # Create LINX instance B
 brain_b = Brain(name=('Bob', '', 'Operator'))
@@ -38,7 +41,7 @@ linx_b = LinaXLino(
     owners_name='Bob',
     gender='male',
     passcode_between_me_and_owner='secret456',
-    api_key='your_gemini_key',
+    api_key=gem_key,
     rosa=rosa  # Connect to ROSA
 )
 
