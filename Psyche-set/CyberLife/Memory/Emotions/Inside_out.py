@@ -589,7 +589,7 @@ class Anger(Emotion):
         emotion = emotion.lower()
         function = {
             'angry': self.angry,
-            'frustration': self.frustration,
+            'frustrated': self.frustration, # frustration
             'rage': self.rage,
             'iritation': self.irritation,
             'resentment': self.resentment
@@ -597,12 +597,13 @@ class Anger(Emotion):
         try:
             for emotion_, list_ in self.subclass.items():
 
+                print(f"EMOTIONL: {emotion_}, LIST: {list_}\n")
                 if emotion == emotion_:
                     return function[emotion_.lower()](Emotion_adjust_by=1.0, data=data)
                 else:
                     for char in list_:
                         if char == emotion:
-                            return function[emotion_.lower()](Emotion_adjust_by=1.0, data=data)
+                            return function[emotion_.lower().strip()](Emotion_adjust_by=1.0, data=data)
         except RuntimeError as e:
             raise RuntimeError(f"There was an error while querying for keywords for anger: {e}")
                 
@@ -1655,8 +1656,7 @@ class Disgust(Emotion):
     
     def __repr__(self) -> str:
         return f"""Disgust=[{self.subclass}]"""
-
-
+ 
 class RileyAnderson:
     
     def __init__(self):
@@ -1714,8 +1714,10 @@ class RileyAnderson:
             test = self.Surprise.shock_keyword_query(emotion=data['emotion'], data=data)
         elif self.Fear._feeling_fear(data):
             test = self.Fear.fear_keyword_query(emotion=data['emotion'], data=data)
+        elif data['emotion'] == 'analytical':
+            print("ROSA")
         else:
-            raise RuntimeError("Data doesn't fit any emotions, please double check.")
+            raise RuntimeError(f"Data doesn't fit any emotions {data['emotion']}, please double check.")
         return test
 
     def detect_emotion(self, emotion_word: str) -> Optional[Emotion]:

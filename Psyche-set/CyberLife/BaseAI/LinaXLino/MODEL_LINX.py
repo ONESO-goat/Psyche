@@ -36,18 +36,20 @@ class LinaXLino(BaseAI):
                  **kwargs,
                  ):
         
-        super().__init__(Brain, **kwargs)
+       
         self.linx_id = str(uuid.uuid4())
         
-        self.management = EmotionalCalling(self.Brain.mind, self.Brain, RileyAnderson())
         
         
         if gender.lower().strip() not in ['male', 'female', 'other']:
             raise ValueError("Gender must be 'male', 'female', or 'other'")
         
-        self.gender = gender.lower().strip()
+        self.gender = kwargs.get('gender', gender)
+        
+        self.model = 'L.I.N.X'
+        print(f"DEBUG in INIT: GENDER => {self.gender}\n")
         if self.gender == 'male':
-            self.model = 'L..I.N.O'
+            self.model = 'L.I.N.O'
         elif self.gender == 'female':
             self.model = 'L.I.N.A'
         else:
@@ -61,7 +63,7 @@ class LinaXLino(BaseAI):
         self.friends = Amigo(name='friends', Brain=self.Brain)
         self.rosas_mind = self.Brain.recall_all()
         
-        self.the_prompt = self.prompt()
+        
         self.model_type = model.lower().strip()
         self.initialized = False
         self.password_set = False
@@ -95,6 +97,8 @@ class LinaXLino(BaseAI):
                     'purpose': 'personal assistant'
                 }
             )
+            super().__init__(Brain, **kwargs)
+            self.the_prompt = self.prompt()
             print(f"✓ Connected to ROSA (ID: {self.linx_id})")
         
 
@@ -190,6 +194,20 @@ class LinaXLino(BaseAI):
     
     def get_name(self):
         return self.Brain.name
+    
+    def get_gender(self):
+        return self.gender
+    
+    def get_model(self):
+        return self.model
+    
+    def get_memories(self) -> Dict:
+        return super().get_memories()
+    
+    def get_linux_id(self):
+        return self.linx_id
+    
+    
     
     # ============== EXTRAS ==============
     def __str__(self):
@@ -291,12 +309,15 @@ Return your response as a dictionary in the following format:
     
     def prompt(self):
         
+        print(f"DEBUG: GENDER => {self.gender}\n") 
+        
         role_map = {
     "female": "Assistant",
     "male": "Operator",
     "other": "Explorer"
 }
-
+        print(f"DEBUG: GENDER => {self.gender}\n")
+        
         role = role_map.get(self.gender, "Explorer")
         prompt = f"""You are **LINX — the Logical Intuitive Networked {role}**.
 

@@ -2,6 +2,8 @@
 
 from typing import Dict, List, Any, Optional
 from BrainAnomaly.BrainAnomaly import Brain
+from Memory.memory_systems import EmotionalCalling
+from Memory.Emotions.Inside_out import RileyAnderson
 from ASO.ASO import ASO
 import json
 from datetime import datetime
@@ -28,6 +30,7 @@ class MetaROSA:
         """
         self.brain = brain
         self.aso = ASO(Brain=brain, api_key=api_key, model=model)
+        self.management = EmotionalCalling(self.brain.mind, self.brain, RileyAnderson())
         
         # ROSA uses Gemini for reasoning
         if model == 'gemini' and api_key:
@@ -126,13 +129,18 @@ class MetaROSA:
             'strategy': strategy,
             'timestamp': datetime.now().isoformat()
         }
+        emotion_data = {'emotion':'analytical',
+                        'importance': meta_insight.get('confidence', 0.5)}
         
         # Add to ROSA's brain
-        self.brain.remember(
+        self.management.encode_memory(
             content=json.dumps(rosa_memory, indent=2),
-            emotion='analytical',
-            importance=meta_insight.get('confidence', 0.5)
+            emotion_data=emotion_data
         )
+        #self.brain.remember(
+           # content=json.dumps(rosa_memory, indent=2),
+          #  emotion='analytical',
+           # importance=meta_insight.get('confidence', 0.5))
         
         # Process through ASO
         rosa_memories = self.brain.mind.get_all()

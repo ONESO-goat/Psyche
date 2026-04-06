@@ -29,6 +29,8 @@ linx_a = LinaXLino(
     rosa=rosa  # Connect to ROSA
 )
 
+print(f"DEBUG inside LINUX ROSA TEST: {linx_a.get_gender()}\n")
+
 # Create LINX instance B
 brain_b = Brain(name=('Bob', '', 'Operator'))
 linx_b = LinaXLino(
@@ -46,7 +48,7 @@ print("LINX A: Adding memory")
 print("=" * 60)
 linx_a.remember_with_rosa(
     content="I hate leetcode, it feels useless",
-    emotion="frustrated",
+    emotion="frustration",
     importance=0.7,
     context="coding interviews"
 )
@@ -57,7 +59,7 @@ print("LINX B: Adding memory")
 print("=" * 60)
 linx_b.remember_with_rosa(
     content="Interview prep is so disconnected from real work",
-    emotion="frustrated",
+    emotion="frustration",
     importance=0.6,
     context="job searching"
 )

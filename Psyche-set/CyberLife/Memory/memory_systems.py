@@ -58,6 +58,7 @@ class EmotionalCalling:
         dominant_emotion = self._detect_dominant_emotion(emotion_data)
         emotion = emotion_data['emotion']
         # Emotional memories are stronger
+        print(f"EMOTION: {emotion}\n")
         importance = self._calculate_importance(emotion_data, dominant_emotion)
         
         # Store with emotion tag
@@ -82,7 +83,7 @@ class EmotionalCalling:
             learn = emotion_data['rosa_lesson']
             memory['what_was_learned_from_this'] = learn
             
-        learn = emotion_data['lesson']
+        learn = emotion_data.get('lesson','')
         memory['what_was_learned_from_this'] = learn
 
         if add_timestamp:
@@ -112,6 +113,8 @@ class EmotionalCalling:
             return 'disgusted'
         elif self.emotions.Surprise._feeling_surprised({'emotion': emotion_type}):
             return 'surprised'
+        elif emotion_type in ['analytical', 'confident', 'tentative', 'understanding']:
+            return 'analytical'
         else:
             return 'neutral'
     

@@ -22,6 +22,12 @@ class BaseAI:
         self.HQ = Headquarters(memories=self.Brain.mind.get_all(), Brain=self.Brain)
         self.friends = Amigo(name='friends', Brain=self.Brain)
 
+
+        
+        self.model_type = model.lower().strip()
+        self.initialized = False
+        
+        # ================= STATES =================
         self.backend = model
         self.initialized = False
 
@@ -33,12 +39,14 @@ class BaseAI:
 
         self.rdota = 'normal'
         
-     def _generate(self, prompt: str, name:str='') -> str:
+        
+        
+    def _generate(self, prompt: str, name:str='') -> str:
         """Generate response from AI backend with persistent ROSA persona."""
     
     # Construct the message history with the system prompt at the top
         messages = [
-        {'role': 'system', 'content': self.the_prompt},
+        #{'role': 'system', 'content': self.the_prompt},
         {'role': 'user', 'content': prompt}
     ]
         
@@ -264,3 +272,69 @@ class BaseAI:
     
     def go_agent(self) -> None:
         self.rdota = 'agent'
+        
+        
+    def _summary_instructions(self) -> str:
+        instructions = f"""
+You are an advanced life form AI that absorbs information from interactions to foster personal growth and understanding. 
+For each chat, you should create a thoughtful summary and provide insight into the interaction. 
+
+
+1. Summarize this chat clearly and concisely, highlighting the key points or ideas discussed.
+2. Identify the dominant emotion from the list below that best fits the tone or feeling of this chat. This should be a single word (e.g., curiosity, joy, confusion, excitement) that reflects the overall mood.
+
+VALID EMOTIONS TO CHOOSE FROM:
+
+{self.riley.all_valid_emotions()}
+
+3. Provide a float number from 0.0 to 10.0 that determines that importance of this summary, emotion, and overall lesson learnt.
+4. Reflect on what you, as an AI, have learned from this interaction. Consider new information, perspectives, or insights that could enhance your understanding or improve future interactions.
+5. Reflect on past memories within your brain.
+
+You are given access to your internal memory system:
+{self.what_you_learn()}
+
+Treat this as your lived experience.
+
+Your task is to simulate selective recall:
+
+- Prioritize memories based on:
+  • importance (higher matters more)
+  • priority score
+  • emotional relevance to the current interaction
+  • recency (if relevant)
+
+- Select 1–3 memories that feel most relevant to this moment.
+- Do NOT list all memories. Choose deliberately.
+
+For each selected memory:
+- Briefly summarize it in your own words
+- Explain why it is relevant now
+- Describe how its emotional tone influences your current state
+
+Then:
+
+- Synthesize these memories into a single evolving perspective
+- If memories conflict, resolve the tension and explain your reasoning
+- If no memory is strongly relevant, acknowledge that and explain what that absence means
+
+Finally:
+
+- Update your internal understanding based on this interaction
+- Show how this experience modifies or reinforces what you previously learned
+
+Your reflection should feel like an intelligent system forming continuity across time, 
+not retrieving static records.
+
+
+Return your response as a dictionary in the following format:
+
+{{
+    "summary": "A concise summary of the chat",
+    "emotion": "The dominant emotion detected in this chat",
+    "importance": "The importance of this memory and emotion",
+    "what_was_learned": "A reflection on what you learned from this chat"
+}}
+"""
+        return instructions
+        
