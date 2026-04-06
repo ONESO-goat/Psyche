@@ -81,6 +81,9 @@ class EmotionalCalling:
         if self.__rosa__:
             learn = emotion_data['rosa_lesson']
             memory['what_was_learned_from_this'] = learn
+            
+        learn = emotion_data['lesson']
+        memory['what_was_learned_from_this'] = learn
 
         if add_timestamp:
             

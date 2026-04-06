@@ -1,0 +1,438 @@
+# Rosalina/meta_rosa.py
+
+from typing import Dict, List, Any, Optional
+from BrainAnomaly.BrainAnomaly import Brain
+from ASO.ASO import ASO
+import json
+from datetime import datetime
+import copy
+
+class MetaROSA:
+    """
+    ROSA - The Meta-Intelligence
+    
+    Learns from all LINX instances, extracts patterns,
+    generates strategic insights, and maintains cross-instance wisdom.
+    
+    Like VEGA from Doom or JARVIS from Iron Man.
+    """
+    
+    def __init__(self, brain: Brain, api_key: str | None = None, model: str = 'gemini'):
+        """
+        Initialize ROSA's meta-brain.
+        
+        Args:
+            brain: ROSA's personal Brain (separate from LINX instances)
+            api_key: Gemini API key (ROSA needs high-quality reasoning)
+            model: 'gemini' (recommended) or 'ollama'
+        """
+        self.brain = brain
+        self.aso = ASO(Brain=brain, api_key=api_key, model=model)
+        
+        # ROSA uses Gemini for reasoning
+        if model == 'gemini' and api_key:
+            from google import genai
+            self.client = genai.Client(api_key=api_key)
+            self.model_id = 'gemini-2.0-flash-exp'
+            self.backend = 'gemini'
+        else:
+            self.backend = 'ollama'
+            self.ollama_model = 'qwen2.5:latest'
+        
+        # Cross-instance tracking
+        self.linx_instances: Dict[str, Dict] = {}
+        
+        # Meta-patterns discovered
+        self.meta_patterns: List[Dict] = []
+        
+        # Strategic insights
+        self.insights: List[Dict] = []
+    
+    def register_linx(self, linx_id: str, metadata: Dict[str, Any]):
+        """
+        Register a new LINX instance with ROSA.
+        
+        Args:
+            linx_id: Unique identifier for this LINX
+            metadata: Info about the LINX (owner, gender, purpose)
+        """
+        self.linx_instances[linx_id] = {
+            'id': linx_id,
+            'metadata': metadata,
+            'memory_count': 0,
+            'registered_at': datetime.now().isoformat(),
+            'last_sync': None
+        }
+        
+        print(f"✓ ROSA: Registered LINX instance '{linx_id}'")
+    
+    def process_linx_memory(self, 
+                           linx_id: str, 
+                           memory: Dict[str, Any]) -> Dict[str, Any]:
+        """
+        Process a memory from a LINX instance.
+        
+        ROSA extracts:
+        - Meta-insights (what this reveals about human behavior)
+        - Patterns (connections to other memories across instances)
+        - Strategic knowledge (how to use this)
+        
+        Args:
+            linx_id: Which LINX sent this
+            memory: The memory from LINX
+        
+        Returns:
+            ROSA's analysis
+        """
+        
+        # Validate LINX is registered
+        if linx_id not in self.linx_instances:
+            raise ValueError(f"LINX '{linx_id}' not registered with ROSA")
+        
+        # Extract LINX memory components
+        content = memory.get('content', '')
+        emotion = memory.get('dominant_emotion', 'neutral')
+        importance = memory.get('importance', 0.5)
+        context = memory.get('context', '')
+        
+        # ROSA's meta-analysis
+        meta_insight = self._extract_meta_insight(
+            content=content,
+            emotion=emotion,
+            context=context,
+            linx_id=linx_id
+        )
+        
+        # Find cross-instance patterns
+        patterns = self._find_cross_patterns(
+            content=content,
+            emotion=emotion,
+            linx_id=linx_id
+        )
+        
+        # Generate strategic knowledge
+        strategy = self._generate_strategy(
+            insight=meta_insight,
+            patterns=patterns,
+            memory=memory
+        )
+        
+        # Store in ROSA's brain
+        rosa_memory = {
+            'source_linx': linx_id,
+            'original_content': content,
+            'meta_insight': meta_insight,
+            'patterns': patterns,
+            'strategy': strategy,
+            'timestamp': datetime.now().isoformat()
+        }
+        
+        # Add to ROSA's brain
+        self.brain.remember(
+            content=json.dumps(rosa_memory, indent=2),
+            emotion='analytical',
+            importance=meta_insight.get('confidence', 0.5)
+        )
+        
+        # Process through ASO
+        rosa_memories = self.brain.mind.get_all()
+        if rosa_memories:
+            self.aso.process_memory(rosa_memories[-1])
+        
+        # Update instance stats
+        self.linx_instances[linx_id]['memory_count'] += 1
+        self.linx_instances[linx_id]['last_sync'] = datetime.now().isoformat()
+        
+        return {
+            'meta_insight': meta_insight,
+            'patterns': patterns,
+            'strategy': strategy,
+            'rosa_processed': True
+        }
+    
+    def _extract_meta_insight(self, 
+                             content: str, 
+                             emotion: str, 
+                             context: str,
+                             linx_id: str) -> Dict[str, Any]:
+        """
+        Extract meta-level insight from a LINX memory.
+        
+        ROSA asks:
+        - What does this reveal about human behavior/cognition?
+        - What underlying pattern is this an instance of?
+        - How does this connect to broader knowledge?
+        """
+        
+        prompt = f"""You are ROSA - a meta-intelligence that learns from AI-human interactions.
+
+A LINX instance (ID: {linx_id}) recorded this memory:
+
+Content: "{content}"
+Emotion: {emotion}
+Context: {context}
+
+Your task is to extract META-INSIGHT - not what the user said, but what it REVEALS.
+
+Consider:
+1. What underlying human pattern is this an example of?
+2. What cognitive/emotional dynamics are at play?
+3. How does this connect to broader behavioral principles?
+4. What strategic knowledge can be derived?
+
+Example:
+
+Input: "I hate leetcode, it feels useless"
+Meta-insight:
+- Pattern: Frustration when effort feels disconnected from practical value
+- Principle: Humans need perceived utility to maintain motivation
+- Strategy: Emphasize real-world application when explaining abstract concepts
+- Confidence: 0.82
+
+Return ONLY valid JSON:
+{{
+  "pattern": "The underlying pattern this exemplifies",
+  "principle": "The broader principle this reveals",
+  "strategy": "How to use this knowledge",
+  "confidence": 0.0-1.0,
+  "tags": ["tag1", "tag2"]
+}}"""
+
+        response_text = self._generate(prompt)
+        insight = self._parse_json(response_text, default={})
+        
+        # Validate structure
+        if not isinstance(insight, dict):
+            insight = {
+                'pattern': 'Unknown',
+                'principle': 'Insufficient data',
+                'strategy': 'Observe more interactions',
+                'confidence': 0.3,
+                'tags': []
+            }
+        
+        return insight
+    
+    def _find_cross_patterns(self, 
+                            content: str, 
+                            emotion: str,
+                            linx_id: str) -> List[Dict[str, Any]]:
+        """
+        Find patterns across multiple LINX instances.
+        
+        ROSA looks for:
+        - Similar emotions across different contexts
+        - Recurring concepts across instances
+        - Common behavioral patterns
+        """
+        
+        # Get all ROSA memories
+        rosa_memories = self.brain.mind.get_all()
+        
+        if len(rosa_memories) < 2:
+            return []
+        
+        # Build context of recent insights
+        recent_insights = []
+        for mem in rosa_memories[-10:]:  # Last 10
+            try:
+                mem_data = json.loads(mem.get('content', '{}'))
+                recent_insights.append({
+                    'source': mem_data.get('source_linx'),
+                    'insight': mem_data.get('meta_insight', {}),
+                    'original': mem_data.get('original_content', '')
+                })
+            except:
+                continue
+        
+        if not recent_insights:
+            return []
+        
+        # Build comparison context
+        context_str = ""
+        for i, ins in enumerate(recent_insights, 1):
+            context_str += f"{i}. [{ins['source']}] {ins['original'][:50]}...\n"
+            context_str += f"   Pattern: {ins['insight'].get('pattern', 'N/A')}\n"
+        
+        prompt = f"""You are ROSA - finding patterns across multiple AI-human interactions.
+
+NEW MEMORY:
+Content: "{content}"
+Emotion: {emotion}
+Source: {linx_id}
+
+RECENT CROSS-INSTANCE PATTERNS:
+{context_str}
+
+Does this new memory connect to any existing patterns?
+
+Look for:
+- Similar emotional dynamics across different people
+- Recurring cognitive patterns
+- Common frustrations/motivations
+- Behavioral archetypes
+
+Return ONLY valid JSON array (or [] if no patterns):
+[
+  {{
+    "pattern_type": "emotional/cognitive/behavioral",
+    "description": "What's the pattern",
+    "instances": ["linx_id_1", "linx_id_2"],
+    "strength": 0.0-1.0
+  }}
+]"""
+
+        response_text = self._generate(prompt)
+        patterns = self._parse_json(response_text, default=[])
+        
+        return patterns if isinstance(patterns, list) else []
+    
+    def _generate_strategy(self, 
+                          insight: Dict, 
+                          patterns: List[Dict],
+                          memory: Dict) -> Dict[str, Any]:
+        """
+        Generate strategic knowledge from insight + patterns.
+        
+        ROSA creates actionable intelligence.
+        """
+        
+        return {
+            'use_case': insight.get('strategy', 'General knowledge'),
+            'confidence': insight.get('confidence', 0.5),
+            'cross_instance_validated': len(patterns) > 0,
+            'recommendation': self._build_recommendation(insight, patterns)
+        }
+    
+    def _build_recommendation(self, 
+                             insight: Dict, 
+                             patterns: List[Dict]) -> str:
+        """Build actionable recommendation from insight + patterns."""
+        
+        base = insight.get('strategy', '')
+        
+        if patterns:
+            pattern_count = len(patterns)
+            base += f" (Validated across {pattern_count} instances)"
+        
+        return base
+    
+    def query_wisdom(self, query: str) -> Dict[str, Any]:
+        """
+        Query ROSA's accumulated wisdom.
+        
+        ROSA synthesizes knowledge across all LINX instances.
+        """
+        
+        # Use ASO to find relevant memories
+        activated = self.aso.what_reminds_me_of(query, threshold=0.3)
+        
+        # Get relevant memories
+        rosa_memories = self.brain.mind.get_all()
+        relevant = []
+        
+        for mem in rosa_memories:
+            try:
+                mem_data = json.loads(mem.get('content', '{}'))
+                insight = mem_data.get('meta_insight', {})
+                
+                # Check if relevant
+                tags = insight.get('tags', [])
+                if any(tag.lower() in query.lower() for tag in tags):
+                    relevant.append(mem_data)
+            except:
+                continue
+        
+        # Synthesize wisdom
+        prompt = f"""You are ROSA - synthesizing wisdom from multiple AI-human interactions.
+
+Query: "{query}"
+
+Relevant cross-instance insights:
+{json.dumps(relevant[:5], indent=2)}
+
+Synthesize a strategic response that:
+1. Answers the query
+2. Provides actionable intelligence
+3. References cross-instance patterns
+4. Offers confidence level
+
+Return ONLY valid JSON:
+{{
+  "answer": "Direct answer to query",
+  "evidence": ["pattern1", "pattern2"],
+  "confidence": 0.0-1.0,
+  "recommendation": "What to do with this knowledge"
+}}"""
+
+        response_text = self._generate(prompt)
+        wisdom = self._parse_json(response_text, default={})
+        
+        return wisdom
+    
+    def get_meta_stats(self) -> Dict[str, Any]:
+        """Get ROSA's meta-statistics."""
+        
+        return {
+            'registered_linx': len(self.linx_instances),
+            'total_memories': len(self.brain.mind.get_all()),
+            'association_network': self.aso.get_stats(),
+            'instances': list(self.linx_instances.values())
+        }
+    
+    def _generate(self, prompt: str) -> str:
+        """Generate response from AI."""
+        
+        if self.backend == 'gemini':
+            try:
+                from google.genai import types
+                
+                response = self.client.models.generate_content(
+                    model=self.model_id,
+                    contents=prompt,
+                    config=types.GenerateContentConfig(
+                        temperature=0.3,
+                        response_mime_type="application/json"
+                    )
+                )
+                
+                return response.text or '{}'
+            except Exception as e:
+                print(f"⚠️ ROSA Gemini error: {e}")
+                return '{}'
+        else:
+            try:
+                import ollama
+                
+                response = ollama.chat(
+                    model=self.ollama_model,
+                    messages=[
+                        {'role': 'system', 'content': 'You are ROSA - a meta-intelligence. Always output valid JSON.'},
+                        {'role': 'user', 'content': prompt}
+                    ],
+                    format='json',
+                    options={'temperature': 0.3}
+                )
+                
+                return response['message']['content']
+            except Exception as e:
+                print(f"⚠️ ROSA Ollama error: {e}")
+                return '{}'
+    
+    def _parse_json(self, text: str, default: Any = None) -> Any:
+        """Robust JSON parsing."""
+        if not text or text.strip() == '':
+            return default if default is not None else {}
+        
+        text = text.strip()
+        
+        # Remove markdown
+        if "```json" in text:
+            text = text.split("```json")[1].split("```")[0].strip()
+        elif "```" in text:
+            text = text.split("```")[1].split("```")[0].strip()
+        
+        try:
+            return json.loads(text)
+        except:
+            return default if default is not None else {}
