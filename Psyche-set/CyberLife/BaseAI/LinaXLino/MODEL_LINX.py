@@ -2,7 +2,7 @@
 
 
 from BaseAI.states import Rationlized, Operator, System, Agent
-from typing import Dict
+from typing import Dict, Tuple
 import copy
 from datetime import date
 import uuid
@@ -24,9 +24,19 @@ from debugging_utils import debug, reset_debug, hashtag
         
         
 class LinaXLino(BaseAI):
+    """_summary_
+
+    Args:
+        LINX (Logical Intuitive Networked eXplorer) is an advanced AI model 
+        designed to be a personal companion and assistant.
+        It combines logical reasoning, intuitive understanding, 
+        and networked memory to provide a deeply personalized experience.
+        LINX is built to be present, attentive, and adaptive, learning 
+        from interactions to grow
+    """
     def __init__(self, 
                  Brain, 
-                 owners_name: str,
+                 owners_name: Tuple[str, str, str],
                  gender: str,
                     
                  passcode_between_me_and_owner: str,
@@ -54,8 +64,12 @@ class LinaXLino(BaseAI):
             self.model = 'L.I.N.A'
         else:
             self.model = 'L.I.N.X'
-        
-        self.owners_name = owners_name
+            
+        if owners_name[1]:
+            self.owners_name = f"{owners_name[0]} {owners_name[1]} {owners_name[2]}".strip() or "Owner"
+        else:
+            self.owners_name = f"{owners_name[0]} {owners_name[2]}".strip() or "Owner"
+            
         self.Brain = Brain
         self.riley = RileyAnderson()
         self.management = EmotionalCalling(self.Brain.mind, self.Brain, RileyAnderson())

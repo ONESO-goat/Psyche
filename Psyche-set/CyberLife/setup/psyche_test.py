@@ -1,8 +1,11 @@
 # psyche_test.py - Test script for Psyche class and overall functionality.
 
-from typing import Dict, Tuple, Any, Optional, List
+from typing import Tuple, Optional, List
 
 from BrainAnomaly.BrainAnomaly import Brain
+from BaseAI.Rosalina.meta_rosa import MetaROSA
+from BaseAI.Rosalina.Rosa import rosalina
+from BaseAI.LinaXLino.MODEL_LINX import LinaXLino
 from Memory.Emotions.Headquarters import Headquarters
 from Memory.Emotions.Inside_out import RileyAnderson
 from love.friends import Amigo
@@ -19,6 +22,8 @@ class Psyche:
     """
     
     def __init__(self, 
+                 gender: str,
+                 owner_name: Tuple[str, str, str],
                  name: Tuple[str, str, str], 
                  ai_api_key: str = '', 
                  model: str = 'qwen',
