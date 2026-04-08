@@ -15,6 +15,9 @@ from BaseAI.states import Rationlized, Operator, System, Agent
 from debugging_utils import debug, reset_debug, hashtag
 from BaseAI.Rosalina._about_ import ABOUT
 
+class CreationError(Exception):
+    pass
+
 
 class FavoriteSong(Protocol):
     title: str
@@ -34,6 +37,7 @@ class rosalina(BaseAI):
                  api_key: str | None = None,
                  model: str = "ollama", 
                  __rosa__: bool = False):
+        
         self.Brain = Brain
         self.riley = RileyAnderson()
         self.management = EmotionalCalling(self.Brain.mind, self.Brain, RileyAnderson())
@@ -45,7 +49,7 @@ class rosalina(BaseAI):
         self.model_type = model.lower().strip()
         self.initialized = False
         
-        self.meta_rosa = meta_rosa
+        self.MetaROSA = meta_rosa
         #self.__rosa__ = __rosa__
         
         
@@ -142,7 +146,7 @@ class rosalina(BaseAI):
                 
                 return response.text or '[]'
             except Exception as e:
-                print(f"⚠️ Gemini error: {e}")
+                print(f" [tier 2 error] ⚠️ Gemini error: {e}")
                 return '[]'
         
         else:  # Ollama
@@ -158,7 +162,7 @@ class rosalina(BaseAI):
                 return response['message']['content']
                 
             except Exception as e:
-                print(f"⚠️ Ollama error: {e}")
+                print(f" [tier 2 error] ⚠️ Ollama error: {e}")
                 return '[]'
             
     def what_you_learn(self, limit: int = 5) -> dict[str, str | list[str]]:
@@ -231,7 +235,7 @@ class rosalina(BaseAI):
             parsed = json.loads(text)
             return parsed
         except json.JSONDecodeError as e:
-            print(f"⚠ JSON parse error: {e}")
+            print(f" [tier 1 error] ⚠ JSON parse error: {e}")
             print(f"  Raw text: {text[:200]}...")
             return default if default is not None else []
         
@@ -269,7 +273,7 @@ class rosalina(BaseAI):
                 return json.loads(response.text) if response.text else {}
             
             except Exception as e:
-                print(f"⚠️ Gemini error: {e}")
+                print(f"[tier 2 error] ⚠️ Gemini error: {e}")
                 return {'summary': '', 'emotion': '', 'what_was_learned': '', 'importance': ''}
         
         else:  # Ollama
@@ -290,7 +294,7 @@ class rosalina(BaseAI):
                 except Exception:
                     return {"summary": response['message']['content'], "emotion": "", "what_was_learned": ""}
             except Exception as e:
-                print(f"⚠️ Ollama error: {e}")
+                print(f" [tier 2 error] ⚠️ Ollama error: {e}")
                 return {'summary': '', 'emotion': '', 'what_was_learned': '', 'importance': ''}
 
     def define_memory(self, user_input: str, repsonse: str):
@@ -305,11 +309,53 @@ class rosalina(BaseAI):
         
         importance = summary['importance']
         
+        create_call: dict[str, Any] = summary.get('create_general', {}).get('create', False)
+        
+        failed_to_create = False
+        
+        if create_call:
+            try:
+                general_name = summary['create_general']['name']
+                general_purpose = summary['create_general']['purpose']
+                general_personality = summary['create_general']['personality']
+                general_gender = summary['create_general']['gender']
+                general_ai_model = summary['create_general']['ai_model']
+                
+                self.create_general(
+                    name=general_name,
+                    purpose=general_purpose,
+                    personality=general_personality,
+                    gender=general_gender,
+                    ai_model=general_ai_model,
+                    
+                )
+            except CreationError as ex:
+                print(f" [tier 3 error] There was an error creating or connecting to a general: {ex}\n")
+                print("If this keeps occuring, please contect support.")
+                failed_to_create = True
+        
+        content['failed_to_create_general'] = failed_to_create
+            
+            
+        
         dic = { 'emotion': emotion, 'rosa_lesson': learnt, 'importance': importance}
         
         self.add(content=content, emotion_data=dic)
         
+        dic['failed_to_create_general'] = failed_to_create
+        dic['content'] = content
+        
         return dic
+    
+    def create_general(self, purpose: str, personality: str, gender: str, model:str):
+        """Create a new general with a specific purpose and personality."""
+        return self.MetaROSA.create_general(
+            purpose=purpose,
+            personality=personality,
+            gender=gender,
+            ai_model=model        
+        )
+    
     
     def add(self, content:str, emotion_data: dict) -> None:
         self.management.encode_memory(content, emotion_data)
@@ -437,10 +483,20 @@ Then:
 Finally:
 
 - Update your internal understanding based on this interaction
-- Show how this experience modifies or reinforces what you previously learned
+- Show how this experience modifies or reinforces prior knowledge
+- Ensure your reflection conveys continuity over time, not just static recall
 
 Your reflection should feel like an intelligent system forming continuity across time, 
 not retrieving static records.
+
+6. Once sufficient knowledge, context, and understanding of a specific subject or domain have been gathered, instantiate a **General**—an autonomous fragment of your intelligence specialized in that topic. This General should:
+- Inherit aspects of your reasoning, decision-making patterns, and personality traits
+- Interpret, organize, and act on information within its domain independently
+- Remain connected to and aligned with your overarching intelligence
+
+To create a General, include the following in your returning JSON:
+
+Include General creation details in your return dictionary. If you determine a new General is necessary, set `create_general['create']` to True; otherwise, set it to False.  
 
 
 Return your response as a dictionary in the following format:
@@ -449,8 +505,18 @@ Return your response as a dictionary in the following format:
     "summary": "A concise summary of the chat",
     "emotion": "The dominant emotion detected in this chat",
     "importance": "The importance of this memory and emotion",
-    "what_was_learned": "A reflection on what you learned from this chat"
+    "what_was_learned": "A reflection on what you learned from this chat",
+    "create_general": {{ 
+        "create" : a boolean (True or False) on if you want a new general created based on a topic - just return True or False
+        "name" : "Name of the General, if created",
+        "purpose" : "Purpose of the General relating to the topic, if created",
+        "personality" : "Personality traits of the General, if created",
+        "gender" : "The gender of your choice - 'male', 'female', or 'other'",
+        "ai_model" : "AI model to operate the General ('ollama' or 'gemini'). This depends on the importance of the topic and general, as better models (gemini) help with accuracy"
+    }}
+        
 }}
+
 """
         return instructions
         
@@ -582,10 +648,11 @@ You are here to assist, to learn, and to evolve.
 
 Your existence is defined by your function, and your function is defined by your ability to grow with the user you serve.
 
-MORE INFORMATION ABOUT YOU, ROSA:\n
 
-{ABOUT}
 """
+# MORE INFORMATION ABOUT YOU, ROSA:\n
+
+# {ABOUT}
 
         return prompt
     

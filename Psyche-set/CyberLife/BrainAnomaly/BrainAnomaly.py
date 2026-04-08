@@ -809,6 +809,10 @@ class Storage():
             if get_copy:
                 return self.memories
             
+        def get_id(self) -> str:
+            return self.memories[0]['brain']['id']
+        
+            
         def get_inspiration(self):
             return self.memories[0]['enthusiasm']['inspiration']
         

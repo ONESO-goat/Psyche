@@ -1,3 +1,5 @@
+# __init__.py
+
 from love.friends import Amigo
 from ASO.ASO import ASO
 from Memory.Emotions.Headquarters import Headquarters

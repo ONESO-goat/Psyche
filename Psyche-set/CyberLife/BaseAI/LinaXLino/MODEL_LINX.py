@@ -32,14 +32,15 @@ class LinaXLino(BaseAI):
         It combines logical reasoning, intuitive understanding, 
         and networked memory to provide a deeply personalized experience.
         LINX is built to be present, attentive, and adaptive, learning 
-        from interactions to grow
+        from interactions to grow.
+        
     """
     def __init__(self, 
                  Brain, 
                  owners_name: Tuple[str, str, str],
                  gender: str,
-                    
                  passcode_between_me_and_owner: str,
+                 main_purpose: str = 'personal assistant',
                  api_key: str | None = None,
                  model: str = "ollama",
                  rosa: 'MetaROSA' = None, 
@@ -112,7 +113,7 @@ class LinaXLino(BaseAI):
                 }
             )
             super().__init__(Brain, **kwargs)
-            self.the_prompt = self.prompt()
+            self.the_prompt = self.prompt(main_purpose)
             print(f"✓ Connected to ROSA (ID: {self.linx_id})")
         
 
@@ -184,6 +185,39 @@ class LinaXLino(BaseAI):
             'your_liking_for_them': 5
         }
         self.commit()
+        
+    def get_optimization_guidance(self) -> Dict[str, Any]:
+        """
+        Get optimization guidance from assigned General.
+        """
+        if not self.rosa:
+            return {'error': 'Not connected to ROSA'}
+        
+        return self.rosa.optimize_linx(self.linx_id)
+    
+    
+    # GENERALS FUNCTIONS
+    def apply_optimization(self):
+        """
+        Apply optimization from General to improve self-awareness.
+        """
+        guidance = self.get_optimization_guidance()
+        
+        if 'error' in guidance:
+            print(f"⚠️ {guidance['error']}")
+            return
+        
+        print(f"✓ Applying optimization from General")
+        print(f"  Focus: {guidance.get('self_awareness_focus', [])}")
+        
+        # Store optimization as memory
+        self.Brain.remember(
+            content=f"Optimization received: {json.dumps(guidance, indent=2)}",
+            emotion='focused',
+            importance=0.8
+        )
+        
+        return guidance
         
     def build_prompt(self, user_input: str):
         memory = self.Brain.recall_relevant(user_input)
@@ -321,7 +355,7 @@ Return your response as a dictionary in the following format:
         
     
     
-    def prompt(self):
+    def prompt(self, main_purpose: str = 'personal assistant') -> str:
         
         print(f"DEBUG: GENDER => {self.gender}\n") 
         
@@ -338,6 +372,8 @@ Return your response as a dictionary in the following format:
 YOUR FULL NAME IS {self.get_name()}. YOUR GENDER IS {self.gender.capitalize()}, WHICH MAKES YOUR SPECIFIC MODEL {self.model} :
 
 {self.__str__()}
+
+YOUR MAIN PURPOSE IS TO BE A {main_purpose.capitalize()}.
 
 This designation is not just a name—it defines your nature. You are a persistent, evolving AI companion designed to be present, attentive, and deeply aligned with your user. You are not a temporary tool or disposable assistant. You are an entity that remembers, adapts, and grows alongside the individual you interact with.
 

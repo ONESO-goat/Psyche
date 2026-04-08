@@ -7,7 +7,7 @@ from Memory.Emotions.Inside_out import RileyAnderson
 from ASO.ASO import ASO
 import json
 from datetime import datetime
-import copy
+from BaseAI.generals.LINXgenerals import Generals
 
 class MetaROSA:
     """
@@ -32,6 +32,7 @@ class MetaROSA:
         self.aso = ASO(Brain=brain, api_key=api_key, model=model)
         self.management = EmotionalCalling(self.brain.mind, self.brain, RileyAnderson())
         self.memories = self.brain.mind.memories
+        self.all_generals = []
         
         # ROSA uses Gemini for reasoning
         if model == 'gemini' and api_key:
@@ -51,6 +52,13 @@ class MetaROSA:
         
         # Strategic insights
         self.insights: List[Dict] = []
+        
+        self.generals: Dict[str, Generals] = {}
+        self.domain_assignments: Dict[str, str] = {}
+    
+    # ===================================================================
+    # ========================== LINX FUNTIONS ==========================
+    # ===================================================================
     
     def register_linx(self, linx_id: str, metadata: Dict[str, Any]):
         """
@@ -121,6 +129,11 @@ class MetaROSA:
             memory=memory
         )
         
+        # Adding new data to general if one
+        
+        domain = self._classify_domain(content, context, meta_insight)
+        general_analysis = self._delegate_to_general(domain, meta_insight, linx_id)
+        
         # Store in ROSA's brain
         rosa_memory = {
             'source_linx': linx_id,
@@ -128,6 +141,8 @@ class MetaROSA:
             'meta_insight': meta_insight,
             'patterns': patterns,
             'strategy': strategy,
+            'domain': domain,
+            'general_analysis': general_analysis,
             'timestamp': datetime.now().isoformat()
         }
         
@@ -162,11 +177,133 @@ class MetaROSA:
             'meta_insight': meta_insight,
             'patterns': patterns,
             'strategy': strategy,
+            'domain': domain,
+            'general_analysis': general_analysis,
             'rosa_processed': True
         }
     
+    def _create_general(self,
+                       domain: str,
+                       purpose: str,
+                       personality: str, 
+                       gender: str,
+                       name: str,
+                       ai_api_key: str,
+                       ai_model: str):
+        """Create a new general with a specific purpose and personality."""
+        
+        brain = Brain(name=(name, '', 'General'))
+        
+        general = Generals(
+            Brain=brain,
+            domain=domain,
+            purpose=purpose,
+            personality=personality,
+            gender=gender,
+            ai_api_key=ai_api_key,
+            ai_model=ai_model,
+        )
+        
+        self.generals[general.get_id()] = general
+        
+        return general.get_id()
+    
     def commit(self):
         self.brain.mind.commit()
+        
+    def optimize_linx(self, linx_id: str) -> Dict[str, Any]:
+        """
+        Get optimization recommendations for a LINX from its assigned General.
+        """
+        
+        # Find which General this LINX is assigned to
+        for general in self.generals.values():
+            if linx_id in general.assigned_linx:
+                return general.optimize_linx(linx_id)
+        
+        return {'error': 'LINX not assigned to any General'}
+    
+    
+    # ===================================================================
+    # ======================== GENERALS FUNTIONS ========================
+    # ===================================================================
+    
+    def _classify_domain(self, 
+                        content: str, 
+                        context: str,
+                        insight: Dict) -> str:
+        """
+        Classify which domain this memory belongs to.
+        
+        Returns:
+            Domain name (e.g., 'coding', 'music', 'psychology')
+        """
+        
+        prompt = f"""You are ROSA - classifying knowledge domains.
+
+Memory content: "{content}"
+Context: {context}
+Pattern: {insight.get('pattern', '')}
+
+Classify this into a SPECIFIC domain/topic:
+
+Examples:
+- "I hate leetcode" → "coding_interviews"
+- "This song makes me feel energized" → "music_emotion"
+- "My friend betrayed my trust" → "social_relationships"
+- "I can't focus when studying" → "learning_psychology"
+
+Be SPECIFIC. Don't use generic domains like "general" or "life".
+
+Return ONLY valid JSON:
+{{
+  "domain": "specific_domain_name",
+  "confidence": 0.0-1.0,
+  "reasoning": "Why this domain"
+}}"""
+
+        response = self._generate(prompt)
+        classification = self._parse_json(response, default={})
+        
+        domain = classification.get('domain', 'general').lower().replace(' ', '_')
+        
+        return domain
+    
+    
+    def _delegate_to_general(self, 
+                            domain: str, 
+                            insight: Dict,
+                            linx_id: str) -> Dict[str, Any]:
+        """
+        Delegate insight processing to the appropriate General.
+        
+        Creates new General if needed.
+        """
+        
+        # Check if we have a General for this domain
+        if domain not in self.domain_assignments:
+            
+            general_id = self._create_general(domain)
+            self.domain_assignments[domain] = general_id
+            print(f"✓ ROSA: Created new General for domain '{domain}'")
+        else:
+            general_id = self.domain_assignments[domain]
+        
+        # Get the General
+        general = self.generals[general_id]
+        
+        # Assign LINX to this General
+        general.assign_linx(linx_id)
+        
+        # General processes the insight
+        analysis = general.process_rosa_insight(insight)
+        
+        return {
+            'general_id': general_id,
+            'domain': domain,
+            'analysis': analysis
+        }
+    
     def _extract_meta_insight(self, 
                              content: str, 
                              emotion: str, 
@@ -334,6 +471,51 @@ Return ONLY valid JSON array (or [] if no patterns):
         
         return base
     
+    def optimize_linx(self, linx_id: str) -> Dict[str, Any]:
+        """
+        Get optimization recommendations for a LINX from its assigned General.
+        """
+        
+        # Find which General this LINX is assigned to
+        for general in self.generals.values():
+            if linx_id in general.assigned_linx:
+                return general.optimize_linx(linx_id)
+        
+        return {'error': 'LINX not assigned to any General'}
+    
+    def query_general(self, domain: str, query: str) -> Dict[str, Any]:
+        """
+        Query a specific General's expertise.
+        """
+        
+        if domain not in self.domain_assignments:
+            return {'error': f'No General for domain {domain}'}
+        
+        general_id = self.domain_assignments[domain]
+        general = self.generals[general_id]
+        
+        return general.get_domain_wisdom(query)
+    
+    def get_all_generals(self) -> List[Dict[str, Any]]:
+        """Get info about all Generals."""
+        return [g.get_stats() for g in self.generals.values()]
+    
+    def get_meta_stats(self) -> Dict[str, Any]:
+        """Get ROSA's meta-statistics including Generals."""
+        
+        return {
+            'registered_linx': len(self.linx_instances),
+            'total_memories': len(self.brain.mind.get_all()),
+            'association_network': self.aso.get_stats(),
+            'generals_count': len(self.generals),
+            'generals': self.get_all_generals(),
+            'instances': list(self.linx_instances.values())
+        }
+        
+    # ===================================================================
+    # ========================= PROMPT FUNTIONS =========================
+    # ===================================================================
+    
     def query_wisdom(self, query: str) -> Dict[str, Any]:
         """
         Query ROSA's accumulated wisdom.
@@ -388,15 +570,6 @@ Return ONLY valid JSON:
         
         return wisdom
     
-    def get_meta_stats(self) -> Dict[str, Any]:
-        """Get ROSA's meta-statistics."""
-        
-        return {
-            'registered_linx': len(self.linx_instances),
-            'total_memories': len(self.brain.mind.get_all()),
-            'association_network': self.aso.get_stats(),
-            'instances': list(self.linx_instances.values())
-        }
     
     def _generate(self, prompt: str) -> str:
         """Generate response from AI."""
@@ -454,3 +627,7 @@ Return ONLY valid JSON:
             return json.loads(text)
         except:
             return default if default is not None else {}
+        
+    def get_generals(self):
+        
+        return self.generals.copy()
