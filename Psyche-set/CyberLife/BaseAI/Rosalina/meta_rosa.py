@@ -19,7 +19,9 @@ class MetaROSA:
     Like VEGA from Doom or JARVIS from Iron Man.
     """
     
-    def __init__(self, brain: Brain, api_key: str | None = None, model: str = 'gemini'):
+    def __init__(self, brain: Brain, 
+                 api_key: str = '', 
+                 model: str = 'gemini'):
         """
         Initialize ROSA's meta-brain.
         
@@ -43,6 +45,9 @@ class MetaROSA:
         else:
             self.backend = 'ollama'
             self.ollama_model = 'qwen3:0.6b'
+            
+        self.ai_api_key = api_key
+        
         
         # Cross-instance tracking
         self.linx_instances: Dict[str, Dict] = {}
@@ -276,8 +281,7 @@ Return ONLY valid JSON:
     def _delegate_to_general(self, 
                             domain: str,
                             insight: Dict,
-                            linx_id: str,
-                            data: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
+                            linx_id: str) -> Dict[str, Any]:
         """
         Delegate insight processing to the appropriate General.
         
@@ -286,8 +290,11 @@ Return ONLY valid JSON:
         
         # Check if we have a General for this domain
         if domain not in self.domain_assignments:
-            data = self._form_general_data(domain)
-            if not data:
+            
+            info = self._form_general_data(domain=domain)
+            data = self._parse_json(info, default={})
+            
+            if not data or not isinstance(data, dict):
                 print(f"There was an error creating the new general.")
                 return {}
             
@@ -299,24 +306,13 @@ Return ONLY valid JSON:
             ai_model = data['ai_model']
             
             # grabbing gemini key
-            import os 
-            import dotenv
-            dotenv.load_dotenv()
-            ai_api_key = os.getenv('GEMINI_API_KEY')
-            if not ai_api_key:
-                ai_model = 'qwen3:0.6b'
-                ai_api_key = ''
-                print("There was an error while searching for gemini key, switching to Ollama...\n")
-            else:
-                ai_model = 'gemini-2.5-flash'
-                ai_api_key = ai_api_key
             
             general_id = self._create_general(domain, 
                                               purpose=purpose, 
                                               personality=personality, 
                                               gender=gender,
                                               name=name, 
-                                              ai_api_key=ai_api_key, 
+                                              ai_api_key=self.ai_api_key, 
                                               ai_model=ai_model)
             self.domain_assignments[domain] = general_id
             print(f"✓ ROSA: Created new General for domain '{domain}'")

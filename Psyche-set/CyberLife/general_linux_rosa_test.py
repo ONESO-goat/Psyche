@@ -6,6 +6,7 @@ from BaseAI.Rosalina.meta_rosa import MetaROSA
 from BaseAI.LinaXLino.MODEL_LINX import LinaXLino
 import json
 
+
 # Load environment variables
 dotenv.load_dotenv()
 gem_key = os.getenv('GEMINI_API_KEY')
@@ -20,11 +21,11 @@ else:
     if check.lower() != 'y':
         exit()
     
-# Create ROSA
+# Create ROSA'
 rosa_brain = Brain(name=('ROSA', '', 'TEST10'))
 rosa = MetaROSA(
     brain=rosa_brain,
-    api_key='your_gemini_key',
+    api_key=gem_key,
     model='gemini'
 )
 
@@ -39,7 +40,7 @@ linx_a = LinaXLino(
     owners_name=("Alice", "", "Developer"),
     gender='female',
     passcode_between_me_and_owner='secret',
-    api_key='your_gemini_key',
+    api_key=gem_key,
     rosa=rosa
 )
 
@@ -49,7 +50,7 @@ linx_b = LinaXLino(
     owners_name=("Bob", "", "Musician"),
     gender='male',
     passcode_between_me_and_owner='secret',
-    api_key='your_gemini_key',
+    api_key=gem_key,
     rosa=rosa
 )
 
