@@ -187,11 +187,14 @@ class MetaROSA:
                        purpose: str,
                        personality: str, 
                        gender: str,
-                       name: str,
                        ai_api_key: str,
-                       ai_model: str):
-        """Create a new general with a specific purpose and personality."""
+                       ai_model: str,
+                       name: Optional[str] = None,):
         
+        """Create a new general with a specific purpose and personality."""
+        if not name:
+            name = domain
+            
         brain = Brain(name=(name, '', 'General'))
         
         general = Generals(
@@ -271,9 +274,10 @@ Return ONLY valid JSON:
     
     
     def _delegate_to_general(self, 
-                            domain: str, 
+                            domain: str,
                             insight: Dict,
-                            linx_id: str) -> Dict[str, Any]:
+                            linx_id: str,
+                            data: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
         """
         Delegate insight processing to the appropriate General.
         
@@ -282,10 +286,41 @@ Return ONLY valid JSON:
         
         # Check if we have a General for this domain
         if domain not in self.domain_assignments:
+            data = self._form_general_data(domain)
+            if not data:
+                print(f"There was an error creating the new general.")
+                return {}
             
-            general_id = self._create_general(domain)
+            name = data['name']
+            gender = data['gender']
+            purpose = data['purpose']
+            personality = data['personality']
+            gender = data['gender']
+            ai_model = data['ai_model']
+            
+            # grabbing gemini key
+            import os 
+            import dotenv
+            dotenv.load_dotenv()
+            ai_api_key = os.getenv('GEMINI_API_KEY')
+            if not ai_api_key:
+                ai_model = 'qwen3:0.6b'
+                ai_api_key = ''
+                print("There was an error while searching for gemini key, switching to Ollama...\n")
+            else:
+                ai_model = 'gemini-2.5-flash'
+                ai_api_key = ai_api_key
+            
+            general_id = self._create_general(domain, 
+                                              purpose=purpose, 
+                                              personality=personality, 
+                                              gender=gender,
+                                              name=name, 
+                                              ai_api_key=ai_api_key, 
+                                              ai_model=ai_model)
             self.domain_assignments[domain] = general_id
             print(f"✓ ROSA: Created new General for domain '{domain}'")
+            
         else:
             general_id = self.domain_assignments[domain]
         
@@ -303,7 +338,111 @@ Return ONLY valid JSON:
             'domain': domain,
             'analysis': analysis
         }
-    
+        
+    def _form_general_data(self, domain: str):
+        """
+        Creating a general in a quick manner
+        """
+        
+        instructions = f"""
+You are ROSA, a central intelligence responsible for creating specialized AI agents called Generals.
+
+Your task is to determine whether a new General should be created for the following domain:
+
+DOMAIN:
+{domain}
+
+You are given access to your memory system:
+{self.get_memories()}
+
+INSTRUCTIONS:
+
+1. Analyze the domain carefully.
+2. Use your memories to:
+   - Identify if this domain already exists or overlaps with past knowledge
+   - Extract relevant context to improve accuracy
+3. Decide:
+   - If the domain is sufficiently unique, important, or underrepresented → create a new General
+   - If the domain is already well-covered → do NOT create a new General
+
+4. When creating a General:
+   - Design it as a specialized fragment of yourself
+   - Ensure its purpose is clear and domain-specific
+   - Assign a fitting personality that enhances its role
+   - Choose an appropriate AI model:
+        • "gemini" → for complex, high-importance domains
+        • "ollama" → for simpler or lower-priority domains
+
+OUTPUT REQUIREMENTS:
+
+- Return ONLY valid JSON
+- Do NOT include explanations, comments, or extra text
+- Ensure all fields are present
+
+FORMAT:
+
+{{
+    "create_general": {{
+        "name": "Name of the General",
+        "purpose": "Clear purpose tied to the domain",
+        "personality": "Personality traits aligned with the role",
+        "gender": "male, female, or other",
+        "ai_model": "ollama or gemini"
+    }}
+}}
+"""
+# 5. If NOT creating a General:
+   #- Set "create" to false
+   #- Leave other fields as empty strings ""
+
+#  (empty string if not created)
+   
+        if self.backend == 'gemini':
+            try:
+                from google.genai import types
+                
+                response = self.client.models.generate_content(
+                    model=self.model_id,
+                    contents=domain,  
+                    config=types.GenerateContentConfig(
+                        system_instruction=instructions,
+                        response_mime_type="application/json",
+                        temperature=0.3
+                    )
+                )
+                
+                return response.text or '{}'
+            
+            except Exception as e:
+                print(f"⚠️ ROSA Gemini error: {e}")
+                return '{}'
+
+        else:
+            try:
+                import ollama
+                
+                response = ollama.chat(
+                    model=self.ollama_model,
+                    messages=[
+                        {
+                            'role': 'system',
+                            'content': instructions
+                        },
+                        {
+                            'role': 'user',
+                            'content': f"Domain: {domain}"
+                        }
+                    ],
+                    format='json',
+                    options={'temperature': 0.3}
+                )
+                
+                return response['message']['content']
+            
+            except Exception as e:
+                print(f"⚠️ ROSA Ollama error: {e}")
+                return '{}'
+        
     def _extract_meta_insight(self, 
                              content: str, 
                              emotion: str, 
@@ -471,17 +610,10 @@ Return ONLY valid JSON array (or [] if no patterns):
         
         return base
     
-    def optimize_linx(self, linx_id: str) -> Dict[str, Any]:
-        """
-        Get optimization recommendations for a LINX from its assigned General.
-        """
-        
-        # Find which General this LINX is assigned to
-        for general in self.generals.values():
-            if linx_id in general.assigned_linx:
-                return general.optimize_linx(linx_id)
-        
-        return {'error': 'LINX not assigned to any General'}
+    
+    
+    def get_brain(self):
+        return self.brain.mind.memories
     
     def query_general(self, domain: str, query: str) -> Dict[str, Any]:
         """
@@ -629,5 +761,7 @@ Return ONLY valid JSON:
             return default if default is not None else {}
         
     def get_generals(self):
-        
         return self.generals.copy()
+    
+    def get_memories(self):
+        return self.brain.mind.get_all()

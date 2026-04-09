@@ -8,7 +8,7 @@ from datetime import date
 import uuid
 
 # import password hash
-
+import json
 from BrainAnomaly.BrainAnomaly import Brain
 from Memory.Emotions.Headquarters import Headquarters
 from Memory.Emotions.Inside_out import RileyAnderson
@@ -27,7 +27,7 @@ class LinaXLino(BaseAI):
     """_summary_
 
     Args:
-        LINX (Logical Intuitive Networked eXplorer) is an advanced AI model 
+        LINX (Logical Intuitive Networked explorer) is an advanced AI model 
         designed to be a personal companion and assistant.
         It combines logical reasoning, intuitive understanding, 
         and networked memory to provide a deeply personalized experience.
@@ -211,10 +211,11 @@ class LinaXLino(BaseAI):
         print(f"  Focus: {guidance.get('self_awareness_focus', [])}")
         
         # Store optimization as memory
-        self.Brain.remember(
+        self.management.encode_memory(
             content=f"Optimization received: {json.dumps(guidance, indent=2)}",
-            emotion='focused',
-            importance=0.8
+           emotion_data={ 
+            'emotion': 'analytical',
+            'importance': 0.8}
         )
         
         return guidance
@@ -280,7 +281,7 @@ class LinaXLino(BaseAI):
             L: Logical
             I: Intuitive
             N: Networked
-            X: eXplorer
+            X: explorer
             """
             
                         

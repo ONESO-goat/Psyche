@@ -167,7 +167,7 @@ Return ONLY valid JSON:
         # Store vision as memory
         self.management.encode_memory(
             content=f"General initialized for domain: {self.domain}\nVision: {json.dumps(self.vision, indent=2)}",
-            emotion_data={'emotion':'focused',
+            emotion_data={'emotion':'analytical',
             'importance':1.0}
         )
         
