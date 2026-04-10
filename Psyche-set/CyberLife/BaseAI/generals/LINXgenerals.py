@@ -8,7 +8,7 @@ import json
 from Memory.Emotions.Inside_out import RileyAnderson
 from ASO.ASO import ASO
 from BaseAI.engine import BaseAI
-from BaseAI.Rosalina.meta_rosa import MetaROSA
+#from BaseAI.Rosalina.meta_rosa import MetaROSA
 from BaseAI.LinaXLino.MODEL_LINX import LinaXLino
 
 

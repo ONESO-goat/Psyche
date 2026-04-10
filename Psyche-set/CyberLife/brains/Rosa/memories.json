@@ -102,6 +102,64 @@
           },
           "association": {},
           "timestamp": "2026-04-06T20:22:00.328016"
+        },
+        {
+          "id": "39eb12f2-05a8-4346-ae48-dddcf35337e8",
+          "content": "{\n  \"source_linx\": \"74e939b9-327c-44d3-ae93-5c85665af497\",\n  \"original_content\": \"I hate leetcode, it feels useless for real work\",\n  \"meta_insight\": {},\n  \"patterns\": [],\n  \"strategy\": {\n    \"use_case\": \"General knowledge\",\n    \"confidence\": 0.5,\n    \"cross_instance_validated\": false,\n    \"recommendation\": \"\"\n  },\n  \"domain\": \"general\",\n  \"general_analysis\": {},\n  \"timestamp\": \"2026-04-10T08:48:03.442546\"\n}",
+          "dominant_emotion": "analytical",
+          "emotion": {
+            "analytical": "{}"
+          },
+          "importance": 0.75,
+          "Enthusiasm": {
+            "motivation": {
+              "__numpy__": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "dtype": "<f8",
+              "shape": [
+                3,
+                4
+              ]
+            },
+            "inspiration": {
+              "__numpy__": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "dtype": "<f8",
+              "shape": [
+                3,
+                4
+              ]
+            }
+          },
+          "association": {},
+          "timestamp": "2026-04-10T12:48:04.268637"
+        },
+        {
+          "id": "d6324a7e-8087-4bbd-a331-9daafb40f646",
+          "content": "{\n  \"source_linx\": \"7941fda5-add7-421d-852b-4f8f22dc5cfa\",\n  \"original_content\": \"I hate leetcode, it feels useless for real work\",\n  \"meta_insight\": {},\n  \"patterns\": [],\n  \"strategy\": {\n    \"use_case\": \"General knowledge\",\n    \"confidence\": 0.5,\n    \"cross_instance_validated\": false,\n    \"recommendation\": \"\"\n  },\n  \"domain\": \"general\",\n  \"general_analysis\": {},\n  \"timestamp\": \"2026-04-10T09:11:20.506419\"\n}",
+          "dominant_emotion": "analytical",
+          "emotion": {
+            "analytical": "{}"
+          },
+          "importance": 0.75,
+          "Enthusiasm": {
+            "motivation": {
+              "__numpy__": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "dtype": "<f8",
+              "shape": [
+                3,
+                4
+              ]
+            },
+            "inspiration": {
+              "__numpy__": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "dtype": "<f8",
+              "shape": [
+                3,
+                4
+              ]
+            }
+          },
+          "association": {},
+          "timestamp": "2026-04-10T13:11:21.374436"
         }
       ],
       "current_objective": [],

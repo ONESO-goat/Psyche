@@ -2,3 +2,4 @@
 /.venv/
 /leetcode
 /schoolStuff
+*/__pycache__

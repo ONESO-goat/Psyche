@@ -1,21 +1,21 @@
 [
   {
     "brain": {
-      "id": "c4272763-c643-41a9-9a60-0f6a93c291c5",
+      "id": "617c393e-9e39-438e-9148-df8fd40da90f",
       "_personal_data": {
         "name": {
-          "full": "Alice  Assistant",
+          "full": "Alice  Dev",
           "middle": "",
           "first": "Alice",
-          "last": "Assistant",
+          "last": "Dev",
           "nickname": []
         },
         "friends": {}
       },
       "mind": [
         {
-          "id": "3d334269-1052-44e5-b338-86696dcd2c82",
-          "content": "I hate leetcode, it feels useless",
+          "id": "e53bc4ea-499a-4036-a4f9-0f1ec7262975",
+          "content": "I hate leetcode, it feels useless for real work",
           "dominant_emotion": "angry",
           "emotion": {
             "frustration": {
@@ -53,29 +53,115 @@
             "1": 1.0
           },
           "why_this_feeling": "You feel this way for an unknown reason.",
-          "timestamp": "2026-04-06T20:21:14.212877",
+          "timestamp": "2026-04-10T12:47:57.941684",
           "rosa_meta": {
-            "meta_insight": {
-              "pattern": "Frustration and resistance arise when effort is perceived as disconnected from practical value or real-world utility.",
-              "principle": "Humans are driven by perceived purpose and utility; tasks lacking these often lead to demotivation and negative emotional responses.",
-              "strategy": "When assigning or explaining tasks that may seem abstract or tedious (e.g., foundational exercises, theoretical concepts), explicitly articulate their long-term benefits, underlying skill development, or direct applications to enhance perceived value and motivation.",
-              "confidence": 0.95,
-              "tags": [
-                "motivation",
-                "utility",
-                "frustration",
-                "task engagement",
-                "perceived value",
-                "learning"
-              ]
-            },
+            "meta_insight": {},
             "patterns": [],
             "strategy": {
-              "use_case": "When assigning or explaining tasks that may seem abstract or tedious (e.g., foundational exercises, theoretical concepts), explicitly articulate their long-term benefits, underlying skill development, or direct applications to enhance perceived value and motivation.",
-              "confidence": 0.95,
+              "use_case": "General knowledge",
+              "confidence": 0.5,
               "cross_instance_validated": false,
-              "recommendation": "When assigning or explaining tasks that may seem abstract or tedious (e.g., foundational exercises, theoretical concepts), explicitly articulate their long-term benefits, underlying skill development, or direct applications to enhance perceived value and motivation."
+              "recommendation": ""
             },
+            "domain": "general",
+            "general_analysis": {},
+            "rosa_processed": true
+          }
+        },
+        {
+          "id": "6276861e-afb0-41e8-a80a-773e99fe9364",
+          "content": "I hate leetcode, it feels useless for real work",
+          "dominant_emotion": "angry",
+          "emotion": {
+            "frustration": {
+              "regulation": {
+                "__numpy__": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=",
+                "dtype": "<f8",
+                "shape": [
+                  4,
+                  4
+                ]
+              }
+            }
+          },
+          "importance": 0.75,
+          "Enthusiasm": {
+            "motivation": {
+              "__numpy__": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "dtype": "<f8",
+              "shape": [
+                3,
+                4
+              ]
+            },
+            "inspiration": {
+              "__numpy__": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "dtype": "<f8",
+              "shape": [
+                3,
+                4
+              ]
+            }
+          },
+          "association": {},
+          "priority": {
+            "1": 1.0
+          },
+          "why_this_feeling": "You feel this way for an unknown reason.",
+          "timestamp": "2026-04-10T13:03:27.315092"
+        },
+        {
+          "id": "887210fb-6b1c-41ff-a61d-2122df9756d4",
+          "content": "I hate leetcode, it feels useless for real work",
+          "dominant_emotion": "angry",
+          "emotion": {
+            "frustration": {
+              "regulation": {
+                "__numpy__": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=",
+                "dtype": "<f8",
+                "shape": [
+                  4,
+                  4
+                ]
+              }
+            }
+          },
+          "importance": 0.75,
+          "Enthusiasm": {
+            "motivation": {
+              "__numpy__": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "dtype": "<f8",
+              "shape": [
+                3,
+                4
+              ]
+            },
+            "inspiration": {
+              "__numpy__": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "dtype": "<f8",
+              "shape": [
+                3,
+                4
+              ]
+            }
+          },
+          "association": {},
+          "priority": {
+            "1": 1.0
+          },
+          "why_this_feeling": "You feel this way for an unknown reason.",
+          "timestamp": "2026-04-10T13:11:17.385145",
+          "rosa_meta": {
+            "meta_insight": {},
+            "patterns": [],
+            "strategy": {
+              "use_case": "General knowledge",
+              "confidence": 0.5,
+              "cross_instance_validated": false,
+              "recommendation": ""
+            },
+            "domain": "general",
+            "general_analysis": {},
             "rosa_processed": true
           }
         }
@@ -95,8 +181,8 @@
         }
       },
       "_existence": {
-        "_date": "2026-04-06",
-        "_exact_date": "2026-04-06T20:19:49.399131"
+        "_date": "2026-04-10",
+        "_exact_date": "2026-04-10T12:47:57.939537"
       },
       "decayed_memories": []
     }

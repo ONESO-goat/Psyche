@@ -5,7 +5,7 @@ from typing import Protocol
 from BaseAI.engine import BaseAI
 from BrainAnomaly.BrainAnomaly import Brain
 from Memory.Emotions.Headquarters import Headquarters
-from BaseAI.Rosalina.meta_rosa import MetaROSA
+#from BaseAI.Rosalina.meta_rosa import MetaROSA
 from Memory.Emotions.Inside_out import RileyAnderson
 from love.friends import Amigo
 from Memory.memory_systems import EmotionalCalling

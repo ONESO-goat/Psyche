@@ -125,7 +125,8 @@ class EmotionalCalling:
                               'tentative', 
                               'understanding', 
                               'confirmation',
-                              'questionable']:
+                              'questionable',
+                              'wistful']:
             return emotion_type
         else:
             return 'neutral'

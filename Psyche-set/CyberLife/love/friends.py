@@ -5,7 +5,7 @@ import copy
 from datetime import date
 from typing import List, Dict, Any, Optional
 
-from trash.CyberLife.BrainAnomaly.BrainAnomaly import Brain
+from BrainAnomaly.BrainAnomaly import Brain
 
 class friends(love):
     """

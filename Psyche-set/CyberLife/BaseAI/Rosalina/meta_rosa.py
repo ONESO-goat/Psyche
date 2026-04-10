@@ -292,12 +292,12 @@ Return ONLY valid JSON:
         if domain not in self.domain_assignments:
             
             info = self._form_general_data(domain=domain)
-            data = self._parse_json(info, default={})
+            parsed = self._parse_json(info, default={})
             
-            if not data or not isinstance(data, dict):
+            if not parsed or not isinstance(parsed, dict):
                 print(f"There was an error creating the new general.")
                 return {}
-            
+            data = parsed['create_general']
             name = data['name']
             gender = data['gender']
             purpose = data['purpose']
