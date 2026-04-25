@@ -169,12 +169,19 @@ class Brain(BrainAnomaly):
             raise NameError("First name cannot be empty")
         
         if len(first_name.split()) > 1:
-            raise NameError("First name cannot contain spaces. Please insert middle name in second part of tuple.")
-        
+            first_name_list = first_name.split()
+            for word in first_name_list:
+                last_name+=f" {word}"
+            first_name = first_name_list[0]
+            print("First name contains more than 2 words, auto reshaping...")
         
         if middle_name and len(middle_name.split()) > 1:
-            raise NameError("Middle name cannot contain spaces.")
-
+            middle_name_list = middle_name.split()
+            for word in middle_name_list:
+                last_name+=f" {word}"
+            middle_name = middle_name_list[0]
+            print("Middle name contains more than 2 words, auto reshaping...")
+        
         if not last_name or last_name.strip() == '':
             raise NameError("Last name cannot be empty")
 

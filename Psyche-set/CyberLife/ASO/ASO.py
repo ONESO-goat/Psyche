@@ -122,7 +122,7 @@ class ASO:
             'processed': True
         }
         
-        debug(f"Memory after ASO processing: {memory_copy}\n")
+        debug(f"Memory after ASO processing: {memory_copy.get('id','')}\n")
         # Update memory in brain
         self.Brain.mind.replace(old=memory, new=memory_copy)
         self.Brain.mind.commit()

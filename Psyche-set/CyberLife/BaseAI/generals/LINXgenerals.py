@@ -172,7 +172,8 @@ Return ONLY valid JSON:
         )
         
         print(f"✓ General '{self.domain}' initialized")
-        print(f"  Vision: {self.vision.get('vision_statement', 'Developing...')}")
+        if self.vision:
+            print(f"  Vision: {self.vision.get('vision_statement', 'Developing...')}")
     
     def process_rosa_insight(self, insight: Dict[str, Any]) -> Dict[str, Any]:
         """

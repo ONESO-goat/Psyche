@@ -1717,7 +1717,9 @@ class RileyAnderson:
         elif data['emotion'] in ['analytical', 
                                  'confident', 
                                  'confident', 
+                                 'wistful',
                                  'questionable',
+                                 'motivated',
                                  'confirmation',
                                  'tentative', 
                                  'understanding']:
@@ -1731,7 +1733,7 @@ class RileyAnderson:
             
             
         else:
-            raise RuntimeError(f"Data doesn't fit any emotions {data['emotion']}, please double check.")
+            raise RuntimeError(f"Data doesn't fit any emotions - ({data['emotion']}), please double check.")
         return test
 
     def detect_emotion(self, emotion_word: str) -> Optional[Emotion]:

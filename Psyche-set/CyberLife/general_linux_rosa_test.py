@@ -94,7 +94,8 @@ print("=" * 70)
 generals = rosa.get_all_generals()
 for g in generals:
     print(f"\nGeneral: {g['domain']}")
-    print(f"  Vision: {g['vision'].get('vision_statement', 'N/A')}")
+    if g['vision']:
+        print(f"  Vision: {g['vision'].get('vision_statement', 'N/A')}")
     print(f"  Theories: {g['theories_count']}")
     print(f"  Assigned LINX: {len(g['assigned_linx'])}")
     print(f"  Confidence: {g['stats']['confidence']:.2f}")

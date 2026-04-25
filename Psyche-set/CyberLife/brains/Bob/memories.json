@@ -1,7 +1,7 @@
 [
   {
     "brain": {
-      "id": "0ea35fdd-0a0f-41d6-9825-6a0ed0432954",
+      "id": "65c693d8-9aaa-4983-8b7f-94f6d94ce388",
       "_personal_data": {
         "name": {
           "full": "Bob  Musician",
@@ -12,7 +12,92 @@
         },
         "friends": {}
       },
-      "mind": [],
+      "mind": [
+        {
+          "id": "f09b311c-d87e-484f-bb6f-b315a68f1970",
+          "content": "This chord progression makes me feel nostalgic",
+          "dominant_emotion": "wistful",
+          "emotion": {
+            "wistful": ""
+          },
+          "importance": 0.75,
+          "Enthusiasm": {
+            "motivation": {
+              "__numpy__": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "dtype": "<f8",
+              "shape": [
+                3,
+                4
+              ]
+            },
+            "inspiration": {
+              "__numpy__": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "dtype": "<f8",
+              "shape": [
+                3,
+                4
+              ]
+            }
+          },
+          "association": {},
+          "timestamp": "2026-04-25T02:54:41.531904",
+          "rosa_meta": {
+            "meta_insight": {},
+            "patterns": [],
+            "strategy": {
+              "use_case": "General knowledge",
+              "confidence": 0.5,
+              "cross_instance_validated": false,
+              "recommendation": ""
+            },
+            "domain": "general",
+            "general_analysis": {},
+            "rosa_processed": true
+          }
+        },
+        {
+          "id": "03ea0ed8-158b-4bb8-b7aa-f526d5fda079",
+          "content": "This chord progression makes me feel nostalgic",
+          "dominant_emotion": "wistful",
+          "emotion": {
+            "wistful": ""
+          },
+          "importance": 0.75,
+          "Enthusiasm": {
+            "motivation": {
+              "__numpy__": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "dtype": "<f8",
+              "shape": [
+                3,
+                4
+              ]
+            },
+            "inspiration": {
+              "__numpy__": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "dtype": "<f8",
+              "shape": [
+                3,
+                4
+              ]
+            }
+          },
+          "association": {},
+          "timestamp": "2026-04-25T02:55:55.696957",
+          "rosa_meta": {
+            "meta_insight": {},
+            "patterns": [],
+            "strategy": {
+              "use_case": "General knowledge",
+              "confidence": 0.5,
+              "cross_instance_validated": false,
+              "recommendation": ""
+            },
+            "domain": "general",
+            "general_analysis": {},
+            "rosa_processed": true
+          }
+        }
+      ],
       "current_objective": [],
       "main_objectives": [],
       "current_objectives": [],
@@ -28,8 +113,8 @@
         }
       },
       "_existence": {
-        "_date": "2026-04-10",
-        "_exact_date": "2026-04-10T12:47:57.940400"
+        "_date": "2026-04-24",
+        "_exact_date": "2026-04-25T02:53:56.357004"
       },
       "decayed_memories": []
     }

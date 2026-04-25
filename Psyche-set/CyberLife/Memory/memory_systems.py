@@ -82,7 +82,7 @@ class EmotionalCalling:
         
         memory = self.emotions.emotion_query(memory, wisdom=wisdom)
         
-        print(f"MEMORY: {memory}\n")
+        print(f"MEMORY: {memory.get('id','')}\n")
 
         if self.__rosa__:
             learn = emotion_data['rosa_lesson']

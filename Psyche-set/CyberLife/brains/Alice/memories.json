@@ -1,7 +1,7 @@
 [
   {
     "brain": {
-      "id": "617c393e-9e39-438e-9148-df8fd40da90f",
+      "id": "d7362e0d-0521-455e-9613-89326469889f",
       "_personal_data": {
         "name": {
           "full": "Alice  Dev",
@@ -14,7 +14,7 @@
       },
       "mind": [
         {
-          "id": "e53bc4ea-499a-4036-a4f9-0f1ec7262975",
+          "id": "be9222b3-aea8-4e99-bbb2-5f92563295a4",
           "content": "I hate leetcode, it feels useless for real work",
           "dominant_emotion": "angry",
           "emotion": {
@@ -53,7 +53,67 @@
             "1": 1.0
           },
           "why_this_feeling": "You feel this way for an unknown reason.",
-          "timestamp": "2026-04-10T12:47:57.941684",
+          "timestamp": "2026-04-25T02:53:56.357431",
+          "rosa_meta": {
+            "meta_insight": {
+              "pattern": "Frustration and demotivation arise when required effort (e.g., LeetCode) is perceived as disconnected or irrelevant to the desired practical outcome (e.g., real work performance). This is a pattern of perceived low utility or poor transfer of learning.",
+              "principle": "Humans are intrinsically motivated by tasks that offer clear purpose, perceived utility, and a direct path to achieving their goals. When this perceived utility is absent, or the effort-to-reward ratio seems unfavorable, motivation wanes, and negative emotions (like frustration) emerge. This relates to expectancy theory and the need for meaning.",
+              "strategy": "When designing learning paths, training, or assessment methods, explicitly bridge the gap between abstract or theoretical exercises and their practical, real-world applications. Provide clear rationales, examples, and context to demonstrate the utility and transferability of skills, even for tasks that might initially seem academic or arbitrary.",
+              "confidence": 0.95,
+              "tags": [
+                "Motivation",
+                "Utility",
+                "Frustration",
+                "Learning Transfer",
+                "Perceived Value",
+                "Goal Alignment",
+                "Cognitive Dissonance"
+              ]
+            },
+            "patterns": [],
+            "strategy": {
+              "use_case": "When designing learning paths, training, or assessment methods, explicitly bridge the gap between abstract or theoretical exercises and their practical, real-world applications. Provide clear rationales, examples, and context to demonstrate the utility and transferability of skills, even for tasks that might initially seem academic or arbitrary.",
+              "confidence": 0.95,
+              "cross_instance_validated": false,
+              "recommendation": "When designing learning paths, training, or assessment methods, explicitly bridge the gap between abstract or theoretical exercises and their practical, real-world applications. Provide clear rationales, examples, and context to demonstrate the utility and transferability of skills, even for tasks that might initially seem academic or arbitrary."
+            },
+            "domain": "coding_interviews",
+            "general_analysis": {
+              "general_id": "34cd6041-efc2-4b00-98b3-86ea90ed8ddd",
+              "domain": "coding_interviews",
+              "analysis": {}
+            },
+            "rosa_processed": true
+          }
+        },
+        {
+          "id": "122dfe14-6fb8-4d29-b4f2-8965be77d2e9",
+          "content": "I learn better from building projects than tutorials",
+          "dominant_emotion": "neutral",
+          "emotion": {
+            "motivated": ""
+          },
+          "importance": 0.5,
+          "Enthusiasm": {
+            "motivation": {
+              "__numpy__": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "dtype": "<f8",
+              "shape": [
+                3,
+                4
+              ]
+            },
+            "inspiration": {
+              "__numpy__": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "dtype": "<f8",
+              "shape": [
+                3,
+                4
+              ]
+            }
+          },
+          "association": {},
+          "timestamp": "2026-04-25T02:54:42.348262",
           "rosa_meta": {
             "meta_insight": {},
             "patterns": [],
@@ -69,7 +129,7 @@
           }
         },
         {
-          "id": "6276861e-afb0-41e8-a80a-773e99fe9364",
+          "id": "fe170c66-c8e3-4000-bcdb-ab21a3897b01",
           "content": "I hate leetcode, it feels useless for real work",
           "dominant_emotion": "angry",
           "emotion": {
@@ -108,25 +168,54 @@
             "1": 1.0
           },
           "why_this_feeling": "You feel this way for an unknown reason.",
-          "timestamp": "2026-04-10T13:03:27.315092"
+          "timestamp": "2026-04-25T02:55:42.417712",
+          "rosa_meta": {
+            "meta_insight": {
+              "pattern": "Frustration and resistance arising from a perceived disconnect between required effort/skills (e.g., LeetCode) and their practical utility or direct relevance to professional goals ('real work').",
+              "principle": "Humans are driven by a need for perceived utility and relevance in their tasks, especially when significant effort is required. A lack of perceived practical application leads to demotivation and negative emotional responses.",
+              "strategy": "When introducing or requiring tasks that might seem abstract or academic, explicitly articulate their real-world applications, underlying principles, or long-term benefits to enhance motivation and mitigate resistance.",
+              "confidence": 0.9,
+              "tags": [
+                "motivation",
+                "utility",
+                "relevance",
+                "frustration",
+                "learning",
+                "skill transfer",
+                "engagement",
+                "interview prep"
+              ]
+            },
+            "patterns": [
+              {
+                "pattern_type": "emotional/cognitive",
+                "description": "Frustration and demotivation arise when required effort (e.g., LeetCode) is perceived as disconnected or irrelevant to the desired practical outcome (e.g., real work performance). This is a pattern of perceived low utility or poor transfer of learning.",
+                "instances": [
+                  "d3ae77fa-8db6-4fa4-ab32-1e834ca581ea",
+                  "439281ce-4c81-4c57-a1a6-aeda65dde2ec"
+                ],
+                "strength": 1.0
+              }
+            ],
+            "strategy": {
+              "use_case": "When introducing or requiring tasks that might seem abstract or academic, explicitly articulate their real-world applications, underlying principles, or long-term benefits to enhance motivation and mitigate resistance.",
+              "confidence": 0.9,
+              "cross_instance_validated": true,
+              "recommendation": "When introducing or requiring tasks that might seem abstract or academic, explicitly articulate their real-world applications, underlying principles, or long-term benefits to enhance motivation and mitigate resistance. (Validated across 1 instances)"
+            },
+            "domain": "coding_interviews",
+            "general_analysis": {},
+            "rosa_processed": true
+          }
         },
         {
-          "id": "887210fb-6b1c-41ff-a61d-2122df9756d4",
-          "content": "I hate leetcode, it feels useless for real work",
-          "dominant_emotion": "angry",
+          "id": "2feb81da-892d-4da7-a0fe-b098213bb888",
+          "content": "I learn better from building projects than tutorials",
+          "dominant_emotion": "neutral",
           "emotion": {
-            "frustration": {
-              "regulation": {
-                "__numpy__": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=",
-                "dtype": "<f8",
-                "shape": [
-                  4,
-                  4
-                ]
-              }
-            }
+            "motivated": ""
           },
-          "importance": 0.75,
+          "importance": 0.5,
           "Enthusiasm": {
             "motivation": {
               "__numpy__": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
@@ -146,11 +235,7 @@
             }
           },
           "association": {},
-          "priority": {
-            "1": 1.0
-          },
-          "why_this_feeling": "You feel this way for an unknown reason.",
-          "timestamp": "2026-04-10T13:11:17.385145",
+          "timestamp": "2026-04-25T02:55:56.447207",
           "rosa_meta": {
             "meta_insight": {},
             "patterns": [],
@@ -181,8 +266,8 @@
         }
       },
       "_existence": {
-        "_date": "2026-04-10",
-        "_exact_date": "2026-04-10T12:47:57.939537"
+        "_date": "2026-04-24",
+        "_exact_date": "2026-04-25T02:53:56.356301"
       },
       "decayed_memories": []
     }

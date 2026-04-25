@@ -1,0 +1,141 @@
+explaintion of ROSA structure, and how to code the AI
+
+1. tokens and speech
+
+unlike other models, rosa takes in info based on logic
+rather than knowing it all. We need to make a dataset where rosa 
+takes in tokens, and interpets the logic out of it. 
+
+
+
+
+BRAIN (JSON) EXAMPLE: 
+
+            {
+                content:{ MUSIC: { # each explaintion will vary to a short explain if early/new to over 10s of thousands to millions of words
+                        Music is a important componet to human
+                        evolution. There are many generes which includes POP, RAP, and ROCK
+                    },
+                importance: {
+                    scale 8.5,
+                    explaintion: Music shapes how one thinks,
+                    why: explaintion on whhy it's important
+                    },
+                assoations: {
+                    list of dictionaries of assoations, with explantions on their connection
+                }
+
+                }
+                content: {
+                    POKEMON: {
+                        explaintion on pokemon
+                    },
+                    importance{
+                        ...
+                    },
+                    assoations{
+                        ...
+                    }
+                }
+                content: {
+                    GYM: {
+                        explaintion on GYM history and equipment
+                    },
+                    importance{
+                        ...
+                    },
+                    assoations{
+                        ...
+                    }
+            }
+            }
+
+
+
+
+
+
+
+                        ROSA
+                          |
+                    ___________________
+                    |                 |
+                    |    The "God"    |
+                    |     Takes in    |
+                    |       data      |----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+                    |                 |                                                                                                     
+                    |                 |
+                    |                 |
+                    ___________________
+                
+                /          |         \
+               /           |          \
+    _______________  _______________  _______________
+    |             |  |             |  |             |
+    |  The "GENE" |  |  The "GENE" |  |  The "GENE" |
+    |   that is   |  |   that is   |  |   that is   |_______________________________________________________
+    |  a piece of |  |  a piece on |  |  a piece on |                                                       |
+    | ROSA on GYMS|  |   POKEMON   |  |    MUSIC    |                                                       |
+    _______________  _______________  _______________                                                       |
+                                                                                                            |
+                                                                                                            |
+                                                                                                            |
+                                                                                                            |      
+                                                                                    _______________  _______________  _______________
+                                                                                    |             |  |             |  |             |
+                                                                                    |  "MANAGER"  |  |  "MANAGER"  |  |  "MANAGER"  |
+                                                                                    |     that    |  |     that    |  |     that    |
+                                                                                    | specializes |  | specializes |  | specializes |                                                       
+                                                                                    |     POP     |  |     ROCK    |  |     RAP     |                                                       
+                                                                                    _______________  _______________  _______________                                                       
+                                                                                                           
+                                                                                                                                
+                                                                                                 /          |         \
+                                                                                                /           |          \
+                                                                                        _______________  _______________  _______________
+                                                                                        |             |  |             |  |             |
+                                                                                        |    "LINX"   |  |    "LINX"   |  |    "LINX"   |
+                                                                                        |    with a   |  |    with a   |  |    with a   |
+                                                                                        |     MUSIC   |  |     MUSIC   |  |     MUSIC   |                                                      
+                                                                                        |   persona   |  |   persona   |  |   persona   |                                                        
+                                                                                        _______________  _______________  _______________  
+                                                                                        
+                                                                                                |               |               |
+                                                                                                 \              |              / 
+                                                                                                  \             |             /
+                                                                                                   \            |            /
+                                                                                                    \           |           /
+                                                                                                     \          |          /
+                                                                                                      \         |         /
+                                                                                                       \        |        /
+                                                                                                        \       |       /
+                                                                                                         \      |      /
+                                                                                                          \     |     /
+                                                                                                           \    |    /
+                                                                                                            \   |   /
+                                                                                                             \  |  /
+                                                                                                              \ | /
+                                                                                                               \|/  
+                                                                                                        ___________________                                               ___________________
+                                                                                                        |                 |                                               |                 |                     |
+                                                                                                        |  New music data |                                               |   Protection    |                   all the way back to rosa
+                                                                                                        |                 |                                               |      layer      |                     |
+                                                                                                        |                 | --------------------------------------------> |     "R.P.L"     |----------------------
+                                                                                                        |                 |                                               |                 |
+                                                                                                        |                 |                                               |                 |
+                                                                                                        |                 |                                               |                 |
+                                                                                                        ___________________                                               ___________________
+                                                                                                                                                                                    |
+                                                                                                                                                                                    |
+                                                                                                                                                                                    |
+                                                                                                                                                                                    |
+                                                                                                                                                                                    |
+                                                                                                                                                                                    |
+                                                                                                                                                                            _______________                     _______________
+                                                                                                                                                                            |     Bad     |                     |             |
+                                                                                                                                                                            |     or      |                     |     neo     |
+                                                                                                                                                                            |   forbidden |---------------------|   radical   |
+                                                                                                                                                                            |   content   |                     |    system   |
+                                                                                                                                                                            _______________                     _______________ 
+                                                                                                
+   

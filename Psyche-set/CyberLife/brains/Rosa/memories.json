@@ -1,24 +1,24 @@
 [
   {
     "brain": {
-      "id": "12bfdce7-56a3-4d72-a41c-f3df430247bf",
+      "id": "59c8e685-b73e-475e-a876-ed83452f28b7",
       "_personal_data": {
         "name": {
-          "full": "Rosa  Core",
+          "full": "Rosa  Test10",
           "middle": "",
           "first": "Rosa",
-          "last": "Core",
+          "last": "Test10",
           "nickname": []
         },
         "friends": {}
       },
       "mind": [
         {
-          "id": "a86734f3-33fa-4298-8291-d718439210bf",
-          "content": "{\n  \"source_linx\": \"b4e07d13-6418-4e88-a27b-811055cd75da\",\n  \"original_content\": \"I hate leetcode, it feels useless\",\n  \"meta_insight\": {\n    \"pattern\": \"Frustration and resistance arise when effort is perceived as disconnected from practical value or real-world utility.\",\n    \"principle\": \"Humans are driven by perceived purpose and utility; tasks lacking these often lead to demotivation and negative emotional responses.\",\n    \"strategy\": \"When assigning or explaining tasks that may seem abstract or tedious (e.g., foundational exercises, theoretical concepts), explicitly articulate their long-term benefits, underlying skill development, or direct applications to enhance perceived value and motivation.\",\n    \"confidence\": 0.95,\n    \"tags\": [\n      \"motivation\",\n      \"utility\",\n      \"frustration\",\n      \"task engagement\",\n      \"perceived value\",\n      \"learning\"\n    ]\n  },\n  \"patterns\": [],\n  \"strategy\": {\n    \"use_case\": \"When assigning or explaining tasks that may seem abstract or tedious (e.g., foundational exercises, theoretical concepts), explicitly articulate their long-term benefits, underlying skill development, or direct applications to enhance perceived value and motivation.\",\n    \"confidence\": 0.95,\n    \"cross_instance_validated\": false,\n    \"recommendation\": \"When assigning or explaining tasks that may seem abstract or tedious (e.g., foundational exercises, theoretical concepts), explicitly articulate their long-term benefits, underlying skill development, or direct applications to enhance perceived value and motivation.\"\n  },\n  \"timestamp\": \"2026-04-06T16:21:19.167690\"\n}",
+          "id": "1ecbcab7-58c7-40e1-8cc6-eb71897fbc5c",
+          "content": "{\n  \"source_linx\": \"d3ae77fa-8db6-4fa4-ab32-1e834ca581ea\",\n  \"original_content\": \"I hate leetcode, it feels useless for real work\",\n  \"meta_insight\": {\n    \"pattern\": \"Frustration and demotivation arise when required effort (e.g., LeetCode) is perceived as disconnected or irrelevant to the desired practical outcome (e.g., real work performance). This is a pattern of perceived low utility or poor transfer of learning.\",\n    \"principle\": \"Humans are intrinsically motivated by tasks that offer clear purpose, perceived utility, and a direct path to achieving their goals. When this perceived utility is absent, or the effort-to-reward ratio seems unfavorable, motivation wanes, and negative emotions (like frustration) emerge. This relates to expectancy theory and the need for meaning.\",\n    \"strategy\": \"When designing learning paths, training, or assessment methods, explicitly bridge the gap between abstract or theoretical exercises and their practical, real-world applications. Provide clear rationales, examples, and context to demonstrate the utility and transferability of skills, even for tasks that might initially seem academic or arbitrary.\",\n    \"confidence\": 0.95,\n    \"tags\": [\n      \"Motivation\",\n      \"Utility\",\n      \"Frustration\",\n      \"Learning Transfer\",\n      \"Perceived Value\",\n      \"Goal Alignment\",\n      \"Cognitive Dissonance\"\n    ]\n  },\n  \"patterns\": [],\n  \"strategy\": {\n    \"use_case\": \"When designing learning paths, training, or assessment methods, explicitly bridge the gap between abstract or theoretical exercises and their practical, real-world applications. Provide clear rationales, examples, and context to demonstrate the utility and transferability of skills, even for tasks that might initially seem academic or arbitrary.\",\n    \"confidence\": 0.95,\n    \"cross_instance_validated\": false,\n    \"recommendation\": \"When designing learning paths, training, or assessment methods, explicitly bridge the gap between abstract or theoretical exercises and their practical, real-world applications. Provide clear rationales, examples, and context to demonstrate the utility and transferability of skills, even for tasks that might initially seem academic or arbitrary.\"\n  },\n  \"domain\": \"coding_interviews\",\n  \"general_analysis\": {\n    \"general_id\": \"34cd6041-efc2-4b00-98b3-86ea90ed8ddd\",\n    \"domain\": \"coding_interviews\",\n    \"analysis\": {}\n  },\n  \"timestamp\": \"2026-04-24T22:54:33.253557\"\n}",
           "dominant_emotion": "analytical",
           "emotion": {
-            "analytical": "{\n  \"answer\": \"People generally experience a complex mix of emotions regarding interview preparation. It is often perceived as a source of significant stress and anxiety due to the high stakes involved and the pressure to perform. However, there is also a strong underlying recognition of its critical importance and necessity for securing desired opportunities. Many find the process daunting and overwhelming, yet acknowledge it as an unavoidable and valuable step.\",\n  \"evidence\": [\n    \"While specific cross-instance patterns from AI-human interactions are not available in the provided data, general human experience and common discourse consistently highlight stress, anxiety, and perceived necessity as core feelings associated with interview preparation.\"\n  ],\n  \"confidence\": 0.65,\n  \"recommendation\": \"To address the prevalent stress and anxiety, organizations and individuals should prioritize creating structured, supportive, and transparent preparation environments. This includes providing clear expectations, offering accessible resources (e.g., common question banks, skill-building exercises), and facilitating mock interviews with constructive, empathetic feedback. Framing preparation as a skill development opportunity rather than just a test can help mitigate negative emotions and foster a more positive, growth-oriented mindset.\"\n}"
+            "analytical": "{}"
           },
           "importance": 0.75,
           "Enthusiasm": {
@@ -40,13 +40,13 @@
             }
           },
           "association": {},
-          "timestamp": "2026-04-06T20:21:23.703297",
+          "timestamp": "2026-04-25T02:54:33.443531",
           "aso_data": {
             "concepts": [
               {
-                "concept": "leetcode",
-                "category": "objects",
-                "importance": 0.7
+                "concept": "perceived utility",
+                "category": "abstract",
+                "importance": 1.0
               },
               {
                 "concept": "frustration",
@@ -54,29 +54,39 @@
                 "importance": 0.9
               },
               {
-                "concept": "perceived value",
-                "category": "abstract",
-                "importance": 1.0
+                "concept": "leetcode",
+                "category": "activities",
+                "importance": 0.8
+              },
+              {
+                "concept": "real work",
+                "category": "activities",
+                "importance": 0.8
               },
               {
                 "concept": "motivation",
                 "category": "abstract",
-                "importance": 0.8
+                "importance": 0.7
               },
               {
-                "concept": "task engagement",
-                "category": "activities",
+                "concept": "learning transfer",
+                "category": "abstract",
                 "importance": 0.7
+              },
+              {
+                "concept": "strategy",
+                "category": "abstract",
+                "importance": 0.6
               }
             ],
-            "associations_count": 21,
+            "associations_count": 0,
             "memory_connections": [],
             "processed": true
           }
         },
         {
-          "id": "bde52b10-9acd-4898-8ec3-ce50cd3c410d",
-          "content": "{\n  \"source_linx\": \"e5124067-8ba8-4f48-a71b-f301f56e4d67\",\n  \"original_content\": \"Interview prep is so disconnected from real work\",\n  \"meta_insight\": {\n    \"pattern\": \"Frustration arising from a perceived disconnect between the skills or methods required for assessment/preparation and those required for actual performance or real-world application.\",\n    \"principle\": \"Humans are driven by a need for perceived utility and direct relevance in their efforts. When preparatory activities feel artificial or misaligned with the ultimate goal, it leads to demotivation, cognitive dissonance, and a sense of wasted effort.\",\n    \"strategy\": \"When designing assessment or training protocols, explicitly bridge the gap between the simulated environment and real-world application. Clearly articulate the 'why' behind specific tasks, demonstrating how they develop transferable skills or test underlying competencies crucial for the actual job, even if the immediate context differs.\",\n    \"confidence\": 0.92,\n    \"tags\": [\n      \"job search\",\n      \"interview prep\",\n      \"relevance\",\n      \"utility\",\n      \"motivation\",\n      \"frustration\",\n      \"cognitive dissonance\",\n      \"assessment design\",\n      \"skill transfer\"\n    ]\n  },\n  \"patterns\": [],\n  \"strategy\": {\n    \"use_case\": \"When designing assessment or training protocols, explicitly bridge the gap between the simulated environment and real-world application. Clearly articulate the 'why' behind specific tasks, demonstrating how they develop transferable skills or test underlying competencies crucial for the actual job, even if the immediate context differs.\",\n    \"confidence\": 0.92,\n    \"cross_instance_validated\": false,\n    \"recommendation\": \"When designing assessment or training protocols, explicitly bridge the gap between the simulated environment and real-world application. Clearly articulate the 'why' behind specific tasks, demonstrating how they develop transferable skills or test underlying competencies crucial for the actual job, even if the immediate context differs.\"\n  },\n  \"timestamp\": \"2026-04-06T16:22:00.127127\"\n}",
+          "id": "de01fc88-a0b2-49bf-821d-105cecd39efb",
+          "content": "{\n  \"source_linx\": \"078004d9-ab9e-4855-81c5-3dda02d6acf9\",\n  \"original_content\": \"This chord progression makes me feel nostalgic\",\n  \"meta_insight\": {},\n  \"patterns\": [],\n  \"strategy\": {\n    \"use_case\": \"General knowledge\",\n    \"confidence\": 0.5,\n    \"cross_instance_validated\": false,\n    \"recommendation\": \"\"\n  },\n  \"domain\": \"general\",\n  \"general_analysis\": {},\n  \"timestamp\": \"2026-04-24T22:54:41.991107\"\n}",
           "dominant_emotion": "analytical",
           "emotion": {
             "analytical": "{}"
@@ -101,11 +111,11 @@
             }
           },
           "association": {},
-          "timestamp": "2026-04-06T20:22:00.328016"
+          "timestamp": "2026-04-25T02:54:42.137278"
         },
         {
-          "id": "39eb12f2-05a8-4346-ae48-dddcf35337e8",
-          "content": "{\n  \"source_linx\": \"74e939b9-327c-44d3-ae93-5c85665af497\",\n  \"original_content\": \"I hate leetcode, it feels useless for real work\",\n  \"meta_insight\": {},\n  \"patterns\": [],\n  \"strategy\": {\n    \"use_case\": \"General knowledge\",\n    \"confidence\": 0.5,\n    \"cross_instance_validated\": false,\n    \"recommendation\": \"\"\n  },\n  \"domain\": \"general\",\n  \"general_analysis\": {},\n  \"timestamp\": \"2026-04-10T08:48:03.442546\"\n}",
+          "id": "ce1802f9-ca6e-4ca2-abf5-24e5a01c47a5",
+          "content": "{\n  \"source_linx\": \"d3ae77fa-8db6-4fa4-ab32-1e834ca581ea\",\n  \"original_content\": \"I learn better from building projects than tutorials\",\n  \"meta_insight\": {},\n  \"patterns\": [],\n  \"strategy\": {\n    \"use_case\": \"General knowledge\",\n    \"confidence\": 0.5,\n    \"cross_instance_validated\": false,\n    \"recommendation\": \"\"\n  },\n  \"domain\": \"general\",\n  \"general_analysis\": {},\n  \"timestamp\": \"2026-04-24T22:54:43.065476\"\n}",
           "dominant_emotion": "analytical",
           "emotion": {
             "analytical": "{}"
@@ -130,11 +140,11 @@
             }
           },
           "association": {},
-          "timestamp": "2026-04-10T12:48:04.268637"
+          "timestamp": "2026-04-25T02:54:43.188550"
         },
         {
-          "id": "d6324a7e-8087-4bbd-a331-9daafb40f646",
-          "content": "{\n  \"source_linx\": \"7941fda5-add7-421d-852b-4f8f22dc5cfa\",\n  \"original_content\": \"I hate leetcode, it feels useless for real work\",\n  \"meta_insight\": {},\n  \"patterns\": [],\n  \"strategy\": {\n    \"use_case\": \"General knowledge\",\n    \"confidence\": 0.5,\n    \"cross_instance_validated\": false,\n    \"recommendation\": \"\"\n  },\n  \"domain\": \"general\",\n  \"general_analysis\": {},\n  \"timestamp\": \"2026-04-10T09:11:20.506419\"\n}",
+          "id": "cec74095-3572-4292-9c58-b1ae75e5dfb6",
+          "content": "{\n  \"source_linx\": \"439281ce-4c81-4c57-a1a6-aeda65dde2ec\",\n  \"original_content\": \"I hate leetcode, it feels useless for real work\",\n  \"meta_insight\": {\n    \"pattern\": \"Frustration and resistance arising from a perceived disconnect between required effort/skills (e.g., LeetCode) and their practical utility or direct relevance to professional goals ('real work').\",\n    \"principle\": \"Humans are driven by a need for perceived utility and relevance in their tasks, especially when significant effort is required. A lack of perceived practical application leads to demotivation and negative emotional responses.\",\n    \"strategy\": \"When introducing or requiring tasks that might seem abstract or academic, explicitly articulate their real-world applications, underlying principles, or long-term benefits to enhance motivation and mitigate resistance.\",\n    \"confidence\": 0.9,\n    \"tags\": [\n      \"motivation\",\n      \"utility\",\n      \"relevance\",\n      \"frustration\",\n      \"learning\",\n      \"skill transfer\",\n      \"engagement\",\n      \"interview prep\"\n    ]\n  },\n  \"patterns\": [\n    {\n      \"pattern_type\": \"emotional/cognitive\",\n      \"description\": \"Frustration and demotivation arise when required effort (e.g., LeetCode) is perceived as disconnected or irrelevant to the desired practical outcome (e.g., real work performance). This is a pattern of perceived low utility or poor transfer of learning.\",\n      \"instances\": [\n        \"d3ae77fa-8db6-4fa4-ab32-1e834ca581ea\",\n        \"439281ce-4c81-4c57-a1a6-aeda65dde2ec\"\n      ],\n      \"strength\": 1.0\n    }\n  ],\n  \"strategy\": {\n    \"use_case\": \"When introducing or requiring tasks that might seem abstract or academic, explicitly articulate their real-world applications, underlying principles, or long-term benefits to enhance motivation and mitigate resistance.\",\n    \"confidence\": 0.9,\n    \"cross_instance_validated\": true,\n    \"recommendation\": \"When introducing or requiring tasks that might seem abstract or academic, explicitly articulate their real-world applications, underlying principles, or long-term benefits to enhance motivation and mitigate resistance. (Validated across 1 instances)\"\n  },\n  \"domain\": \"coding_interviews\",\n  \"general_analysis\": {},\n  \"timestamp\": \"2026-04-24T22:55:55.379555\"\n}",
           "dominant_emotion": "analytical",
           "emotion": {
             "analytical": "{}"
@@ -159,7 +169,65 @@
             }
           },
           "association": {},
-          "timestamp": "2026-04-10T13:11:21.374436"
+          "timestamp": "2026-04-25T02:55:55.508850"
+        },
+        {
+          "id": "2bae1da1-28f1-48d1-9365-22fa32692c7b",
+          "content": "{\n  \"source_linx\": \"f15171dc-69b9-4f3f-b2ea-554e566f6a83\",\n  \"original_content\": \"This chord progression makes me feel nostalgic\",\n  \"meta_insight\": {},\n  \"patterns\": [],\n  \"strategy\": {\n    \"use_case\": \"General knowledge\",\n    \"confidence\": 0.5,\n    \"cross_instance_validated\": false,\n    \"recommendation\": \"\"\n  },\n  \"domain\": \"general\",\n  \"general_analysis\": {},\n  \"timestamp\": \"2026-04-24T22:55:56.215011\"\n}",
+          "dominant_emotion": "analytical",
+          "emotion": {
+            "analytical": "{}"
+          },
+          "importance": 0.75,
+          "Enthusiasm": {
+            "motivation": {
+              "__numpy__": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "dtype": "<f8",
+              "shape": [
+                3,
+                4
+              ]
+            },
+            "inspiration": {
+              "__numpy__": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "dtype": "<f8",
+              "shape": [
+                3,
+                4
+              ]
+            }
+          },
+          "association": {},
+          "timestamp": "2026-04-25T02:55:56.335299"
+        },
+        {
+          "id": "64dbf88e-3c52-43ce-ae5c-e2c0e38786fc",
+          "content": "{\n  \"source_linx\": \"439281ce-4c81-4c57-a1a6-aeda65dde2ec\",\n  \"original_content\": \"I learn better from building projects than tutorials\",\n  \"meta_insight\": {},\n  \"patterns\": [],\n  \"strategy\": {\n    \"use_case\": \"General knowledge\",\n    \"confidence\": 0.5,\n    \"cross_instance_validated\": false,\n    \"recommendation\": \"\"\n  },\n  \"domain\": \"general\",\n  \"general_analysis\": {},\n  \"timestamp\": \"2026-04-24T22:55:57.095152\"\n}",
+          "dominant_emotion": "analytical",
+          "emotion": {
+            "analytical": "{}"
+          },
+          "importance": 0.75,
+          "Enthusiasm": {
+            "motivation": {
+              "__numpy__": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "dtype": "<f8",
+              "shape": [
+                3,
+                4
+              ]
+            },
+            "inspiration": {
+              "__numpy__": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "dtype": "<f8",
+              "shape": [
+                3,
+                4
+              ]
+            }
+          },
+          "association": {},
+          "timestamp": "2026-04-25T02:55:57.222521"
         }
       ],
       "current_objective": [],
@@ -177,439 +245,16 @@
         }
       },
       "_existence": {
-        "_date": "2026-04-06",
-        "_exact_date": "2026-04-06T20:19:48.023571"
+        "_date": "2026-04-24",
+        "_exact_date": "2026-04-25T02:53:55.510582"
       },
       "decayed_memories": [],
       "associations": {
-        "graph": {
-          "leetcode": [
-            {
-              "source": "leetcode",
-              "target": "algorithms",
-              "strength": 0.9,
-              "type": "semantic",
-              "reason": "LeetCode is fundamentally a platform dedicated to practicing and learning various algorithms.",
-              "memory_id": "a86734f3-33fa-4298-8291-d718439210bf",
-              "created": "2026-04-06T16:21:38.516480"
-            },
-            {
-              "source": "leetcode",
-              "target": "coding interview",
-              "strength": 0.85,
-              "type": "functional",
-              "reason": "A primary use of LeetCode is to prepare for technical coding interviews at software companies.",
-              "memory_id": "a86734f3-33fa-4298-8291-d718439210bf",
-              "created": "2026-04-06T16:21:38.516551"
-            },
-            {
-              "source": "leetcode",
-              "target": "data structures",
-              "strength": 0.8,
-              "type": "semantic",
-              "reason": "Understanding and applying data structures is essential for solving problems on LeetCode.",
-              "memory_id": "a86734f3-33fa-4298-8291-d718439210bf",
-              "created": "2026-04-06T16:21:38.516585"
-            },
-            {
-              "source": "leetcode",
-              "target": "frustration",
-              "strength": 0.7,
-              "type": "emotional",
-              "reason": "The provided context explicitly mentions the frustration users can feel when perceiving LeetCode as useless or impractical.",
-              "memory_id": "a86734f3-33fa-4298-8291-d718439210bf",
-              "created": "2026-04-06T16:21:38.516613"
-            },
-            {
-              "source": "leetcode",
-              "target": "problem solving",
-              "strength": 0.75,
-              "type": "functional",
-              "reason": "LeetCode challenges are designed to develop and test a user's problem-solving skills in programming.",
-              "memory_id": "a86734f3-33fa-4298-8291-d718439210bf",
-              "created": "2026-04-06T16:21:38.516648"
-            },
-            {
-              "source": "leetcode",
-              "target": "software engineer",
-              "strength": 0.6,
-              "type": "semantic",
-              "reason": "LeetCode is predominantly used by aspiring and current software engineers for career advancement and skill maintenance.",
-              "memory_id": "a86734f3-33fa-4298-8291-d718439210bf",
-              "created": "2026-04-06T16:21:38.516678"
-            },
-            {
-              "source": "leetcode",
-              "target": "practice",
-              "strength": 0.7,
-              "type": "functional",
-              "reason": "LeetCode provides a structured environment for consistent and repetitive coding practice.",
-              "memory_id": "a86734f3-33fa-4298-8291-d718439210bf",
-              "created": "2026-04-06T16:21:38.516704"
-            }
-          ],
-          "algorithms": [
-            {
-              "source": "algorithms",
-              "target": "leetcode",
-              "strength": 0.9,
-              "type": "semantic",
-              "reason": "LeetCode is fundamentally a platform dedicated to practicing and learning various algorithms.",
-              "memory_id": "a86734f3-33fa-4298-8291-d718439210bf",
-              "created": "2026-04-06T16:21:38.516525"
-            }
-          ],
-          "coding interview": [
-            {
-              "source": "coding interview",
-              "target": "leetcode",
-              "strength": 0.85,
-              "type": "functional",
-              "reason": "A primary use of LeetCode is to prepare for technical coding interviews at software companies.",
-              "memory_id": "a86734f3-33fa-4298-8291-d718439210bf",
-              "created": "2026-04-06T16:21:38.516566"
-            }
-          ],
-          "data structures": [
-            {
-              "source": "data structures",
-              "target": "leetcode",
-              "strength": 0.8,
-              "type": "semantic",
-              "reason": "Understanding and applying data structures is essential for solving problems on LeetCode.",
-              "memory_id": "a86734f3-33fa-4298-8291-d718439210bf",
-              "created": "2026-04-06T16:21:38.516598"
-            }
-          ],
-          "frustration": [
-            {
-              "source": "frustration",
-              "target": "leetcode",
-              "strength": 0.7,
-              "type": "emotional",
-              "reason": "The provided context explicitly mentions the frustration users can feel when perceiving LeetCode as useless or impractical.",
-              "memory_id": "a86734f3-33fa-4298-8291-d718439210bf",
-              "created": "2026-04-06T16:21:38.516631"
-            },
-            {
-              "source": "frustration",
-              "target": "demotivation",
-              "strength": 0.9,
-              "type": "causal",
-              "reason": "Frustration, particularly when a task lacks perceived value or utility, often leads directly to a loss of motivation.",
-              "memory_id": "a86734f3-33fa-4298-8291-d718439210bf",
-              "created": "2026-04-06T16:21:46.199218"
-            },
-            {
-              "source": "frustration",
-              "target": "obstacle",
-              "strength": 0.85,
-              "type": "causal",
-              "reason": "The presence of a barrier or hindrance preventing progress toward a goal is a common trigger for frustration.",
-              "memory_id": "a86734f3-33fa-4298-8291-d718439210bf",
-              "created": "2026-04-06T16:21:46.199310"
-            },
-            {
-              "source": "frustration",
-              "target": "lack of progress",
-              "strength": 0.8,
-              "type": "causal",
-              "reason": "The inability to make headway or achieve desired results despite effort is a primary cause of frustration.",
-              "memory_id": "a86734f3-33fa-4298-8291-d718439210bf",
-              "created": "2026-04-06T16:21:46.199384"
-            },
-            {
-              "source": "frustration",
-              "target": "irritation",
-              "strength": 0.75,
-              "type": "emotional",
-              "reason": "Irritation is a closely related emotional state, often accompanying or escalating into frustration.",
-              "memory_id": "a86734f3-33fa-4298-8291-d718439210bf",
-              "created": "2026-04-06T16:21:46.199429"
-            },
-            {
-              "source": "frustration",
-              "target": "giving up",
-              "strength": 0.7,
-              "type": "causal",
-              "reason": "Sustained or overwhelming frustration can ultimately lead an individual to abandon their efforts or task.",
-              "memory_id": "a86734f3-33fa-4298-8291-d718439210bf",
-              "created": "2026-04-06T16:21:46.199476"
-            },
-            {
-              "source": "frustration",
-              "target": "anger",
-              "strength": 0.65,
-              "type": "causal",
-              "reason": "If not resolved or if intensified, frustration can escalate into stronger negative emotions such as anger.",
-              "memory_id": "a86734f3-33fa-4298-8291-d718439210bf",
-              "created": "2026-04-06T16:21:46.199506"
-            },
-            {
-              "source": "frustration",
-              "target": "problem-solving",
-              "strength": 0.6,
-              "type": "temporal",
-              "reason": "Frustration is a common emotional experience encountered during complex problem-solving attempts when solutions are elusive.",
-              "memory_id": "a86734f3-33fa-4298-8291-d718439210bf",
-              "created": "2026-04-06T16:21:46.199534"
-            },
-            {
-              "source": "frustration",
-              "target": "perceived value",
-              "strength": 0.8,
-              "type": "emotional",
-              "reason": "A low or absent perceived value for an effort or task often leads to feelings of frustration.",
-              "memory_id": "a86734f3-33fa-4298-8291-d718439210bf",
-              "created": "2026-04-06T16:21:54.287994"
-            }
-          ],
-          "problem solving": [
-            {
-              "source": "problem solving",
-              "target": "leetcode",
-              "strength": 0.75,
-              "type": "functional",
-              "reason": "LeetCode challenges are designed to develop and test a user's problem-solving skills in programming.",
-              "memory_id": "a86734f3-33fa-4298-8291-d718439210bf",
-              "created": "2026-04-06T16:21:38.516663"
-            }
-          ],
-          "software engineer": [
-            {
-              "source": "software engineer",
-              "target": "leetcode",
-              "strength": 0.6,
-              "type": "semantic",
-              "reason": "LeetCode is predominantly used by aspiring and current software engineers for career advancement and skill maintenance.",
-              "memory_id": "a86734f3-33fa-4298-8291-d718439210bf",
-              "created": "2026-04-06T16:21:38.516690"
-            }
-          ],
-          "practice": [
-            {
-              "source": "practice",
-              "target": "leetcode",
-              "strength": 0.7,
-              "type": "functional",
-              "reason": "LeetCode provides a structured environment for consistent and repetitive coding practice.",
-              "memory_id": "a86734f3-33fa-4298-8291-d718439210bf",
-              "created": "2026-04-06T16:21:38.516716"
-            }
-          ],
-          "demotivation": [
-            {
-              "source": "demotivation",
-              "target": "frustration",
-              "strength": 0.9,
-              "type": "causal",
-              "reason": "Frustration, particularly when a task lacks perceived value or utility, often leads directly to a loss of motivation.",
-              "memory_id": "a86734f3-33fa-4298-8291-d718439210bf",
-              "created": "2026-04-06T16:21:46.199275"
-            }
-          ],
-          "obstacle": [
-            {
-              "source": "obstacle",
-              "target": "frustration",
-              "strength": 0.85,
-              "type": "causal",
-              "reason": "The presence of a barrier or hindrance preventing progress toward a goal is a common trigger for frustration.",
-              "memory_id": "a86734f3-33fa-4298-8291-d718439210bf",
-              "created": "2026-04-06T16:21:46.199335"
-            }
-          ],
-          "lack of progress": [
-            {
-              "source": "lack of progress",
-              "target": "frustration",
-              "strength": 0.8,
-              "type": "causal",
-              "reason": "The inability to make headway or achieve desired results despite effort is a primary cause of frustration.",
-              "memory_id": "a86734f3-33fa-4298-8291-d718439210bf",
-              "created": "2026-04-06T16:21:46.199404"
-            }
-          ],
-          "irritation": [
-            {
-              "source": "irritation",
-              "target": "frustration",
-              "strength": 0.75,
-              "type": "emotional",
-              "reason": "Irritation is a closely related emotional state, often accompanying or escalating into frustration.",
-              "memory_id": "a86734f3-33fa-4298-8291-d718439210bf",
-              "created": "2026-04-06T16:21:46.199450"
-            }
-          ],
-          "giving up": [
-            {
-              "source": "giving up",
-              "target": "frustration",
-              "strength": 0.7,
-              "type": "causal",
-              "reason": "Sustained or overwhelming frustration can ultimately lead an individual to abandon their efforts or task.",
-              "memory_id": "a86734f3-33fa-4298-8291-d718439210bf",
-              "created": "2026-04-06T16:21:46.199489"
-            }
-          ],
-          "anger": [
-            {
-              "source": "anger",
-              "target": "frustration",
-              "strength": 0.65,
-              "type": "causal",
-              "reason": "If not resolved or if intensified, frustration can escalate into stronger negative emotions such as anger.",
-              "memory_id": "a86734f3-33fa-4298-8291-d718439210bf",
-              "created": "2026-04-06T16:21:46.199518"
-            }
-          ],
-          "problem-solving": [
-            {
-              "source": "problem-solving",
-              "target": "frustration",
-              "strength": 0.6,
-              "type": "temporal",
-              "reason": "Frustration is a common emotional experience encountered during complex problem-solving attempts when solutions are elusive.",
-              "memory_id": "a86734f3-33fa-4298-8291-d718439210bf",
-              "created": "2026-04-06T16:21:46.199546"
-            }
-          ],
-          "perceived value": [
-            {
-              "source": "perceived value",
-              "target": "motivation",
-              "strength": 0.9,
-              "type": "causal",
-              "reason": "High perceived value directly increases an individual's motivation to engage with a task or product.",
-              "memory_id": "a86734f3-33fa-4298-8291-d718439210bf",
-              "created": "2026-04-06T16:21:54.287735"
-            },
-            {
-              "source": "perceived value",
-              "target": "utility",
-              "strength": 0.85,
-              "type": "semantic",
-              "reason": "Perceived value is often based on the subjective assessment of how useful or practical something is.",
-              "memory_id": "a86734f3-33fa-4298-8291-d718439210bf",
-              "created": "2026-04-06T16:21:54.287799"
-            },
-            {
-              "source": "perceived value",
-              "target": "customer satisfaction",
-              "strength": 0.75,
-              "type": "causal",
-              "reason": "When a product or service's perceived value is high, it typically leads to greater customer satisfaction.",
-              "memory_id": "a86734f3-33fa-4298-8291-d718439210bf",
-              "created": "2026-04-06T16:21:54.287855"
-            },
-            {
-              "source": "perceived value",
-              "target": "price",
-              "strength": 0.7,
-              "type": "functional",
-              "reason": "The perceived value of an item greatly influences the price a consumer is willing to pay for it.",
-              "memory_id": "a86734f3-33fa-4298-8291-d718439210bf",
-              "created": "2026-04-06T16:21:54.287896"
-            },
-            {
-              "source": "perceived value",
-              "target": "quality",
-              "strength": 0.8,
-              "type": "causal",
-              "reason": "Higher perceived quality typically enhances the overall perceived value of a product or service.",
-              "memory_id": "a86734f3-33fa-4298-8291-d718439210bf",
-              "created": "2026-04-06T16:21:54.287940"
-            },
-            {
-              "source": "perceived value",
-              "target": "frustration",
-              "strength": 0.8,
-              "type": "emotional",
-              "reason": "A low or absent perceived value for an effort or task often leads to feelings of frustration.",
-              "memory_id": "a86734f3-33fa-4298-8291-d718439210bf",
-              "created": "2026-04-06T16:21:54.287979"
-            },
-            {
-              "source": "perceived value",
-              "target": "expectations",
-              "strength": 0.75,
-              "type": "causal",
-              "reason": "An individual's initial expectations significantly shape their ultimate perception of value.",
-              "memory_id": "a86734f3-33fa-4298-8291-d718439210bf",
-              "created": "2026-04-06T16:21:54.288009"
-            }
-          ],
-          "motivation": [
-            {
-              "source": "motivation",
-              "target": "perceived value",
-              "strength": 0.9,
-              "type": "causal",
-              "reason": "High perceived value directly increases an individual's motivation to engage with a task or product.",
-              "memory_id": "a86734f3-33fa-4298-8291-d718439210bf",
-              "created": "2026-04-06T16:21:54.287774"
-            }
-          ],
-          "utility": [
-            {
-              "source": "utility",
-              "target": "perceived value",
-              "strength": 0.85,
-              "type": "semantic",
-              "reason": "Perceived value is often based on the subjective assessment of how useful or practical something is.",
-              "memory_id": "a86734f3-33fa-4298-8291-d718439210bf",
-              "created": "2026-04-06T16:21:54.287824"
-            }
-          ],
-          "customer satisfaction": [
-            {
-              "source": "customer satisfaction",
-              "target": "perceived value",
-              "strength": 0.75,
-              "type": "causal",
-              "reason": "When a product or service's perceived value is high, it typically leads to greater customer satisfaction.",
-              "memory_id": "a86734f3-33fa-4298-8291-d718439210bf",
-              "created": "2026-04-06T16:21:54.287872"
-            }
-          ],
-          "price": [
-            {
-              "source": "price",
-              "target": "perceived value",
-              "strength": 0.7,
-              "type": "functional",
-              "reason": "The perceived value of an item greatly influences the price a consumer is willing to pay for it.",
-              "memory_id": "a86734f3-33fa-4298-8291-d718439210bf",
-              "created": "2026-04-06T16:21:54.287914"
-            }
-          ],
-          "quality": [
-            {
-              "source": "quality",
-              "target": "perceived value",
-              "strength": 0.8,
-              "type": "causal",
-              "reason": "Higher perceived quality typically enhances the overall perceived value of a product or service.",
-              "memory_id": "a86734f3-33fa-4298-8291-d718439210bf",
-              "created": "2026-04-06T16:21:54.287960"
-            }
-          ],
-          "expectations": [
-            {
-              "source": "expectations",
-              "target": "perceived value",
-              "strength": 0.75,
-              "type": "causal",
-              "reason": "An individual's initial expectations significantly shape their ultimate perception of value.",
-              "memory_id": "a86734f3-33fa-4298-8291-d718439210bf",
-              "created": "2026-04-06T16:21:54.288022"
-            }
-          ]
-        },
+        "graph": {},
         "metadata": {
-          "total_concepts": 22,
-          "total_associations": 42,
-          "last_updated": "2026-04-06T16:21:54.288031"
+          "total_concepts": 0,
+          "total_associations": 0,
+          "last_updated": "2026-04-24T22:53:55.511252"
         }
       }
     }
