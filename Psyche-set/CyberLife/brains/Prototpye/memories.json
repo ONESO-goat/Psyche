@@ -1,0 +1,163 @@
+[
+  {
+    "brain": {
+      "id": "dc6b602b-7cf2-4907-80e2-01038850d1fa",
+      "_personal_data": {
+        "name": {
+          "full": "Prototpye  Psyche",
+          "middle": "",
+          "first": "Prototpye",
+          "last": "Psyche",
+          "nickname": []
+        },
+        "friends": {}
+      },
+      "mind": [
+        {
+          "id": "79a8b533-92c0-4215-8844-067733d003c0",
+          "content": "{\n  \"source_linx\": \"e249ff8f-5b89-4e91-a262-1b99838b2c8a\",\n  \"original_content\": \"[]\",\n  \"meta_insight\": {\n    \"pattern\": \"No data present\",\n    \"principle\": \"Perceived utility\",\n    \"strategy\": \"Focus on utility\",\n    \"confidence\": 0.0,\n    \"tags\": []\n  },\n  \"patterns\": [],\n  \"strategy\": {\n    \"use_case\": \"Focus on utility\",\n    \"confidence\": 0.0,\n    \"cross_instance_validated\": false,\n    \"recommendation\": \"Focus on utility\"\n  },\n  \"domain\": \"learning_psychology\",\n  \"general_analysis\": {\n    \"general_id\": \"2117d44f-73e6-4389-85c9-c7730017a536\",\n    \"domain\": \"learning_psychology\",\n    \"analysis\": {}\n  },\n  \"timestamp\": \"2026-04-27T11:12:30.285501\"\n}",
+          "dominant_emotion": "analytical",
+          "emotion": {
+            "analytical": "{\n  \"answer\": \"Most people find interview preparation beneficial, as it helps them prepare for the job.\",\n  \"evidence\": [],\n  \"confidence\": 0.0,\n  \"recommendation\": \"Recommend preparing well for the interview to gain confidence and improve job prospects.\"\n}"
+          },
+          "importance": 0.75,
+          "Enthusiasm": {
+            "motivation": {
+              "__numpy__": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "dtype": "<f8",
+              "shape": [
+                3,
+                4
+              ]
+            },
+            "inspiration": {
+              "__numpy__": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "dtype": "<f8",
+              "shape": [
+                3,
+                4
+              ]
+            }
+          },
+          "association": {},
+          "timestamp": "2026-04-27T15:12:45.247690",
+          "aso_data": {
+            "concepts": [
+              {
+                "concept": "utility",
+                "category": "activities",
+                "importance": 0.0
+              }
+            ],
+            "associations_count": 0,
+            "memory_connections": [],
+            "processed": true
+          }
+        },
+        {
+          "id": "bc5a6960-86f6-4271-b64d-8c6d1185c800",
+          "content": "[]",
+          "dominant_emotion": "happy",
+          "emotion": {
+            "joy": {
+              "regulation": {
+                "__numpy__": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=",
+                "dtype": "<f8",
+                "shape": [
+                  4,
+                  4
+                ]
+              }
+            }
+          },
+          "importance": 0.75,
+          "Enthusiasm": {
+            "motivation": {
+              "__numpy__": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "dtype": "<f8",
+              "shape": [
+                3,
+                4
+              ]
+            },
+            "inspiration": {
+              "__numpy__": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "dtype": "<f8",
+              "shape": [
+                3,
+                4
+              ]
+            }
+          },
+          "association": {},
+          "priority": {
+            "1": 1.0
+          },
+          "why_this_feeling": "You feel this way for an unknown reason.",
+          "timestamp": "2026-04-27T15:09:07.376394",
+          "rosa_meta": {
+            "meta_insight": {
+              "pattern": "No data present",
+              "principle": "Perceived utility",
+              "strategy": "Focus on utility",
+              "confidence": 0.0,
+              "tags": []
+            },
+            "patterns": [],
+            "strategy": {
+              "use_case": "Focus on utility",
+              "confidence": 0.0,
+              "cross_instance_validated": false,
+              "recommendation": "Focus on utility"
+            },
+            "domain": "learning_psychology",
+            "general_analysis": {
+              "general_id": "2117d44f-73e6-4389-85c9-c7730017a536",
+              "domain": "learning_psychology",
+              "analysis": {}
+            },
+            "rosa_processed": true
+          }
+        }
+      ],
+      "current_objective": [],
+      "main_objectives": [],
+      "current_objectives": [],
+      "main_goal": [],
+      "overall_Enthusiam": {
+        "inspiration": {
+          "scale": 0.0,
+          "details": "No data available for this brain yet."
+        },
+        "motivation": {
+          "scale": 0.0,
+          "details": "No data available for this brain yet."
+        }
+      },
+      "_existence": {
+        "_date": "2026-04-27",
+        "_exact_date": "2026-04-27T14:51:48.565497"
+      },
+      "decayed_memories": [],
+      "associations": {
+        "graph": {},
+        "metadata": {
+          "total_concepts": 0,
+          "total_associations": 0,
+          "last_updated": "2026-04-27T10:54:26.380435"
+        }
+      }
+    },
+    "owner_info": {
+      "first_owner": {
+        "name": "JuliusThe3rd Developer",
+        "start": "2026-04-27"
+      },
+      "current_owner": {
+        "name": "JuliusThe3rd Developer",
+        "start": "2026-04-27"
+      },
+      "previous_owners": []
+    }
+  }
+]

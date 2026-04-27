@@ -1,0 +1,716 @@
+# CyberLife System Test Cases
+## ROSA → General → LINX Hierarchy
+
+Legend:
+🟩 - Fully functional and tested
+🟨 - Partially working, needs refinement
+🟥 - Not yet implemented or failing
+⏳ - In progress
+🔒 - Blocked by dependency
+
+---
+
+## PHASE 1: CORE INITIALIZATION
+
+### 1. ROSA Initialization - 🟥
+**Description:** ROSA (supreme intelligence) initializes correctly with all systems
+**Expected Behavior:**
+- ROSA brain created successfully
+- ASO (Association System) initialized
+- Backend (Gemini/Ollama) connected
+- Meta-patterns list initialized
+- Strategic insights list initialized
+**Test Command:**
+```python
+rosa_brain = Brain(name=('ROSA', '', 'SUPREME'))
+rosa = MetaROSA(brain=rosa_brain, api_key='key', model='gemini')
+assert rosa.backend == 'gemini'
+assert rosa.aso is not None
+print("✓ ROSA initialized")
+```
+**Dependencies:** None
+**Priority:** CRITICAL
+
+---
+
+### 2. LINX Instance Creation - 🟥
+**Description:** LINX instance is created and registers with ROSA
+**Expected Behavior:**
+- LINX brain created with correct name structure
+- Gender-specific model assigned (L.I.N.A/L.I.N.O/L.I.N.X)
+- Unique linx_id generated
+- Successfully registers with ROSA
+- ROSA tracks LINX in linx_instances dict
+**Test Command:**
+```python
+brain = Brain(name=('Alice', '', 'Assistant'))
+linx = LinaXLino(
+    Brain=brain,
+    owners_name=('Alice', '', ''),
+    gender='female',
+    passcode_between_me_and_owner='secret',
+    rosa=rosa
+)
+assert linx.model == 'L.I.N.A'
+assert linx.linx_id in rosa.linx_instances
+print(f"✓ LINX created: {linx.linx_id}")
+```
+**Dependencies:** Test #1 (ROSA initialization)
+**Priority:** CRITICAL
+
+---
+
+### 3. Multiple LINX Instances - 🟥
+**Description:** Create multiple LINX instances with different genders/purposes
+**Expected Behavior:**
+- All LINX instances register with ROSA independently
+- Each has unique linx_id
+- ROSA tracks all instances
+- No conflicts between instances
+**Test Command:**
+```python
+linx_a = LinaXLino(Brain=brain_a, owners_name=('Alice','',''), gender='female', passcode='secret', rosa=rosa)
+linx_b = LinaXLino(Brain=brain_b, owners_name=('Bob','',''), gender='male', passcode='secret', rosa=rosa)
+linx_c = LinaXLino(Brain=brain_c, owners_name=('Charlie','',''), gender='other', passcode='secret', rosa=rosa)
+
+assert len(rosa.linx_instances) == 3
+assert linx_a.model == 'L.I.N.A'
+assert linx_b.model == 'L.I.N.O'
+assert linx_c.model == 'L.I.N.X'
+print("✓ Multiple LINX instances created")
+```
+**Dependencies:** Test #1, #2
+**Priority:** HIGH
+
+---
+
+## PHASE 2: MEMORY PROCESSING
+
+### 4. LINX Memory Storage (Local) - 🟥
+**Description:** LINX stores memory in its own brain without ROSA sync
+**Expected Behavior:**
+- Memory encoded with emotion
+- Stored in LINX's Brain.mind
+- Importance value recorded
+- Timestamp added
+- Accessible via Brain.mind.get_all()
+**Test Command:**
+```python
+linx.Brain.remember(
+    content="I love programming in Python",
+    emotion='joy',
+    importance=0.7
+)
+memories = linx.Brain.mind.get_all()
+assert len(memories) > 0
+assert memories[-1]['content'] == "I love programming in Python"
+print("✓ LINX stores memory locally")
+```
+**Dependencies:** Test #2
+**Priority:** CRITICAL
+
+---
+
+### 5. LINX Memory Sync to ROSA - 🟥
+**Description:** LINX memory syncs to ROSA for meta-analysis
+**Expected Behavior:**
+- Memory sent to ROSA via remember_with_rosa()
+- ROSA receives full memory dict (content, emotion, importance, context)
+- ROSA processes memory successfully
+- Returns analysis dict to LINX
+- LINX stores ROSA's analysis in memory['rosa_meta']
+**Test Command:**
+```python
+linx.remember_with_rosa(
+    content="I hate leetcode interviews",
+    emotion="frustrated",
+    importance=0.8,
+    context="coding interviews"
+)
+memories = linx.Brain.mind.get_all()
+latest = memories[-1]
+assert 'rosa_meta' in latest
+assert latest['rosa_meta']['rosa_processed'] == True
+print("✓ LINX syncs to ROSA")
+```
+**Dependencies:** Test #2
+**Priority:** CRITICAL
+
+---
+
+### 6. ROSA Meta-Insight Extraction - 🟥
+**Description:** ROSA extracts meta-level insights from LINX memory
+**Expected Behavior:**
+- Identifies underlying human pattern
+- Extracts broader principle
+- Generates strategic knowledge
+- Returns confidence score (0.0-1.0)
+- Tags assigned for categorization
+**Test Command:**
+```python
+insight = rosa._extract_meta_insight(
+    content="I hate leetcode interviews",
+    emotion="frustrated",
+    context="coding interviews",
+    linx_id=linx.linx_id
+)
+assert 'pattern' in insight
+assert 'principle' in insight
+assert 'strategy' in insight
+assert 'confidence' in insight
+assert 'tags' in insight
+assert isinstance(insight['confidence'], float)
+print(f"✓ Pattern: {insight['pattern']}")
+```
+**Dependencies:** Test #5
+**Priority:** HIGH
+
+---
+
+### 7. Cross-Instance Pattern Recognition - 🟥
+**Description:** ROSA finds patterns across multiple LINX instances
+**Expected Behavior:**
+- Compares new memory to existing memories from other LINX
+- Identifies similar emotional dynamics
+- Finds recurring concepts
+- Returns list of patterns with strength scores
+- Empty list if no patterns found
+**Test Command:**
+```python
+# LINX A adds memory
+linx_a.remember_with_rosa("I hate leetcode", emotion="frustrated", importance=0.8, context="interviews")
+
+# LINX B adds similar memory
+linx_b.remember_with_rosa("Interview prep feels disconnected from real work", emotion="frustrated", importance=0.7, context="job search")
+
+# Check for pattern
+patterns = rosa._find_cross_patterns(
+    content="Interview prep feels disconnected",
+    emotion="frustrated",
+    linx_id=linx_b.linx_id
+)
+assert len(patterns) > 0
+assert patterns[0]['pattern_type'] in ['emotional', 'cognitive', 'behavioral']
+print(f"✓ Found {len(patterns)} cross-instance patterns")
+```
+**Dependencies:** Test #3, #5, #6
+**Priority:** MEDIUM
+
+---
+
+### 8. Domain Classification - 🟥
+**Description:** ROSA classifies memory into specific domain
+**Expected Behavior:**
+- Analyzes content, context, and meta-insight
+- Returns specific domain name (not generic)
+- Provides confidence score
+- Includes reasoning for classification
+- Domain name lowercase with underscores
+**Test Command:**
+```python
+domain = rosa._classify_domain(
+    content="I hate leetcode interviews",
+    context="coding interviews",
+    insight={'pattern': 'Frustration with interview prep', 'tags': ['coding', 'interviews']}
+)
+assert domain != 'general'
+assert '_' in domain or domain.isalpha()
+assert domain in ['coding_interviews', 'software_engineering', 'career_development']
+print(f"✓ Classified domain: {domain}")
+```
+**Dependencies:** Test #6
+**Priority:** HIGH
+
+---
+
+## PHASE 3: GENERAL CREATION & MANAGEMENT
+
+### 9. General Auto-Creation - 🟥
+**Description:** ROSA automatically creates General for new domain
+**Expected Behavior:**
+- Detects domain has no assigned General
+- Creates new General instance
+- Assigns unique general_id
+- Stores in rosa.generals dict
+- Maps domain to general_id in rosa.domain_assignments
+- General initializes with vision
+**Test Command:**
+```python
+# Ensure domain doesn't exist yet
+assert 'coding_interviews' not in rosa.domain_assignments
+
+# Process memory that requires new domain
+linx.remember_with_rosa("Leetcode is frustrating", emotion="frustrated", importance=0.8, context="interviews")
+
+# Check General was created
+assert 'coding_interviews' in rosa.domain_assignments
+general_id = rosa.domain_assignments['coding_interviews']
+general = rosa.generals[general_id]
+assert general.domain == 'coding_interviews'
+assert general.vision is not None
+print(f"✓ General created: {general.domain}")
+```
+**Dependencies:** Test #8
+**Priority:** CRITICAL
+
+---
+
+### 10. General Vision Initialization - 🟥
+**Description:** Newly created General generates domain-specific vision
+**Expected Behavior:**
+- Core principles defined (list)
+- Key patterns identified (list)
+- Strategic objectives set (list)
+- Success metrics established (list)
+- Vision statement created (string)
+- Stored as General.vision dict
+**Test Command:**
+```python
+general = rosa.generals[rosa.domain_assignments['coding_interviews']]
+assert 'core_principles' in general.vision
+assert 'key_patterns' in general.vision
+assert 'objectives' in general.vision
+assert 'success_metrics' in general.vision
+assert 'vision_statement' in general.vision
+assert isinstance(general.vision['core_principles'], list)
+print(f"✓ Vision: {general.vision['vision_statement']}")
+```
+**Dependencies:** Test #9
+**Priority:** HIGH
+
+---
+
+### 11. General Processes ROSA Insight - 🟥
+**Description:** General receives and specializes ROSA's meta-insight
+**Expected Behavior:**
+- Receives insight from ROSA
+- Builds domain-specific theory
+- Generates optimization strategies
+- Updates vision if needed
+- Returns specialized analysis dict
+- Stores theory in General.theories list
+**Test Command:**
+```python
+insight = {
+    'pattern': 'Frustration when effort disconnected from value',
+    'principle': 'Humans need perceived utility',
+    'strategy': 'Emphasize real-world application',
+    'confidence': 0.82
+}
+
+analysis = general.process_rosa_insight(insight)
+assert 'domain_theory' in analysis
+assert 'optimization_strategy' in analysis
+assert 'tactical_applications' in analysis
+assert len(general.theories) > 0
+print(f"✓ Theory: {analysis['domain_theory'][:50]}...")
+```
+**Dependencies:** Test #9, #10
+**Priority:** HIGH
+
+---
+
+### 12. LINX Assignment to General - 🟥
+**Description:** General tracks which LINX instances are under its domain
+**Expected Behavior:**
+- LINX added to General.assigned_linx list
+- LINX can have multiple Generals (if multi-domain)
+- No duplicate assignments
+- Assignment persists across sessions
+**Test Command:**
+```python
+general = rosa.generals[rosa.domain_assignments['coding_interviews']]
+linx_id = linx.linx_id
+
+# Should be auto-assigned during memory processing
+assert linx_id in general.assigned_linx
+
+# Manual assignment should work too
+general.assign_linx('test_linx_id')
+assert 'test_linx_id' in general.assigned_linx
+print(f"✓ LINX assigned to General")
+```
+**Dependencies:** Test #9, #11
+**Priority:** MEDIUM
+
+---
+
+### 13. Multiple Generals for Multiple Domains - 🟥
+**Description:** ROSA manages multiple Generals simultaneously
+**Expected Behavior:**
+- Each domain gets its own General
+- No conflicts between Generals
+- Each General maintains independent vision/theories
+- ROSA tracks all in rosa.generals dict
+**Test Command:**
+```python
+# Create memories in different domains
+linx_a.remember_with_rosa("I love playing Pokemon", emotion="joy", importance=0.8, context="gaming")
+linx_b.remember_with_rosa("Gym workouts improve my mood", emotion="motivated", importance=0.7, context="fitness")
+linx_c.remember_with_rosa("This song makes me emotional", emotion="nostalgic", importance=0.9, context="music")
+
+# Check multiple Generals exist
+assert len(rosa.generals) >= 3
+domains = [g.domain for g in rosa.generals.values()]
+assert 'gaming' in domains or 'pokemon' in domains
+assert 'fitness' in domains or 'gym' in domains
+assert 'music' in domains
+print(f"✓ {len(rosa.generals)} Generals created")
+```
+**Dependencies:** Test #9, #10
+**Priority:** HIGH
+
+---
+
+## PHASE 4: ASO INTEGRATION
+
+### 14. ASO Processing on ROSA Memories - 🟥
+**Description:** ROSA's memories are processed through ASO (Association System)
+**Expected Behavior:**
+- Concepts extracted from ROSA memory
+- Associations created between concepts
+- Memory connections found
+- Stored in rosa.brain['associations']['graph']
+- ASO stats updated
+**Test Command:**
+```python
+# ROSA should have memories from processing LINX memories
+rosa_memories = rosa.brain.mind.get_all()
+assert len(rosa_memories) > 0
+
+# Check ASO processed them
+aso_stats = rosa.aso.get_stats()
+assert aso_stats['total_concepts'] > 0
+assert aso_stats['total_associations'] > 0
+print(f"✓ ASO: {aso_stats['total_concepts']} concepts, {aso_stats['total_associations']} associations")
+```
+**Dependencies:** Test #5, #6
+**Priority:** MEDIUM
+
+---
+
+### 15. ASO on General Memories - 🟥
+**Description:** General's domain-specific knowledge builds ASO network
+**Expected Behavior:**
+- General's theories processed through ASO
+- Domain-specific concept graph created
+- Associations unique to this domain
+- Accessible via General.aso
+**Test Command:**
+```python
+general = rosa.generals[rosa.domain_assignments['coding_interviews']]
+general_aso_stats = general.aso.get_stats()
+
+assert general_aso_stats['total_concepts'] > 0
+assert general_aso_stats['total_associations'] > 0
+print(f"✓ General ASO: {general_aso_stats['total_concepts']} domain concepts")
+```
+**Dependencies:** Test #11, #14
+**Priority:** MEDIUM
+
+---
+
+### 16. Cross-Domain Association Queries - 🟥
+**Description:** Query associations across multiple domains via ROSA
+**Expected Behavior:**
+- ROSA can find associations across all Generals
+- Spreading activation works cross-domain
+- Path finding between unrelated concepts
+- Returns ranked results by strength
+**Test Command:**
+```python
+# Query ROSA's ASO network
+activated = rosa.aso.what_reminds_me_of("frustration", threshold=0.3)
+assert len(activated) > 0
+
+# Should find concepts from multiple domains
+concepts = list(activated.keys())
+print(f"✓ 'frustration' activated {len(concepts)} concepts: {concepts[:5]}")
+```
+**Dependencies:** Test #14, #15
+**Priority:** LOW
+
+---
+
+## PHASE 5: OPTIMIZATION & FEEDBACK
+
+### 17. General Optimizes LINX - 🟥
+**Description:** General provides optimization guidance to assigned LINX
+**Expected Behavior:**
+- Generates domain-specific improvements
+- Provides prompt improvements
+- Suggests priority knowledge areas
+- Defines response patterns to adopt
+- Self-awareness focus areas
+- Expected outcome stated
+**Test Command:**
+```python
+optimization = rosa.optimize_linx(linx.linx_id)
+
+assert 'prompt_improvements' in optimization
+assert 'priority_knowledge' in optimization
+assert 'response_patterns' in optimization
+assert 'self_awareness_focus' in optimization
+assert 'expected_outcome' in optimization
+print(f"✓ Optimization generated: {optimization['expected_outcome']}")
+```
+**Dependencies:** Test #11, #12
+**Priority:** HIGH
+
+---
+
+### 18. LINX Applies Optimization - 🟥
+**Description:** LINX receives and stores optimization from General
+**Expected Behavior:**
+- Retrieves optimization via get_optimization_guidance()
+- Stores optimization as memory
+- Importance set to 0.8
+- Emotion set to 'focused'
+- Accessible for future reference
+**Test Command:**
+```python
+guidance = linx.apply_optimization()
+
+assert 'error' not in guidance
+assert 'expected_outcome' in guidance
+
+# Check stored as memory
+memories = linx.Brain.mind.get_all()
+optimization_memory = [m for m in memories if 'Optimization received' in m.get('content', '')]
+assert len(optimization_memory) > 0
+print(f"✓ LINX applied optimization")
+```
+**Dependencies:** Test #17
+**Priority:** HIGH
+
+---
+
+### 19. Query General's Domain Wisdom - 🟥
+**Description:** Ask a General domain-specific questions
+**Expected Behavior:**
+- Uses General's ASO to find relevant theories
+- Synthesizes domain-expert answer
+- Provides supporting theories
+- Includes confidence score
+- Offers actionable recommendation
+**Test Command:**
+```python
+general = rosa.generals[rosa.domain_assignments['coding_interviews']]
+wisdom = general.get_domain_wisdom("How should I approach interview prep?")
+
+assert 'answer' in wisdom
+assert 'supporting_theories' in wisdom
+assert 'confidence' in wisdom
+assert 'recommendation' in wisdom
+print(f"✓ Wisdom: {wisdom['answer'][:60]}...")
+```
+**Dependencies:** Test #11, #15
+**Priority:** MEDIUM
+
+---
+
+### 20. Query ROSA's Cross-Instance Wisdom - 🟥
+**Description:** Ask ROSA to synthesize knowledge across all LINX instances
+**Expected Behavior:**
+- Searches all ROSA memories
+- Finds relevant cross-instance insights
+- Synthesizes strategic response
+- Provides evidence from multiple sources
+- Confidence score included
+- Actionable recommendation
+**Test Command:**
+```python
+wisdom = rosa.query_wisdom("What patterns exist around learning frustration?")
+
+assert 'answer' in wisdom
+assert 'evidence' in wisdom
+assert 'confidence' in wisdom
+assert 'recommendation' in wisdom
+assert isinstance(wisdom['evidence'], list)
+print(f"✓ ROSA wisdom: {wisdom['answer'][:60]}...")
+print(f"  Evidence from {len(wisdom['evidence'])} sources")
+```
+**Dependencies:** Test #7, #14
+**Priority:** MEDIUM
+
+---
+
+## PHASE 6: STATISTICS & MONITORING
+
+### 21. ROSA Meta-Statistics - 🟥
+**Description:** Get comprehensive stats about entire system
+**Expected Behavior:**
+- Reports registered LINX count
+- Total memories processed
+- Association network stats
+- Generals count and details
+- All instances tracked
+**Test Command:**
+```python
+stats = rosa.get_meta_stats()
+
+assert 'registered_linx' in stats
+assert 'total_memories' in stats
+assert 'association_network' in stats
+assert 'generals_count' in stats
+assert 'generals' in stats
+assert 'instances' in stats
+
+print(f"✓ System Stats:")
+print(f"  LINX: {stats['registered_linx']}")
+print(f"  Memories: {stats['total_memories']}")
+print(f"  Generals: {stats['generals_count']}")
+print(f"  Concepts: {stats['association_network']['total_concepts']}")
+```
+**Dependencies:** Test #3, #5, #9, #14
+**Priority:** LOW
+
+---
+
+### 22. General Statistics - 🟥
+**Description:** Get stats for individual General
+**Expected Behavior:**
+- Shows general_id and domain
+- Current vision
+- Assigned LINX count
+- Theories count
+- Domain stats (total_insights, confidence, last_updated)
+**Test Command:**
+```python
+general = rosa.generals[rosa.domain_assignments['coding_interviews']]
+stats = general.get_stats()
+
+assert 'id' in stats
+assert 'domain' in stats
+assert 'vision' in stats
+assert 'assigned_linx' in stats
+assert 'theories_count' in stats
+assert 'stats' in stats
+
+print(f"✓ General '{stats['domain']}' stats:")
+print(f"  Theories: {stats['theories_count']}")
+print(f"  Assigned LINX: {len(stats['assigned_linx'])}")
+print(f"  Confidence: {stats['stats']['confidence']:.2f}")
+```
+**Dependencies:** Test #9, #11, #12
+**Priority:** LOW
+
+---
+
+## PHASE 7: EDGE CASES & ERROR HANDLING
+
+### 23. Invalid LINX Registration - 🟥
+**Description:** Attempting to process memory from unregistered LINX fails gracefully
+**Expected Behavior:**
+- Raises ValueError with clear message
+- Does not crash system
+- Error message includes linx_id
+- No partial processing
+**Test Command:**
+```python
+try:
+    rosa.process_linx_memory(
+        linx_id='fake_linx_id_12345',
+        memory={'content': 'test', 'dominant_emotion': 'neutral', 'importance': 0.5}
+    )
+    assert False, "Should have raised ValueError"
+except ValueError as e:
+    assert 'fake_linx_id_12345' in str(e)
+    print("✓ Invalid LINX registration handled correctly")
+```
+**Dependencies:** Test #1
+**Priority:** MEDIUM
+
+---
+
+### 24. Empty Memory Content - 🟥
+**Description:** Handle empty or malformed memory gracefully
+**Expected Behavior:**
+- Does not crash
+- Returns error in response dict
+- Logs warning
+- No General created for empty content
+**Test Command:**
+```python
+result = rosa.process_linx_memory(
+    linx_id=linx.linx_id,
+    memory={'content': '', 'dominant_emotion': 'neutral', 'importance': 0.5}
+)
+
+# Should handle gracefully
+assert result is not None
+print("✓ Empty memory handled gracefully")
+```
+**Dependencies:** Test #2, #5
+**Priority:** LOW
+
+---
+
+### 25. API Failure Fallback - 🟥
+**Description:** System handles AI backend failures gracefully
+**Expected Behavior:**
+- Catches Gemini/Ollama errors
+- Returns default/empty responses
+- Logs error message
+- System continues functioning
+- Fallback to Ollama if Gemini fails
+**Test Command:**
+```python
+# Simulate API failure by using invalid key
+rosa_test = MetaROSA(
+    brain=Brain(name=('TEST', '', 'ROSA')),
+    api_key='invalid_key_12345',
+    model='gemini'
+)
+
+# Should not crash, should log error
+try:
+    insight = rosa_test._extract_meta_insight(
+        content="test",
+        emotion="neutral",
+        context="test",
+        linx_id="test_id"
+    )
+    # Should return default dict
+    assert isinstance(insight, dict)
+    print("✓ API failure handled gracefully")
+except Exception as e:
+    print(f"✓ API failure caught: {type(e).__name__}")
+```
+**Dependencies:** Test #1
+**Priority:** MEDIUM
+
+---
+
+## SUMMARY
+
+**Total Test Cases:** 25
+**Critical Priority:** 8
+**High Priority:** 9
+**Medium Priority:** 6
+**Low Priority:** 2
+
+**Completion Status:**
+- 🟩 Passing: 0/25 (0%)
+- 🟨 Partial: 0/25 (0%)
+- 🟥 Failing: 25/25 (100%)
+- ⏳ In Progress: 0/25 (0%)
+
+**Next Steps:**
+1. Start with CRITICAL tests (#1, #2, #4, #5, #9)
+2. Move to HIGH priority tests
+3. Complete MEDIUM priority tests
+4. Finalize with LOW priority tests
+
+**Test Execution Order:**
+1 → 2 → 3 → 4 → 5 → 6 → 8 → 9 → 10 → 11 → 12 → 13 → 7 → 14 → 15 → 17 → 18 → 19 → 20 → 21 → 22 → 23 → 24 → 25 → 16
+
+---
+
+## Notes
+
+- All tests assume Gemini API key is available
+- Tests should be run in order due to dependencies
+- Each test should be isolated (use fresh instances when possible)
+- Git commit after each passing phase
+- Document any deviations from expected behavior

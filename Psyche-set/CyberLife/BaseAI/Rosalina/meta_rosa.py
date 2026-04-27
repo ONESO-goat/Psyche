@@ -17,6 +17,8 @@ class MetaROSA:
     generates strategic insights, and maintains cross-instance wisdom.
     
     Like VEGA from Doom or JARVIS from Iron Man.
+    
+    If there is no api key provided, auto switches to ollama LLM.
     """
     
     def __init__(self, brain: Brain, 

@@ -56,9 +56,7 @@ class LinaXLino(BaseAI):
             raise ValueError("Gender must be 'male', 'female', or 'other'")
         
         self.gender = kwargs.get('gender', gender)
-        
-        self.model = 'L.I.N.X'
-        print(f"DEBUG in INIT: GENDER => {self.gender}\n")
+
         if self.gender == 'male':
             self.model = 'L.I.N.O'
         elif self.gender == 'female':
@@ -70,7 +68,8 @@ class LinaXLino(BaseAI):
             self.owners_name = f"{owners_name[0]} {owners_name[1]} {owners_name[2]}".strip() or "Owner"
         else:
             self.owners_name = f"{owners_name[0]} {owners_name[2]}".strip() or "Owner"
-            
+        
+        
         self.Brain = Brain
         self.riley = RileyAnderson()
         self.management = EmotionalCalling(self.Brain.mind, self.Brain, RileyAnderson())
@@ -115,8 +114,41 @@ class LinaXLino(BaseAI):
             super().__init__(Brain, **kwargs)
             self.the_prompt = self.prompt(main_purpose)
             print(f"✓ Connected to ROSA (ID: {self.linx_id})")
+        self._store_owner(owners_name=self.owners_name)
         
-
+    def _store_owner(self, owners_name:str)->None:
+        self.Brain.mind.memories[0]['owner_info'] = {}
+        
+        self.Brain.mind.memories[0]['owner_info']['first_owner'] = {"name": owners_name, 
+                                                                    "start":date.today().isoformat()}
+        
+        self.Brain.mind.memories[0]['owner_info']['current_owner'] = {"name": owners_name, 
+                                                                     "start":date.today().isoformat(), }
+        
+        self.Brain.mind.memories[0]['owner_info']['previous_owners'] = []
+        self.commit()
+    
+    def store_new_owner(self, new_owner_name:str):
+        check:bool = self._passcode_loop()
+        if not check:
+            exit("Faulty request detected, shutting down...")
+            return
+        if not self.Brain.mind.memories[0]['owner_info']:
+            self.Brain.mind.memories[0]['owner_info'] = {}
+            
+        previous_owner_info = {
+            "name": self.Brain.mind.memories[0]['owner_info']['current_owner'],
+            "start":self.Brain.mind.memories[0]['owner_info']['current_owner']['start'],
+            "end": date.today()
+        }
+        
+        self.Brain.mind.memories[0]['owner_info']['previous_owners'].append(previous_owner_info)
+        self.Brain.mind.memories[0]['owner_info']['current_owner'] = {"name": new_owner_name, 
+                                                                     "start":date.today().isoformat(), }
+        
+        
+        self.commit()
+        
     def remember_with_rosa(self, 
                           content: str, 
                           emotion: str, 
@@ -219,7 +251,17 @@ class LinaXLino(BaseAI):
         )
         
         return guidance
-        
+    
+    def verification(self) -> bool:
+        """Verify identity with passcode."""
+        passcode = input("Enter passcode to verify identity: ")
+        if self.validate_passcode(passcode):
+            print("Identity verified\n")
+            return True
+        else:
+            print("Identity verification failed\n")
+            return False 
+          
     def build_prompt(self, user_input: str):
         memory = self.Brain.recall_relevant(user_input)
         
@@ -229,8 +271,20 @@ class LinaXLino(BaseAI):
     --- MEMORY CONTEXT ---
     {memory}
     """
-   
+    
+    def _passcode_loop(self) -> bool:
+        attempts = 0
+        while attempts < 5:
+            try:
+                check: bool = self.verification()
+                assert check == True
+                return True
+            except Exception as e:
+                print(f"\nVerification error: {e}\n")
+                attempts += 1
+        return False
         
+            
     def _set_passcode_(self, passcode: str):
         if self.password_set:
             print("Passcode already set")
@@ -357,15 +411,13 @@ Return your response as a dictionary in the following format:
     
     
     def prompt(self, main_purpose: str = 'personal assistant') -> str:
-        
-        print(f"DEBUG: GENDER => {self.gender}\n") 
+         
         
         role_map = {
     "female": "Assistant",
     "male": "Operator",
     "other": "Explorer"
 }
-        print(f"DEBUG: GENDER => {self.gender}\n")
         
         role = role_map.get(self.gender, "Explorer")
         prompt = f"""You are **LINX — the Logical Intuitive Networked {role}**.

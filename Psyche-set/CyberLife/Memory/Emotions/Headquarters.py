@@ -623,6 +623,7 @@ class Headquarters(EmotionRegulation):
         self.Memory_orbs = memories
         self.focused_memory = None
         self.focused_memory_operator: str = ''
+        self.userInteractions = {}
     
 
 
@@ -739,7 +740,24 @@ class Headquarters(EmotionRegulation):
         
         # Already numpy array
         return reg
-
+    
+    def store_interaction(self, interaction_type: str, details: dict):
+        """Store user interactions for learning.
+        
+        version 1: simple log of interactions
+        
+        details: { 
+        "user_input": "user input text", 
+        "response": "Lina's response", 
+        "outcome": "positive/negative/neutral" }
+        
+        """
+        
+        self.userInteractions[interaction_type] = details
+        
+      
+    def commit(self):
+        self.Brain.mind.commit()
     def total_Dopamine(self) -> float:
         """Get total dopamine level (0.0 to 4.0)."""
         if not self.ROW4:
