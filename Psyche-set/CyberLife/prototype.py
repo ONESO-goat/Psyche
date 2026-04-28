@@ -4,6 +4,11 @@ from BaseAI.LinaXLino.MODEL_LINX import LinaXLino
 import json
 from datetime import datetime, date
 import signal
+import dotenv
+import os
+
+dotenv.load_dotenv()
+gem_key = os.getenv('GEMINI_API_KEY')
 
 def handle_interrupt(sig, frame):
     print("\n\nGracefully shutting down PROTOTYPE...\n")
@@ -24,14 +29,37 @@ signal.signal(signal.SIGINT, handle_interrupt)
     4. Parsing responses as JSON (since we expect structured data back from the model)
     5. Displaying the raw and parsed responses for comparison 
 """
+
+
+dotenv.load_dotenv()
+gem_key = os.getenv('GEMINI_API_KEY')
+if not gem_key:
+    c = input(" ✕ GEMINI KEY IS NOT FOUND, CONTINUE? (Y/N): ")
+    gem_key = ''
+    model = 'ollama'
+    if c.lower() != 'y':
+        exit()
+else:
+    c = input(" ✓ GEMINI KEY IS FOUND! KEEP GOING? Or change to ollama? (Y/N/C): ")
+    
+    if c.lower() == 'c':
+        model = 'ollama'
+        api_key = ''
+    elif c.lower() == 'y':
+        model = 'gemini'
+        api_key = gem_key
+    else:
+        exit()
+        
+        
 brain = Brain(name=('Prototpye', '', 'Psyche'))
 storage = brain.mind
 memories = storage.get_current_memories()
 
 rosa = MetaROSA(
     brain=brain,
-    api_key='',
-    model='ollama'
+    api_key=api_key,
+    model=model
 )
 
 prototype = LinaXLino(
@@ -39,7 +67,7 @@ prototype = LinaXLino(
     owners_name=("JuliusThe3rd", "", "Developer"),
     gender='female',
     passcode_between_me_and_owner='secret',
-    api_key='',
+    api_key=api_key,
     rosa=rosa
 )
 
@@ -68,9 +96,9 @@ while True:
             break
         
         
-        raw = prototype._generate(user)
+        raw = prototype.generate(user)
         
-        parsed = prototype._parse_json(raw, default=[])
+        parsed = prototype.parse_json(raw, default=[])
         #prototype.HQ.store_interaction(user_input=user, response=raw, parsed_response=parsed)
 
         prototype.remember_with_rosa(
@@ -105,8 +133,10 @@ while True:
             
     except Exception as ex:
         print(f"There was an error: {ex}")
-        choice = input(f"Keep going? (Y/N)")
-        if choice.lower().strip() not in ['y', 'yes']:
+        choice = input(f"Keep going? or Raise? (Y/N/R)")
+        if choice.lower().strip() == 'r':
+            raise ex
+        elif choice.lower().strip() not in ['y', 'yes']:
             exit()
         continue
 

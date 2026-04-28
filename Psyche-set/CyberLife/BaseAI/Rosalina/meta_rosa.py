@@ -438,7 +438,7 @@ FORMAT:
                 return response['message']['content']
             
             except Exception as e:
-                print(f"⚠️ ROSA Ollama error: {e}")
+                print(f"⚠️ [Meta ROSA] Ollama error: {e}")
                 return '{}'
         
     def _extract_meta_insight(self, 
@@ -737,7 +737,7 @@ Return ONLY valid JSON:
                 
                 return response['message']['content']
             except Exception as e:
-                print(f"⚠️ ROSA Ollama error: {e}")
+                print(f"⚠️ [Meta ROSA] Ollama error: {e}")
                 return '{}'
     
     def _parse_json(self, text: str, default: Any = None) -> Any:

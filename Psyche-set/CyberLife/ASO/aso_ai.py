@@ -212,7 +212,7 @@ class AssociationAI:
                 return response['message']['content']
                 
             except Exception as e:
-                print(f"⚠ Ollama error: {e}")
+                print(f"⚠ [aso_ai AssoiationAI] Ollama error: {e}")
                 return '[]'
     
     def _parse_json(self, text: str, default: Any = None) -> Any:

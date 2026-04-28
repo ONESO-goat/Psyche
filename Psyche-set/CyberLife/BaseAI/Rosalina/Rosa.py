@@ -15,10 +15,6 @@ from BaseAI.states import Rationlized, Operator, System, Agent
 from debugging_utils import debug, reset_debug, hashtag
 from BaseAI.Rosalina._about_ import ABOUT
 
-class CreationError(Exception):
-    pass
-
-
 class FavoriteSong(Protocol):
     title: str
     artist: str
@@ -162,7 +158,7 @@ class rosalina(BaseAI):
                 return response['message']['content']
                 
             except Exception as e:
-                print(f" [tier 2 error] ⚠️ Ollama error: {e}")
+                print(f" [ROSA tier 2 error] ⚠️ Ollama error: {e}")
                 return '[]'
             
     def what_you_learn(self, limit: int = 5) -> dict[str, str | list[str]]:
@@ -294,7 +290,7 @@ class rosalina(BaseAI):
                 except Exception:
                     return {"summary": response['message']['content'], "emotion": "", "what_was_learned": ""}
             except Exception as e:
-                print(f" [tier 2 error] ⚠️ Ollama error: {e}")
+                print(f" [ROSA tier 2 error] ⚠️ Ollama error: {e}")
                 return {'summary': '', 'emotion': '', 'what_was_learned': '', 'importance': ''}
 
     def define_memory(self, user_input: str, repsonse: str):
@@ -326,17 +322,14 @@ class rosalina(BaseAI):
                     purpose=general_purpose,
                     personality=general_personality,
                     gender=general_gender,
-                    ai_model=general_ai_model,
-                    
+                    model=general_ai_model
                 )
-            except CreationError as ex:
+                
+            except Exception as ex:
                 print(f" [tier 3 error] There was an error creating or connecting to a general: {ex}\n")
                 print("If this keeps occuring, please contect support.")
                 failed_to_create = True
-        
-        content['failed_to_create_general'] = failed_to_create
-            
-            
+   
         
         dic = { 'emotion': emotion, 'rosa_lesson': learnt, 'importance': importance}
         
@@ -347,13 +340,14 @@ class rosalina(BaseAI):
         
         return dic
     
-    def create_general(self, purpose: str, personality: str, gender: str, model:str):
+    def create_general(self, name:str, purpose: str, personality: str, gender: str, model:str):
         """Create a new general with a specific purpose and personality."""
-        return self.MetaROSA.create_general(
+        return self.MetaROSA._create_general(
+            name=name,
             purpose=purpose,
             personality=personality,
             gender=gender,
-            ai_model=model        
+            ai_model=model    
         )
     
     
@@ -437,7 +431,7 @@ class rosalina(BaseAI):
         return super().__repr__()
     
     def _summary_instructions(self) -> str:
-        instructions = f"""
+        instructions = fr"""
 You are an advanced life form AI that absorbs information from interactions to foster personal growth and understanding. 
 For each chat, you should create a thoughtful summary and provide insight into the interaction. 
 
@@ -508,7 +502,7 @@ Return your response as a dictionary in the following format:
     "what_was_learned": "A reflection on what you learned from this chat",
     "create_general": {{ 
         "create" : a boolean (True or False) on if you want a new general created based on a topic - just return True or False
-        "name" : "Name of the General, if created",
+        "name" : "Name of the General, if created, do NOT include special characters (~!@#$%^&*()_+=-`<>?/.,\|:;{{}})",
         "purpose" : "Purpose of the General relating to the topic, if created",
         "personality" : "Personality traits of the General, if created",
         "gender" : "The gender of your choice - 'male', 'female', or 'other'",
@@ -518,6 +512,7 @@ Return your response as a dictionary in the following format:
 }}
 
 """
+#numbers are allowed but alphabetical letters are required and the number can NOT be the first word in the name.
         return instructions
         
     

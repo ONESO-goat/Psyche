@@ -15,20 +15,16 @@ from debugging_utils import debug, reset_debug, hashtag
 
 
 class BaseAI:
-    def __init__(self, Brain, model="ollama"):
+    def __init__(self, Brain, api_key:str="", model="ollama"):
         self.Brain = Brain
         self.riley = RileyAnderson()
         self.management = EmotionalCalling(self.Brain.mind, self.Brain, RileyAnderson())
         self.HQ = Headquarters(memories=self.Brain.mind.get_all(), Brain=self.Brain)
         self.friends = Amigo(name='friends', Brain=self.Brain)
 
-
-        
-        self.model_type = model.lower().strip()
         self.initialized = False
         
         # ================= STATES =================
-        self.backend = model
         self.initialized = False
 
         # Shared states
@@ -39,14 +35,44 @@ class BaseAI:
 
         self.rdota = 'normal'
         
+        if model == 'gemini' and api_key:
+            # Use Gemini
+            from google import genai
+            
+            
+            self.client = genai.Client(api_key=api_key)
+            self.model_id = 'gemini-2.5-flash'
+          
+            #self.model = self.client.models.get(model=self.model_id)
+            self.backend = 'gemini'
+            
+            print("✓ Gemini Backend Initialized")
+            
+            
+        else:
+            # Use Ollama
+            
+            self.backend = 'ollama'
+            self.ollama_model = 'qwen3:0.6b'
+            
+            # Check if Ollama is available
+            try:
+                import ollama
+                ollama.show(self.ollama_model)
+                print(f"✓ Using Ollama ({self.ollama_model})")
+                
+            except:
+                print(f"⚠ Ollama model '{self.ollama_model}' not found")
+                print("  Run: ollama pull qwen3:0.6b")
         
         
-    def _generate(self, prompt: str, name:str='') -> str:
+        
+    def _generate(self, identity:str, prompt: str, name:str='') -> str:
         """Generate response from AI backend with persistent ROSA persona."""
     
     # Construct the message history with the system prompt at the top
         messages = [
-        #{'role': 'system', 'content': self.the_prompt},
+        {'role': 'system', 'content': identity},
         {'role': 'user', 'content': prompt}
     ]
         
@@ -61,7 +87,7 @@ class BaseAI:
                     model=self.model_id, 
                     contents=prompt, # Or pass the whole history
                     config=types.GenerateContentConfig(
-                        system_instruction=self.the_prompt, # Best way for Gemini
+                        system_instruction=identity, # Best way for Gemini
                         #response_mime_type="application/json"
                     )
                 )
@@ -78,13 +104,12 @@ class BaseAI:
                 response = ollama.chat(
                     model=self.ollama_model,
                     messages=messages, # Now includes ROSA system prompt
-                    #format='json',
                     options={'temperature': 0.2}
                 )
                 return response['message']['content']
                 
             except Exception as e:
-                print(f"⚠️ Ollama error: {e}")
+                print(f"⚠️ [BaseAI] Ollama error: {e}")
                 return '[]'
             
     def what_you_learn(self, limit: int = 5) -> dict[str, str | list[str]]:
@@ -216,7 +241,7 @@ class BaseAI:
                 except Exception:
                     return {"summary": response['message']['content'], "emotion": "", "what_was_learned": ""}
             except Exception as e:
-                print(f"⚠️ Ollama error: {e}")
+                print(f"⚠️ [BaseAI] Ollama error: {e}")
                 return {'summary': '', 'emotion': '', 'what_was_learned': '', 'importance': ''}
 
     def define_memory(self, user_input: str, repsonse: str):

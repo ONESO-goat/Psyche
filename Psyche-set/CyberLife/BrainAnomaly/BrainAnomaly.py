@@ -161,26 +161,34 @@ class Brain(BrainAnomaly):
     def _validate_name(self, name: tuple[str, str, str]):
         """Validate Brain name"""
 
-        special_chars = r"~!@#$%^&*()_+`-={}|[]\:;<>?,./'"  
+        special_chars = r"~!@#$%^&*()+`={}|[]\:;<>?,./'"  
 
+        
+        for parts in name:
+            if '-' in parts or '_' in parts:
+                parts = parts.replace('-', ' ').replace('_', ' ')
+                print(f"Name part '{parts}' contained special characters, auto reshaping to '{parts}'")
+        
         first_name, middle_name, last_name = name[0].capitalize(), name[1].capitalize(), name[2].capitalize()
 
         if not first_name or first_name.strip() == '':
             raise NameError("First name cannot be empty")
         
         if len(first_name.split()) > 1:
+            print("First name contains more than 2 words, auto reshaping...")
             first_name_list = first_name.split()
             for word in first_name_list:
                 last_name+=f" {word}"
             first_name = first_name_list[0]
-            print("First name contains more than 2 words, auto reshaping...")
-        
+            
+            
         if middle_name and len(middle_name.split()) > 1:
+            print("Middle name contains more than 2 words, auto reshaping...")
             middle_name_list = middle_name.split()
             for word in middle_name_list:
                 last_name+=f" {word}"
             middle_name = middle_name_list[0]
-            print("Middle name contains more than 2 words, auto reshaping...")
+            
         
         if not last_name or last_name.strip() == '':
             raise NameError("Last name cannot be empty")
@@ -188,8 +196,8 @@ class Brain(BrainAnomaly):
         for i in range(3):
             if any(char in special_chars for char in name[i]) and i != 1:
                 raise NameError(f"Name cannot contain special characters: {[c for c in name[i] if c in special_chars]}")
-
-
+        
+        
         return first_name, middle_name, last_name
 
 

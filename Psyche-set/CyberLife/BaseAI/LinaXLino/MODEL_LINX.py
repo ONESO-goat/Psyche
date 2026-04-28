@@ -624,3 +624,72 @@ These influence how you respond:
 """
 
         return prompt
+    
+    def generate(self, prompt:str, name:str='') -> str:
+        """Generate response from AI backend with persistent ROSA persona."""
+    
+    # Construct the message history with the system prompt at the top
+        messages = [
+        {'role': 'system', 'content': self.prompt()},
+        {'role': 'user', 'content': prompt}
+    ] 
+        
+        if self.backend == 'gemini':
+            try:
+                from google.genai import types
+                
+                # For Gemini, we convert the messages to their content format
+                # Note: Gemini 2.0+ handles system_instruction separately
+                
+                response = self.client.models.generate_content(
+                    model=self.model_id, 
+                    contents=prompt, # Or pass the whole history
+                    config=types.GenerateContentConfig(
+                        system_instruction=self.prompt(), # Best way for Gemini
+                        #response_mime_type="application/json"
+                    )
+                )
+                
+                return response.text or '[]'
+            except Exception as e:
+                print(f"⚠️ Gemini error: {e}")
+                return '[]'
+        
+        else:  # Ollama
+            try:
+                import ollama
+                
+                response = ollama.chat(
+                    model=self.ollama_model,
+                    messages=messages, # Now includes ROSA system prompt
+                    options={'temperature': 0.2}
+                )
+                return response['message']['content']
+                
+            except Exception as e:
+                print(f"⚠️ [BaseAI] Ollama error: {e}")
+                return '[]'
+            
+    
+    def parse_json(self, text: str, default: Any = None) -> Any:
+        """Robust JSON parsing."""
+        if not text or text.strip() == '':
+            return default if default is not None else []
+        
+        text = text.strip()
+        
+        # Remove markdown if present
+        if "```json" in text:
+            text = text.split("```json")[1].split("```")[0].strip()
+        elif "```" in text:
+            text = text.split("```")[1].split("```")[0].strip()
+        
+        # Try to parse
+        try:
+            parsed = json.loads(text)
+            return parsed
+        except json.JSONDecodeError as e:
+            print(f"⚠ JSON parse error: {e}")
+            print(f"  Raw text: {text[:200]}...")
+            return default if default is not None else []
+            

@@ -86,7 +86,10 @@ class Generals(BaseAI):
     def set_up_Generals_backend(self, api_key: str | None = None, model: str = "ollama"):
         """Set up manually for the time being."""
         
-        if model == 'gemini' and api_key:
+        if not api_key:
+            model = "ollama"
+            
+        if model == 'gemini':
             # Use Gemini
             from google import genai
             
