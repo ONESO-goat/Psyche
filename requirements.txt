@@ -3,11 +3,13 @@ matplotlib
 json-numpy
 numpy-utils
 typing_extensions
+faster_whisper
 opencv-python
 requests
 pydantic
 fastapi
 uvicorn
+ffmpeg
 ollama
 google
 google-genai
