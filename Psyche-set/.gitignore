@@ -5,6 +5,7 @@
 __pycache__/
 */_about_.py
 *.so
+/language
 *.dylib
 *.egg
 *.egg-info/
