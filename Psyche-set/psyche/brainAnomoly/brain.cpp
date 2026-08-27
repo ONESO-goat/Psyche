@@ -14,14 +14,54 @@ Generals focus on data, while LINX focus on memory.
 #include <string_view>
 
 using namespace std;
-class Brain{
-private:
-    /*
+
+struct Name {string first, middle, last; };
+
+class BrainBase {
+protected:
+
+    string id;
+
+        /*
         Usally generals should focus on their own fields, weights would be low (< 0.3).
         Linx's will likely be more creative or free on their decisions and new informations.
 
     */
-    float weights;
+    float weight;
+
+    /*
+        Owner will usually fall in this list: ["ROSA", "GENERAL <name>", "<user's username", "null"|""]
+    */
+    string owner;
+
+     /*
+    LINX -> Either user owned or independent
+    MANAGER -> LINX's made by generals
+    */
+    Group groupClass;
+
+public:
+    /*
+    Display brain visualization
+
+    mode (int): 2 = 2D; 3 = 3D
+
+    Default is 2D.
+    */
+    virtual void showcase(int mode = 2) {
+        if (mode == 2) render_visualize_brain_2D();
+        else if (mode == 3) throw logic_error("3D visual not yet made.");
+        else throw logic_error(format("Invalid mode: '{}'. Choose '2' or '3'", mode));
+    }
+
+    virtual void render_visualize_brain_2D() = 0;  // each subclass implements its own
+    virtual void createDatabase() = 0;
+    virtual ~BrainBase() = default;  // virtual destructor, since you'll have polymorphic pointers eventually
+};
+
+class Brain : public BrainBase {
+private:
+
 
     /*
     LINX -> Either user owned or independent
@@ -32,25 +72,22 @@ private:
     // example ("john", "", "doe")
     tuple<string, string, string> first_middle_last_name; 
 
-    /*
-        Owner will usually fall in this list: ["ROSA", "GENERAL <name>", "<user's username", "null"|""]
-    */
-    string owner;
-
 public:
     Brain(
+        string id_,
         tuple<string, string, string> const& name, 
-        float weight, 
+        float weight_, 
         Group familyCategory,
         string creator=""
     ){
         if (!validateName(name)){
             return;
         }
+        id = id_;
         owner = creator;
         familyClass = familyCategory;
         first_middle_last_name = name;
-        weights = weight;
+        weight = weight_;
     }
     /*
     Validate names. First and last names are required, but the middle name is not required. 
@@ -58,30 +95,27 @@ public:
 
     EX; ("john", "", "doe"), ("general", "", "music"), ("jc", "is", "rc")
     */
-    bool validateName( tuple<string,string,string> const& name){
+    bool validateName( Name const& name){
 
         constexpr std::string_view special_chars = "~!@#$%^&*()+`={}[]\\:;<>,.?/";
-        
-        string first_name = get<0>(name);
-        string middle_name = get<1>(name);
-        string last_name = get<2>(name);
 
-        if (first_name.empty() || last_name.empty()){
+
+        if (name.first.empty() || name.last.empty()){
             throw length_error("First and last name are required");
         }
 
-        if (min(last_name.length(), first_name.length()) < 2  || max( last_name.length(), first_name.length()) > 100){
+        if (min(name.last.length(), name.first.length()) < 2  || max( name.last.length(), name.first.length()) > 100){
             throw length_error("First or Last name falls outside the valid length range (2-100).");
         }
         
-        if (middle_name.length() < 0 || middle_name.length() > 100){
+        if (name.middle.length() > 100){
             throw length_error("Middle name falls outside the valid length range (0-100).");
         }
-        vector<string> const a = {first_name, middle_name, last_name};
+  
         for (char const n : special_chars){
-            if (first_name.find(n) != string::npos ||
-                middle_name.find(n) != string::npos ||    
-                last_name.find(n) != string::npos    
+            if (name.first.find(n) != string::npos ||
+                name.middle.find(n) != string::npos ||    
+                name.last.find(n) != string::npos    
             ){
                 throw logic_error("Name cannot include special characters");
             }
@@ -101,27 +135,6 @@ public:
         return true;
     }
 
-    /*
-    Display brain visualization
-
-    mode (int): 2 = 2D; 3 = 3D
-
-    Default is 2D.
-    */
-    void showcase(int mode = 2){
-
-        if (mode == 2){
-            render_visualize_brain_2D();
-        }
-        else if (mode == 3){
-            // render_visualize_brain_3D()  // Implement this later
-            throw logic_error("3D visual not yet made.");
-        }
-        else{
-            string msg = format("Invalid mode: {}. Choose '2' (for 2D) or '3' (for 3D)", to_string(mode));
-            throw logic_error(msg);
-        }
-    }
         
     /*
     Show brain with memories represented.
@@ -220,15 +233,9 @@ public:
 };
 
 
-class GeneralBrain{
+class GeneralBrain : public BrainBase{
 private:
-    /*
-        usually generals should focus on their own fields, weights would be low (< 0.3).
 
-    */
-    float weight;
-
-    string id;
     string domain;
 
     Group groupClass = Group::general;
@@ -236,45 +243,20 @@ private:
     // example ("general", "cleaner")
     tuple<string, string> name; 
 
-    /*
-        Owner will usually fall in this list: ["ROSA","LINA"]
-    */
-    string owner;
 
 public:
-    Brain(
-        string generalId,
-        string generalDomain, 
-        float generalWeight, 
-        string creator
+    GeneralBrain(
+    string generalId,
+    string generalDomain,
+    float generalWeight,
+    string creator
     ){
         id = generalId;
+        domain = generalDomain;  
         owner = creator;
-        familyClass = familyCategory;
-        weight = weight;
+        weight = generalWeight; 
     }
     
-    /*
-    Display brain visualization
-
-    mode (int): 2 = 2D; 3 = 3D
-
-    Default is 2D.
-    */
-    void showcase(int mode = 2){
-
-        if (mode == 2){
-            render_visualize_brain_2D();
-        }
-        else if (mode == 3){
-            // render_visualize_brain_3D()  // Implement this later
-            throw logic_error("3D visual not yet made.");
-        }
-        else{
-            string msg = format("Invalid mode: {}. Choose '2' (for 2D) or '3' (for 3D)", to_string(mode));
-            throw logic_error(msg);
-        }
-    }
         
     /*
     Show Data inside the brain. Unlike LINX, here we'll likely use 'matplot' as generals are more focused on data.
