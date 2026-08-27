@@ -5,10 +5,13 @@ create TABLE General(
     name                        TEXT NOT NULL,
     domain                      TEXT NOT NULL,
 
-    follows_id                  TEXT check (follows_id in (rosa(rosa_id), lina(lina_id))),
+    follows_rosa_id TEXT REFERENCES rosa(rosa_id),
+    follows_lina_id TEXT REFERENCES lina(lina_id),
+    -- CHECK (num_nonnulls(follows_rosa_id, follows_lina_id) = 1)
+
     createdAt                   DATETIME DEFAULT CURRENT_TIMESTAMP,
 
-    creator                     TEXT not null default "rosa",
+    creator                     TEXT not null default 'rosa',
     field_specialization_id     TEXT not null REFERENCES field(field_id),
     valuation                   float, -- 0 - 10. < 5 means less value, > 5 means it's fairly valuable or important.
     -- example,  
@@ -28,31 +31,31 @@ create TABLE General(
 -- Pulling this into its own table means you're not hardcoding
 -- niche names as strings everywhere, and it gives you a place
 -- to hang niche-level config (like default refresh rate).
-CREATE TABLE niches (
+CREATE TABLE Niches (
     niche_id            SERIAL PRIMARY KEY,
     name                TEXT NOT NULL UNIQUE,
     default_refresh_sec INTEGER DEFAULT 3600,  -- how often data gets pulled by default
 
-    target_field_id     TEXT REFERENCES field(field_id)
+    target_field_id     TEXT REFERENCES Field(field_id)
 );
 
 -- The core LINX table. One table for both types, distinguished
 -- by linx_type + nullable owner columns. This avoids duplicating
 -- structure across two tables when the behavior overlaps so much.
-CREATE TABLE linx (
+CREATE TABLE Linx (
     linx_id         INTEGER PRIMARY KEY,
     name            TEXT NOT NULL,
     linx_type       TEXT NOT NULL CHECK (linx_type IN ('manager', 'independent')),
-    niche_id        INTEGER NOT NULL REFERENCES niches(niche_id),
+    niche_id        INTEGER NOT NULL REFERENCES Niches(niche_id),
 
     -- exactly one of these should be set, enforced at the app layer
     -- (or with a CHECK constraint once you're comfortable with those)
-    general_id      INTEGER REFERENCES generals(general_id),   -- set if manager
-    owner_user_id   INTEGER REFERENCES users(user_id),         -- set if independent
+    general_id      INTEGER REFERENCES General(general_id),   -- set if manager
+    owner_user_id   INTEGER REFERENCES Users(user_id),         -- set if independent
 
     rule_based      BOOLEAN DEFAULT TRUE,   -- flips to FALSE once/if it graduates to its own SLM
     refresh_sec     INTEGER,                -- overrides niche default when set (managers get faster cadence)
-    created_at      DATETIME DEFAULT CURRENT_TIMESTAMP
+    created_at      DATETIME DEFAULT CURRENT_TIMESTAMP,
 
     valuation       float,
 );
@@ -60,9 +63,9 @@ CREATE TABLE linx (
 -- Every piece of data a LINX pulls in. This is the "data on data" table.
 CREATE TABLE linx_data (
     data_id         INTEGER PRIMARY KEY,
-    linx_id         INTEGER NOT NULL REFERENCES linx(linx_id),
+    linx_id         INTEGER NOT NULL REFERENCES Linx(linx_id),
     source          TEXT,               -- where it came from
-    source_id       TEXT references source(source_id),
+    source_id       TEXT references Source(source_id),
     payload         TEXT,               -- raw data / JSON blob
     ingested_at     DATETIME DEFAULT CURRENT_TIMESTAMP
 );
