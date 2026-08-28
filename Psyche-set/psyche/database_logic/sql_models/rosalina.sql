@@ -104,6 +104,7 @@ create table Thought(
 
     thinker_id text not null,
     memory_id INT references Memory(memory_id), -- set if so
+    
     thought_type text check (thought_type in ('theory', 'thought'))
 
     context text not null,

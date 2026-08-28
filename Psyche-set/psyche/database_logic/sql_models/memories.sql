@@ -1,17 +1,15 @@
 -- memories.sql
 
-create TABLE Storage(
-    storage_id TEXT PRIMARY KEY,
-
-    linx_id TEXT NOT NULL references Linx(linx_id),
+create TABLE brain(
+    brain_id TEXT UNIQUE PRIMARY KEY,
 
 );
 
 
 create TABLE Memory(
-    memory_id INT PRIMARY KEY,
+    memory_id TEXT UNIQUE PRIMARY KEY,
 
-    storage_id TEXT NOT NULL references Storage(storage_id),
+    brain_id TEXT NOT NULL references brain(brain_id),
 
     context TEXT NOT NULL,
     importance float,

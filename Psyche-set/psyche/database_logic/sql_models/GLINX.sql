@@ -1,7 +1,9 @@
 -- GLINX.sql
 
 create TABLE General(
-    general_id STRING           PRIMARY KEY,
+    general_id TEXT           PRIMARY KEY,
+    brain_id                    TEXT UNIQUE NOT NULL REFERENCES brain(brain_id),
+
     name                        TEXT NOT NULL,
     domain                      TEXT NOT NULL,
     access_key_id TEXT UNIQUE references Access_key(access_key_id),
@@ -45,6 +47,7 @@ CREATE TABLE Niches (
 -- structure across two tables when the behavior overlaps so much.
 CREATE TABLE Linx (
     linx_id         INTEGER PRIMARY KEY,
+    brain_id        TEXT UNIQUE NOT NULL REFERENCES brain(brain_id),
     name            TEXT NOT NULL,
     linx_type       TEXT NOT NULL CHECK (linx_type IN ('manager', 'independent')),
     niche_id        INTEGER NOT NULL REFERENCES Niches(niche_id),

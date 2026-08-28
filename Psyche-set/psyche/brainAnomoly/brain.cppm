@@ -11,16 +11,17 @@ Generals focus on data, while LINX focus on memory.
 */
 module;
 
-#include <helpers/imports.h>
+#include "../helpers/imports.h"
 #include <format>
 #include <string_view>
+#include "../schema/metadata_structs.h"
 
-using namespace std;
+export module brain;
 
 class BrainBase {
 protected:
 
-    string id;
+    std::string id;
 
         /*
         Usally generals should focus on their own fields, weights would be low (< 0.3).
@@ -32,7 +33,7 @@ protected:
     /*
         Owner will usually fall in this list: ["ROSA", "GENERAL <name>", "<user's username", "null"|""]
     */
-    string owner;
+    std::string owner;
 
      /*
     LINX -> Either user owned or independent
@@ -50,12 +51,13 @@ public:
     */
     virtual void showcase(int mode = 2) {
         if (mode == 2) render_visualize_brain_2D();
-        else if (mode == 3) throw logic_error("3D visual not yet made.");
-        else throw logic_error(format("Invalid mode: '{}'. Choose '2' or '3'", mode));
+        else if (mode == 3) throw std::logic_error("3D visual not yet made.");
+        else throw logic_error(std::format("Invalid mode: '{}'. Choose '2' or '3'", mode));
     }
 
     virtual void render_visualize_brain_2D() = 0;  // each subclass implements its own
     virtual void createDatabase() = 0;
+    virtual std::string getId(){return this->id;};
     virtual ~BrainBase() = default;  // virtual destructor, since you'll have polymorphic pointers eventually
 };
 
@@ -71,20 +73,21 @@ private:
 
     // example ("john", "", "doe")
     Name first_middle_last_name; 
+    std::string id_;
 
 public:
     Brain(
-        string id_,
+        std::string id_,
         Name const& name, 
         float weight_, 
         Group familyCategory,
-        string creatorId=""
+        std::string creatorId=""
     ){
         if (!validateName(name)){
             return;
         }
-        id = id_;
-        owner = creatorId;
+        id = std::move(id_);
+        owner = std::move(creatorId);
         familyClass = familyCategory;
         first_middle_last_name = name;
         weight = weight_;
@@ -101,23 +104,23 @@ public:
 
 
         if (name.first.empty() || name.last.empty()){
-            throw length_error("First and last name are required");
+            throw std::length_error("First and last name are required");
         }
 
-        if (min(name.last.length(), name.first.length()) < 2  || max( name.last.length(), name.first.length()) > 100){
-            throw length_error("First or Last name falls outside the valid length range (2-100).");
+        if (std::min(name.last.length(), name.first.length()) < 2  || std::max( name.last.length(), name.first.length()) > 100){
+            throw std::length_error("First or Last name falls outside the valid length range (2-100).");
         }
         
         if (name.middle.length() > 100){
-            throw length_error("Middle name falls outside the valid length range (0-100).");
+            throw std::length_error("Middle name falls outside the valid length range (0-100).");
         }
   
         for (char const n : special_chars){
-            if (name.first.find(n) != string::npos ||
-                name.middle.find(n) != string::npos ||    
-                name.last.find(n) != string::npos    
+            if (name.first.find(n) != std::string::npos ||
+                name.middle.find(n) != std::string::npos ||    
+                name.last.find(n) != std::string::npos    
             ){
-                throw logic_error("Name cannot include special characters");
+                throw std::logic_error("Name cannot include special characters");
             }
             continue;
         //     int left = 0;
@@ -140,15 +143,15 @@ public:
     Show brain with memories represented.
     */
     void render_visualize_brain_2D(
-                 tuple<int,int> figsize = tuple(7,7), 
-                 string border_color="black", 
-                 string _color="lightgray", 
-                 string shape = "circle", 
+                 std::tuple<int,int> figsize = tuple(7,7), 
+                 std::string_view border_color="black", 
+                 std::string_view _color="lightgray", 
+                 std::string_view shape = "circle", 
                  float Brain_Size= 1.0)
         {
 
         
-        unordered_map<string, string> character_color = {
+        std::unordered_map<std::string, std::string> character_color = {
                 {"happy", "yellow"},
                 {"sadness", "blue"},
                 {"anger", "red"},
@@ -198,7 +201,7 @@ public:
     that are there to answer questions, LINX remembers its user at a deeper scale. To achieve this,
     we'll have to sacrifice knowledge for commitment for the user or its field of knowledge (managers).
     */
-    void remember(string topic){
+    void remember(std::string topic){
         /*
         Here, the flow will likely be we get information, search our database and filter content that fits best.
         Basic RAG, but we'll aim further down memory to achieve either forgotten or special data.
@@ -236,20 +239,20 @@ public:
 class GeneralBrain : public BrainBase{
 private:
 
-    string domain;
+    std::string domain;
 
     Group groupClass = Group::general;
 
     // example ("general", "cleaner")
-    tuple<string, string> name; 
+    std::tuple<std::string, std::string> name; 
 
 
 public:
     GeneralBrain(
-    string generalId,
-    string generalDomain,
+    std::string generalId,
+    std::string generalDomain,
     float generalWeight,
-    string creator
+    std::string creator
     ){
         id = generalId;
         domain = generalDomain;  
@@ -263,14 +266,14 @@ public:
     Since generals are pieces of Rosa, this data is technically is a piece of Rosalina's "brain".
     */
     void render_visualize_brain_2D(
-                 string border_color="black", 
-                 string shape = "circle", 
+                 std::string border_color="black", 
+                 std::string shape = "circle", 
                  float Brain_Size= 1.0
         )
         {
 
 
-    }
+        }
 
 
 

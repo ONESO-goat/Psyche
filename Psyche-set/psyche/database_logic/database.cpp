@@ -5,33 +5,43 @@ Database logic, where we edit sql files, add, remove, etc...
 */
 
 
+#include <cstddef>
 #include <format>
-#include <helpers/imports.h>
+#include <
+#include "../helpers/imports.h"
 #include <chrono>
 #include <fstream>
+#include <memory>
+#include <optional>
 #include <set>
 #include <string>
-#include <vector>
+#include <string_view>
 #include <unordered_map>
+#include "../schema/metadata_structs.h"
 
-import Helpers;
 
-using namespace std;
+struct brainParameters{Name name;}; // Add more
+
+union brainResponse{
+    std::unique_ptr<LinxAgent> agent;
+    std::nullptr_t noResponse = nullptr;
+};
+
 class Database {
 private:
-    string passkey;
+    std::string passkey;
 
 public:
-    Database(string const passkey) : passkey(passkey) {}
+    Database(std::string const passkey) : passkey(passkey) {}
 
     bool linxConnection(
-        string const& linxId, 
-        string const& ownerType,
-        string const& ownerId
+        std::string const& linxId, 
+        std::string const& ownerType,
+        std::string const& ownerId
     ) {
         // TODO: not implemented
-        string command = format("select linx where linx_id = {}?", linxId);
-        unordered_map<string, string> commands = {
+        std::string command = std::format("select linx where linx_id = {}?", linxId);
+        std::unordered_map<std::string, std::string> commands = {
             {"rosa", ""},
             {"user", ""},
             {"general", ""}
@@ -40,33 +50,34 @@ public:
     }
    
     bool createLinx(
-        string const& requestId,
-        string const& ownerType, 
-        string reason = "personal", 
-        Name const& name = Name("Linx", "", "Psy"),
-       string nicheId = "",
-        float weight = 5.0
+        std::string const& requestId,
+        std::string const& ownerType, 
+        std::string reason = "personal", 
+        Name const& name = {"linx", "", "Psy"},
+        std::string_view const& nicheId = "",
+        float weight = 5.0,
+        bool _createBrain = false
     ) {      
         try {
          
-            fstream sqlFile("sql_models/GLINX.sql", ios::app);
+            std::fstream sqlFile("sql_models/GLINX.sql", std::ios::app);
             if (!sqlFile.is_open()){
                 Helpers::errorMsg(5, "SQL", "GLINX.sql file will not open during linx creation.");
                 return false;
             }
-            string type = set<string>{"rosa", "lina", "general"}.contains(ownerType) ? "manager" : "personal";
+            std::string type = std::set<std::string>{"rosa", "lina", "general"}.contains(ownerType) ? "manager" : "personal";
             
-            string id_ = Helpers::generateId("linx", ownerType);
+            std::string id_ = Helpers::generateId("linx", ownerType);
             if (id_.empty()){
-                cerr << Helpers::errorMsg(2, "generating ID", format("Id returned NULL. Id == {}", id_)) << endl;
+                cerr << Helpers::errorMsg(2, "generating ID", std::format("Id returned NULL. Id == {}", id_)) << endl;
                 return false;
             } 
             
-            string fullName = name.middle != "" ? 
-            format("{}{}{}", name.first, name.middle, name.last) :
-            format("{} {}", name.first, name.last);
+            std::string fullName = name.middle != "" ? 
+            std::format("{}{}{}", name.first, name.middle, name.last) :
+            std::format("{} {}", name.first, name.last);
 
-            string command = format(
+            std::string command = std::format(
                 "insert into Linx\n"
                 " (name, {0}_id, niche_id, linx_type)\n"
                 " values ('{1}', '{2}', '{3}', '{4}')\n",
@@ -74,37 +85,30 @@ public:
             );
             sqlFile << command;
             sqlFile.close();
+            if (_createBrain){
+                InstantiationProtocol();
+            }
 
-            
-            // vector<string> commands = {
-            //     format("create linx where name = {}", fullName),
-            //     format("{}_id = {}", ownerType, requestId),
-            //     format("niche_id = {}", nicheId),
-            //     format("linx_type = {}", type)
-            // };
-            
-            // // FIX: Removed Python-style named arguments. Must be positional.
-            // Brain brain(id_, name, weight, requestId);
             return true;
 
-        } catch (const runtime_error& ex){
+        } catch (const std::runtime_error& ex){
             Helpers::errorMsg(5, "Creating LINX", ex.what());
             return false;
         }
     }
 
     bool addUser(
-        string const& username,
-        string const& email,
-        string const& hashedPassword
+        std::string const& username,
+        std::string const& email,
+        std::string const& hashedPassword
     ) {
         try {
-            fstream userSqlFile("sql_models/user.sql", ios::app);
+            std::fstream userSqlFile("sql_models/user.sql", ios::app);
             if (!userSqlFile.is_open()) {
-                cerr << Helpers::errorMsg(4, "SQL", "user.sql will not open");
+                Helpers::errorMsg(4, "SQL", "user.sql will not open");
                 return false;
             }
-            string command = format(
+            std::string command = std::format(
                 "insert into users (username, email, password), values ('{}','{}','{}');\n", 
                 username, email, hashedPassword
             );
@@ -113,27 +117,28 @@ public:
             userSqlFile.close();
             return true;
         }
-        catch (const runtime_error& ex) {
+        catch (const std::runtime_error& ex) {
             Helpers::errorMsg(5, "creating new User", ex.what());
             return false;
         }
     }
 
-    /* Access keys are unique keys generals, rosa, or facility have, each unique.
+    /* 
+        Access keys are unique keys generals, rosa, or facility have, each unique.
         Basically API keys. If exposed publicly, remove/update it.
     */
-    string createPrompt(string const& accessKey){ 
+    std::string createPrompt(std::string const& accessKey){ 
 
         if (accessKey.empty() || accessKey.length() != 700){return "invalid key";}
         // TODO: Access key logic here before prompt creation.
         if (!validKey(accessKey)){
             return "invalid key";
         }
-        string prompt; getline(cin, prompt);
+        std::string prompt; getline(std::cin, prompt);
         return prompt;
     }
 
-    bool validKey(string const accessKey){
+    bool validKey(std::string const accessKey){
         // 1: Check if it exists
         // 2. check it's not expired
         // 3. check if the holder exists
@@ -142,4 +147,31 @@ public:
 
         return false;
     }
+
+    std::optional<std::unique_ptr<LinxAgent>> InstantiationProtocol(
+        std::string_view const& id_,
+
+    ){
+
+        // TODO: NOT IMPLIMENTED 
+        return nullptr;
+
+            /*
+                Brains act as physical components for GLINX's.
+                Maybe one day get the software into some robots 👀
+            */
+            std::unique_ptr<Brain> brain = std::make_unique(Brain::Brain(string(id_), name, weight, requestId));
+            if (!brain || brain == nullptr || brain.getId().empty()){ 
+                Helpers::errorMsg(5, "Brain", "The brain wasn't created when making LINX");
+                return nullptr;
+            }
+
+            string brainId = brain.getId().copy();
+            std::unique_ptr<LinxAgent> agent = std::make_unique(LinxAgent(
+                brain_id = brainId,
+                ... // add rest 
+            ))
+            return agent;
+        
+        }
 };
