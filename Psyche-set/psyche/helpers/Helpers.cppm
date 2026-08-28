@@ -13,6 +13,13 @@ export enum class Group{
     MANAGER
 };
 
+export enum class SqlFiles{
+    users = "user.sql",
+    GLINX = "GLINX.sql",
+    settings = "settings.sql",
+    rosalina = "rosalina.sql"
+}
+
 class helpers{
 public:
         /* 
@@ -40,4 +47,12 @@ public:
             return std::format("GENERAL-{}{}",to_string(id), mark);
         }
     };
+
+    /*
+    Simple error message command. 
+    This is to avoid typing the same thing, where I could forget to add import details.
+    */
+    void errorMsg(int tier, string what, string theError){
+        cout << "[Tier " << tier << "] Error occurred when '" << what << "': " << theError << endl;
+    }
 };

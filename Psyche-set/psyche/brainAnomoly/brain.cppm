@@ -9,13 +9,15 @@ Generals focus on data, while LINX focus on memory.
 
 
 */
+module;
+
 #include <imports.h>
 #include <format>
 #include <string_view>
 
 using namespace std;
 
-struct Name {string first, middle, last; };
+export struct Name {string first, middle, last; };
 
 class BrainBase {
 protected:
@@ -70,21 +72,21 @@ private:
     Group familyClass;
 
     // example ("john", "", "doe")
-    tuple<string, string, string> first_middle_last_name; 
+    Name first_middle_last_name; 
 
 public:
     Brain(
         string id_,
-        tuple<string, string, string> const& name, 
+        Name const& name, 
         float weight_, 
         Group familyCategory,
-        string creator=""
+        string creatorId=""
     ){
         if (!validateName(name)){
             return;
         }
         id = id_;
-        owner = creator;
+        owner = creatorId;
         familyClass = familyCategory;
         first_middle_last_name = name;
         weight = weight_;
