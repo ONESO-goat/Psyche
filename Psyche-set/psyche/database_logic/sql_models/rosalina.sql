@@ -4,6 +4,8 @@
 
 create table Rosa( -- Rosa holds data, breaks herself into pieces called generals (SLMs) on that data, and interacts
     rosa_id TEXT NOT NULL PRIMARY KEY UNIQUE, -- ID might be 100+ characters
+    access_key_id TEXT UNIQUE references Access_key(access_key_id),
+    
 
     rosa_name TEXT NOT NULL,
 
@@ -29,6 +31,8 @@ CREATE TABLE Rosa_self_reflections( -- Something that updates once a while. Just
 
 create table Lina( -- Lina holds data aswell, but holds dangerous, harmful, or "dead" data (like killed guardians).
     lina_id           TEXT PRIMARY KEY,
+    access_key_id TEXT UNIQUE references Access_key(access_key_id),
+    
 
     lina_name         TEXT NOT NULL,
 

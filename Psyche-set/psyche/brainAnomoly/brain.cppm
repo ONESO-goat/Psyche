@@ -11,13 +11,11 @@ Generals focus on data, while LINX focus on memory.
 */
 module;
 
-#include <imports.h>
+#include <helpers/imports.h>
 #include <format>
 #include <string_view>
 
 using namespace std;
-
-export struct Name {string first, middle, last; };
 
 class BrainBase {
 protected:

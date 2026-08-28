@@ -4,6 +4,7 @@ create TABLE General(
     general_id STRING           PRIMARY KEY,
     name                        TEXT NOT NULL,
     domain                      TEXT NOT NULL,
+    access_key_id TEXT UNIQUE references Access_key(access_key_id),
 
     follows_rosa_id TEXT REFERENCES rosa(rosa_id),
     follows_lina_id TEXT REFERENCES lina(lina_id),
@@ -51,7 +52,7 @@ CREATE TABLE Linx (
     -- exactly one of these should be set, enforced at the app layer
     -- (or with a CHECK constraint once you're comfortable with those)
     general_id      INTEGER REFERENCES General(general_id),   -- set if manager
-    owner_user_id   INTEGER REFERENCES Users(user_id),         -- set if independent
+    user_id   INTEGER REFERENCES Users(user_id),         -- set if independent
 
     rule_based      BOOLEAN DEFAULT TRUE,   -- flips to FALSE once/if it graduates to its own SLM
     refresh_sec     INTEGER,                -- overrides niche default when set (managers get faster cadence)
