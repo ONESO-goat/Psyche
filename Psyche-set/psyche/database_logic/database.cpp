@@ -5,10 +5,9 @@ Database logic, where we edit sql files, add, remove, etc...
 */
 
 
-#include <cstddef>
 #include <format>
-#include "../helpers/helpers.h"
-#include "../helpers/imports.h"
+
+
 #include <chrono>
 #include <fstream>
 #include <memory>
@@ -18,14 +17,12 @@ Database logic, where we edit sql files, add, remove, etc...
 #include <string_view>
 #include <unordered_map>
 #include "../schema/metadata_structs.h"
-
+#include "../brainAnomaly/brain.h"
+#include "../helpers/helpers.h"
 
 struct brainParameters{Name name;}; // Add more
 
-union brainResponse{
-    std::unique_ptr<LinxAgent> agent;
-    std::nullptr_t noResponse = nullptr;
-};
+using brainResponse = std::optional<std::unique_ptr<LinxAgent>>;
 
 class Database {
 private:
@@ -69,7 +66,11 @@ public:
             
             std::string id_ = Helpers::generateId(Group::LINX, ownerType);
             if (id_.empty()){
-                std::cerr << Helpers::errorMsg(2, "generating ID", std::format("Id returned NULL. Id == {}", id_)) << endl;
+                Helpers::errorMsg(
+                    2, 
+                    "generating ID", 
+                    std::format("Id returned NULL. Id == {}", id_)
+                );
                 return false;
             } 
             
@@ -86,7 +87,7 @@ public:
             sqlFile << command;
             sqlFile.close();
             if (_createBrain){
-                InstantiationProtocol();
+                InstantiationProtocol(id_);
             }
 
             return true;
@@ -148,8 +149,12 @@ public:
         return false;
     }
 
-    std::optional<std::unique_ptr<LinxAgent>> InstantiationProtocol(
-        std::string_view const& id_,
+    brainResponse InstantiationProtocol(
+        std::string const& id_,
+        Name const& name,
+        Group const& type,
+        float const& weight, 
+        std::string const& requestId
 
     ){
 
@@ -160,8 +165,8 @@ public:
                 Brains act as physical components for GLINX's.
                 Maybe one day get the software into some robots 👀
             */
-            std::unique_ptr<Brain> brain = std::make_unique(Brain::Brain(string(id_), name, weight, requestId));
-            if (!brain || brain == nullptr || brain.getId().empty()){ 
+            auto brain = std::make_unique<Brain>(id_, name, weight, type, requestId);
+            if (!brain || brain == nullptr || brain->getId().empty()){ 
                 Helpers::errorMsg(5, "Brain", "The brain wasn't created when making LINX");
                 return nullptr;
             }

@@ -1,5 +1,6 @@
 #pragma once 
 
+#include <chrono>
 #include <string>
 #include <random>
 #include <format>
@@ -36,5 +37,7 @@ namespace Helpers {
         Simple error message command. 
     */
     void errorMsg(int tier, std::string_view const& what, std::string_view const& theError);
+
+    const std::chrono::year_month_day getDate(bool UTC);
 
 }

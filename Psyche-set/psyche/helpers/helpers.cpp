@@ -1,11 +1,13 @@
 
 #include "helpers.h"
 
+#include <chrono>
 #include <format>
 #include <iostream>
 #include "../schema/metadata_structs.h"
 #include <string>
 #include <string_view>
+#include <system_error>
 #include <uuid/uuid.h>
 
 namespace Helpers {
@@ -38,13 +40,24 @@ namespace Helpers {
      is either 'rosa', 'lina', 'general', or the initials of a worker.
      */
     std::string generateAccessKeyLinux(std::string_view const& who) {
-        uuid_t r1, r2, r3, r4, r5;
-        uuid_generate(r1); uuid_generate(r2); uuid_generate(r3); uuid_generate(r4); uuid_generate(r5);
-        char id1[37], id2[37], id3[37], id4[37], id5[37];
-        uuid_unparse(r1, id1); uuid_unparse(r2, id2); uuid_unparse(r3, id3); uuid_unparse(r4, id4); uuid_unparse(r5, id5);
+        std::string key = std::string(who) + "-";
 
-        return std::format("{}-{}{}{}{}{}", std::string(who), id1, id2, id3, id4, id5);
+        while (key.length() < 700) {
+            uuid_t raw;
+            uuid_generate(raw);
+
+            char uuid[37];
+            uuid_unparse(raw, uuid);
+
+            key += uuid;
+        }
+
+        key.resize(700);
+
+        return key;
     }
+
+
     
 
     /*
@@ -52,6 +65,27 @@ namespace Helpers {
     */
     void errorMsg(int tier, std::string_view const& what, std::string_view const& theError) {
         std::cerr << "[Tier " << tier << "] Error occurred when '" << what << "': " << theError << std::endl;
+    }
+
+    const std::chrono::year_month_day getDate(bool UTC=false){
+        if (UTC){
+            auto now = std::chrono::system_clock::now();
+            std::chrono::year_month_day utc_date{std::chrono::floor<std::chrono::days>(now)};
+            
+            std::cout << "UTC Date: " << utc_date << "\n";
+            return utc_date;
+        }
+        // 1. Get current time point from system clock
+        auto now = std::chrono::system_clock::now();
+
+        // 2. Convert system time to local time zone
+        auto local_time = std::chrono::current_zone()->to_local(now);
+
+        // 3. Extract the year_month_day date portion
+        std::chrono::year_month_day current_date{std::chrono::floor<std::chrono::days>(local_time)};
+
+        return current_date;
+
     }
 }
 
