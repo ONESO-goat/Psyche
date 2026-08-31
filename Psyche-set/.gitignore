@@ -24,3 +24,17 @@ env.bak/
 .idea/
 .vscode/
 *.iml
+# Compiled Object files
+*.o
+*.obj
+
+# Precompiled headers and C++20 modules
+*.gcm
+*.pcm
+*.ifc
+
+# Executables
+*.exe
+/gcm.cache
+*.out
+*.app

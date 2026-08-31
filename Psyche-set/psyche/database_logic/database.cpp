@@ -7,7 +7,7 @@ Database logic, where we edit sql files, add, remove, etc...
 
 #include <cstddef>
 #include <format>
-#include <
+#include "../helpers/helpers.h"
 #include "../helpers/imports.h"
 #include <chrono>
 #include <fstream>
@@ -67,9 +67,9 @@ public:
             }
             std::string type = std::set<std::string>{"rosa", "lina", "general"}.contains(ownerType) ? "manager" : "personal";
             
-            std::string id_ = Helpers::generateId("linx", ownerType);
+            std::string id_ = Helpers::generateId(Group::LINX, ownerType);
             if (id_.empty()){
-                cerr << Helpers::errorMsg(2, "generating ID", std::format("Id returned NULL. Id == {}", id_)) << endl;
+                std::cerr << Helpers::errorMsg(2, "generating ID", std::format("Id returned NULL. Id == {}", id_)) << endl;
                 return false;
             } 
             
@@ -103,7 +103,7 @@ public:
         std::string const& hashedPassword
     ) {
         try {
-            std::fstream userSqlFile("sql_models/user.sql", ios::app);
+            std::fstream userSqlFile("sql_models/user.sql", std::ios::app);
             if (!userSqlFile.is_open()) {
                 Helpers::errorMsg(4, "SQL", "user.sql will not open");
                 return false;
@@ -166,9 +166,9 @@ public:
                 return nullptr;
             }
 
-            string brainId = brain.getId().copy();
+            std::string brainId = brain.getId().copy();
             std::unique_ptr<LinxAgent> agent = std::make_unique(LinxAgent(
-                brain_id = brainId,
+                brain_id,
                 ... // add rest 
             ))
             return agent;
