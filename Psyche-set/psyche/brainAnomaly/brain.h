@@ -15,6 +15,7 @@ Generals focus on data, while LINX focus on memory.
 #include <tuple>
 #include <format>
 #include <string>
+#include <system_error>
 #include <map>
 #include <iostream>
 #include <string_view>
@@ -174,6 +175,8 @@ public:
         Get current data like name, id, type, ect...    
     */
     std::unordered_map<std::string, std::any> getBrainData() override;
+
+    std::string getId() override;
 };
 
 

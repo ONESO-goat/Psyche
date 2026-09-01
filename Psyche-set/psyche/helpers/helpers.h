@@ -2,9 +2,11 @@
 
 #include <chrono>
 #include <string>
+#include <string_view>
 #include <random>
 #include <format>
 #include <iostream>
+#include <system_error>
 #include "../schema/metadata_structs.h"
 #include <uuid/uuid.h>
 
@@ -32,6 +34,9 @@ namespace Helpers {
      is either 'rosa', 'lina', 'general', or the initials of a worker.
      */
     // std::string generateAccessKey(std::string_view const& who);
+    
+    std::string hashPassword(std::string const& password);
+    bool verify_password(const std::string& password, const std::string& hashed_password);
 
     /*
         Simple error message command. 

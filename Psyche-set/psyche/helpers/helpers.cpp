@@ -1,14 +1,8 @@
 
 #include "helpers.h"
-
-#include <chrono>
-#include <format>
-#include <iostream>
 #include "../schema/metadata_structs.h"
-#include <string>
-#include <string_view>
-#include <system_error>
-#include <uuid/uuid.h>
+#include <sodium.h>
+
 
 namespace Helpers {
 
@@ -58,6 +52,34 @@ namespace Helpers {
     }
 
 
+    std::string hashPassword(std::string const& password){
+        std::string hashed_password(crypto_pwhash_STRBYTES, password);
+
+        int result = crypto_pwhash_str(
+            hashed_password.data(),
+            password.c_str(),
+            password.length(),
+            crypto_pwhash_OPSLIMIT_INTERACTIVE,
+            crypto_pwhash_MEMLIMIT_INTERACTIVE
+        );
+
+        if (result != 0) {
+            throw std::runtime_error("Password hashing failed (out of memory or internal error).");
+        }
+        hashed_password.resize(std::strlen(hashed_password.c_str()));
+        return hashed_password;
+    }
+
+    bool verify_password(const std::string& password, const std::string& hashed_password) {
+        int result = crypto_pwhash_str_verify(
+            hashed_password.c_str(),
+            password.c_str(),
+            password.length()
+        );
+
+        // Returns 0 on successful match, -1 on mismatch
+        return result == 0;
+    }
     
 
     /*

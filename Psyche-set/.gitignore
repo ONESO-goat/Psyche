@@ -37,4 +37,5 @@ env.bak/
 *.exe
 /gcm.cache
 *.out
+commands.txt
 *.app

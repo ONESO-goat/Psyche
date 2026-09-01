@@ -1,10 +1,13 @@
 // main.cpp
-#include "helpers/helpers.h"
-#include "schema/metadata_structs.h"
+
 #include <cassert>
 #include <memory>
 #include <string_view>
 #include "brainAnomaly/brain.h"
+#include "helpers/helpers.h"
+#include "schema/metadata_structs.h"
+#include "database_logic/database.h"
+
 
 // g++ -std=c++20 main.cpp helpers/helpers.cpp -o program -luuid
 using namespace std;
@@ -29,15 +32,36 @@ void uuidTest(){
     assert(!accessKey.empty());
 }
 auto createBrainTest(){
-    auto brain = std::make_unique<Brain>("id0", nameTest, 5, Group::LINX, "Julius-123");
-    cout << " Brain ID == " << brain->getId() << endl;
+    auto brain = std::make_unique<Brain>(
+        "id0", nameTest, 5, Group::LINX, "Julius-123"
+    );
+    for (const auto [key, values] : brain->getBrainData()){
+        cout << "Current key == " << key << endl;
+    }
+
+}
+
+auto createLinxTest(std::string key){
+    Database database = Database(key);
+    auto l = database.createLinx(
+        "julius-1",
+        "julius",
+        "testing",
+        nameTest
+    );
+    assert(l);
+    return l;
 }
 
 auto dateTest(bool UTC=false){
     return Helpers::getDate(UTC);
 }
+
+struct test{
+    Name name = name;
+};
+
 int main(){
-    auto d = Helpers::getDate(true);
-    cout << d << endl;
+    createLinxTest("bad key");
     return 0;
 }

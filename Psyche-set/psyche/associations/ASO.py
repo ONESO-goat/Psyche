@@ -1,8 +1,9 @@
 # ASO/ASO.py
+# Most updated version
 
 from typing import List, Dict, Any, Optional
-from aso_core import Association, AssociationGraph
-from aso_ai import AssociationAI
+from associations.aso_core import Association, AssociationGraph
+from associations.aso_ai import AssociationAI
 from helpers.debugging_utils import debug, reset_debug, hashtag
 import copy
 from _info_ import _explanation

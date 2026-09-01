@@ -3,6 +3,7 @@
 #include <string>
 #include <unordered_map>
 #include <any>
+#include <string_view>
 
 
 struct Name {
@@ -22,12 +23,16 @@ namespace SqlFiles {
     constexpr std::string_view rosalina = "rosalina.sql";
 }
 
+struct User{
+    std::string id_;
+};
+
 struct LinxAgent{
     std::string brain_id;
     
     std::string id_;
     std::string niche_id;
-    std::string type;
+    Group type;
 
     Name name;
 

@@ -14,9 +14,6 @@ Generals focus on data, while LINX focus on memory.
 
 
 #include "../schema/metadata_structs.h"
-#include <chrono>
-#include <system_error>
-#include <unordered_map>
 #include "../brainAnomaly/brain.h"
 #include "../helpers/helpers.h"
 void BrainBase::showcase(int mode)
@@ -179,11 +176,19 @@ void Brain::update()
 }
 
 /*
-    Primaily General focused, the general searches it's knowledge to come up with a thesis and accurate prediction.
+    primarily General focused, the general searches it's knowledge to come up with a thesis and accurate prediction.
 */
 void Brain::search()
 {
     // TODO
+}
+
+/*
+    Get brains ID
+*/
+std::string Brain::getId()
+{
+    return this->id;
 }
 
 

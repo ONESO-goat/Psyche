@@ -1,3 +1,9 @@
+/*
+    If python associations are slow, we'll migrate to c++.
+
+*/
+
+
 #include <imports.h>
 #include <serpapi.hpp>
 #include <rapidjson/document.h>

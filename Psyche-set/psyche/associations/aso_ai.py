@@ -2,7 +2,7 @@
 
 import json
 from typing import Dict, List, Any
-from debugging_utils import debug, reset_debug, hashtag
+from helpers.debugging_utils import debug, reset_debug, hashtag
 
 class AssociationAI:
     """
