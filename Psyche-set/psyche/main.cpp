@@ -8,14 +8,10 @@
 #include "schema/metadata_structs.h"
 #include "database_logic/database.h"
 
-
-// g++ -std=c++20 main.cpp helpers/helpers.cpp -o program -luuid
 using namespace std;
 
 Name nameTest = {"john", "", "doe"};
 string idTest = "1";
-
-// g++ -std=c++20 main.cpp helpers/helpers.cpp -o program -luuid  # WORKS
 
 void uuidTest(){
     cout << "1: ID TEST \n";
@@ -49,7 +45,7 @@ auto createLinxTest(std::string key){
         "testing",
         nameTest
     );
-    assert(l);
+    assert(l == true);
     return l;
 }
 

@@ -6,6 +6,7 @@
 #include <random>
 #include <format>
 #include <iostream>
+#include <cstring>
 #include <system_error>
 #include "../schema/metadata_structs.h"
 #include <uuid/uuid.h>
@@ -16,6 +17,8 @@ namespace Helpers {
         Create an ID for created agent.
     */
     std::string generateId(Group const& type, std::string_view const& requestedBy);
+
+    bool validateUsername(std::string const& username);
 
 
     /* 

@@ -2,6 +2,7 @@
 #include "helpers.h"
 #include "../schema/metadata_structs.h"
 #include <sodium.h>
+#include <string_view>
 
 
 namespace Helpers {
@@ -51,9 +52,30 @@ namespace Helpers {
         return key;
     }
 
+    /*
+        Simple username validation for users.
+    */
+    bool validateUsername(std::string const& username){
+        if (username.find("<") != std::string::npos || username.find(">") != std::string::npos ){
+            
+            return false;
+        }
+        if (username.length() < 3 || username.length() > 60){
+
+            return false;
+        }
+
+        thread_local const std::string_view specialChars = "-/?.>,<+=~`!@#$%^&*()]}\\|[{}]";
+        
+
+
+        return true;
+
+
+    }
 
     std::string hashPassword(std::string const& password){
-        std::string hashed_password(crypto_pwhash_STRBYTES, password);
+        std::string hashed_password(crypto_pwhash_STRBYTES, '\0');
 
         int result = crypto_pwhash_str(
             hashed_password.data(),
@@ -84,6 +106,10 @@ namespace Helpers {
 
     /*
         Simple error message command. 
+
+        @tier (int): Importance/significance
+        @what (string): What field/area is being effected
+        @theError (string): Explain the error
     */
     void errorMsg(int tier, std::string_view const& what, std::string_view const& theError) {
         std::cerr << "[Tier " << tier << "] Error occurred when '" << what << "': " << theError << std::endl;

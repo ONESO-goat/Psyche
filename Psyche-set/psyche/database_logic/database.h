@@ -1,7 +1,7 @@
 /*
 database.cpp
 
-Database logic, where we edit sql files, add, remove, etc...
+Database logic using SQLite3 for safe, secure, and transactional persistence
 */
 
 
@@ -16,6 +16,8 @@ Database logic, where we edit sql files, add, remove, etc...
 #include <string>
 #include <string_view>
 #include <unordered_map>
+
+#include <sqlite3.h>
 #include "../schema/metadata_structs.h"
 #include "../brainAnomaly/brain.h"
 #include "../helpers/helpers.h"
@@ -27,10 +29,11 @@ using brainResponse = std::optional<std::unique_ptr<LinxAgent>>;
 class Database {
 private:
     std::string passkey;
-    std::vector<User> database;
+    sqlite3* db = nullptr;
 
 public:
-    Database(std::string const& passkey);
+    Database(std::string const& passkey); // instructor
+    ~Database(); // destructor
 
     bool linxConnection(
         std::string const& linxId, 
