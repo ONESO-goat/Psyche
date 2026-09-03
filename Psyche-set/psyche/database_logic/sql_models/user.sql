@@ -6,7 +6,7 @@ create TABLE Users(
 
     username            varchar(255) NOT NULL UNIQUE,
     hashed_passed       varchar(255) NOT NULL,
-    email               varchar(100)
+    email               varchar(100),
 
     created_at          DATETIME DEFAULT CURRENT_TIMESTAMP,
     last_login          datetime default CURRENT_TIMESTAMP,

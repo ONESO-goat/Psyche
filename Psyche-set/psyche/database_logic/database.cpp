@@ -6,11 +6,15 @@ Database logic, where we edit sql files, add, remove, etc...
 
 
 #include "database.h"
+#include <fstream>
+#include <filesystem>
+#include <sstream>
 
 
+namespace fs = std::filesystem;
 
 Database::Database(std::string const& passkey) : passkey(passkey) {
-    if (passkey != "admin123"){std::cerr << "access denied" << std::endl; return;}
+    if (passkey != "admin123"){std::cerr << "access denied" << std::endl; return;} // passkey hardcoded for now
 
     if (sqlite3_open("app_data.db", &db) != SQLITE_OK){
         Helpers::errorMsg(5, "SQLITE", std::format("Failed to open database: {}", sqlite3_errmsg(db)));
@@ -18,32 +22,56 @@ Database::Database(std::string const& passkey) : passkey(passkey) {
         return;
     }
 
-    const char* initSchema = 
-        "CREATE TABLE IF NOT EXISTS users ("
-        "  id INTEGER PRIMARY KEY AUTOINCREMENT,"
-        "  username TEXT NOT NULL UNIQUE,"
-        "  email TEXT NOT NULL,"
-        "  password TEXT NOT NULL"
-        ");"
-        "CREATE TABLE IF NOT EXISTS Linx ("
-        "  id INTEGER PRIMARY KEY AUTOINCREMENT,"
-        "  name TEXT NOT NULL,"
-        "  owner_id TEXT NOT NULL," // Generic placeholder; schema can adapt per ownerType
-        "  niche_id TEXT NOT NULL,"
-        "  linx_type TEXT NOT NULL"
-        ");";
-        
-    if (sqlite3_exec(db, initSchema, nullptr, nullptr, &errMsg) != SPLITE_OK){
-        Helpers::errorMsg(5, "SQLITE_INIT", std::format("Schema build failed: {}", errMsg));
-        sqlite3_free(errMsg);
+    thread_local const std::string folderPath = "sql_models";
+
+    /*
+        Looping into sql_models and building each table in each file.
+        File system seems to be a file managing tool that will aid with
+        checking files, making sure it's the right file, then run.
+    */
+    if (fs::exists(folderPath) && fs::is_directory(folderPath)){
+        for (const auto& entry : fs::directory_iterator(folderPath)){
+            if (entry.path().extension() == ".sql"){
+                std::ifstream file(entry.path());
+                if (!file.is_open())
+                {
+                    Helpers::errorMsg(
+                        5, 
+                        "File not opening", 
+                        std::format(
+                            "File '{}' did not open during database creation.", 
+                            entry.path().stem() // get file name without extension attached
+                        ) 
+                    );
+                    continue;
+                }
+                
+                // Reading file content then adding it to a string
+                std::stringstream buffer;
+                buffer << file.rdbuf();
+                const std::string& fileContent = buffer.str();
+                char* errMsg = nullptr;
+                if (sqlite3_exec(db, fileContent.c_str(), nullptr, nullptr, &errMsg) != SQLITE_OK) {
+                    Helpers::errorMsg(5, "SQLITE_INIT", 
+                        std::format("Error running {}: {}", entry.path().string(), errMsg));
+                    sqlite3_free(errMsg);
+                }
+            }
+        }
     }
 }
+
+
+
 
 Database::~Database() {
     if (db) {
         sqlite3_close(db);
     }
 }
+
+
+
 
 bool Database::linxConnection(
     std::string const& linxId, 
