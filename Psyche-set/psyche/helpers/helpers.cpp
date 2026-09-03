@@ -8,10 +8,10 @@
 namespace Helpers {
 
     /* 
-    Create an ID for created agent.
+        Create an ID for created agent.
     */
     std::string generateId(Group const& type, std::string_view const& requestedBy) {
-        std::string mark = "-u";
+        std::string mark = "-u"; // u = user or unknown. Commonly will mean "-user"
         if (requestedBy == "rosa") { mark = "-r"; }
         else if (requestedBy == "lina") { mark = "-l"; }
 
@@ -23,8 +23,10 @@ namespace Helpers {
         
         if (type == Group::LINX) {
             return std::format("LINX-{}{}", id_, mark);
-        } else {
+        } else if (type == Group::GENERAL){
             return std::format("GENERAL-{}{}", id_, mark);
+        } else {
+            return std::format("USER-{}{}", id_, mark);
         }
     }
 
@@ -119,8 +121,7 @@ namespace Helpers {
         if (UTC){
             auto now = std::chrono::system_clock::now();
             std::chrono::year_month_day utc_date{std::chrono::floor<std::chrono::days>(now)};
-            
-            std::cout << "UTC Date: " << utc_date << "\n";
+
             return utc_date;
         }
         // 1. Get current time point from system clock

@@ -6,13 +6,11 @@
 create table User_settings(
     settings_id         TEXT PRIMARY KEY,
 
-    user_id             TEXT references Users(user_id),
-
     -- p == preferred
     p_language          TEXT,
     p_theme             TEXT, -- dark, blue, pink, etc. Edits the visuals on linx's face
-    email_notifications BOOLEAN default TRUE,
-    linx_settings       TEXT references Linx_attributes(linx_settings_id)
+    email_notifications BOOLEAN default TRUE
+    -- linx_settings_id       TEXT references Linx_attributes(linx_settings_id)
 );
 
 create table Linx_attributes(
@@ -21,7 +19,7 @@ create table Linx_attributes(
     creative_weight                 INT default 5, -- < 5 more serious, > 5 more creative
     linx_id                         TEXT references Linx(linx_id),
 
-    attachment_to_topic             float default 0.0,
+    attachment_to_topic             float default 0.0
 
     -- Emotion meters. In python (version 0.1) I split all emotions into its own class. But that was tedious.
     -- Emotions are important components for creating emotional based systems of beings in the real world.

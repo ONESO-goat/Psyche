@@ -4,6 +4,7 @@
 #include <unordered_map>
 #include <any>
 #include <string_view>
+#include <optional>
 
 
 struct Name {
@@ -11,6 +12,7 @@ struct Name {
 };
 
 enum class Group {
+    USER,
     LINX,
     GENERAL,
     MANAGER
@@ -31,7 +33,7 @@ struct LinxAgent{
     std::string brain_id;
     
     std::string id_;
-    std::string niche_id;
+    std::optional<std::string> niche_id;
     Group type;
 
     Name name;

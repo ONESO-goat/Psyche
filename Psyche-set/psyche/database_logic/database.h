@@ -46,7 +46,7 @@ public:
         std::string const& ownerType, 
         std::string reason = "personal", 
         Name const& name = {"linx", "", "Psy"},
-        std::string const& nicheId = "",
+        std::optional<std::string> const& nicheId = std::nullopt,
         float weight = 5.0,
         bool _createBrain = false
     );
@@ -76,9 +76,11 @@ public:
         Name const& name,
         Group const& type,
         float const& weight,
-        std::string const& nicheId,
+        std::optional<std::string> const& nicheId,
         std::string const& requestId,
         std::string const& ownerType
 
     );
+
+    bool does_not_exist();
 };

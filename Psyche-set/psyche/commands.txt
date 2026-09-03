@@ -5,8 +5,7 @@ g++ -std=c++20 main.cpp database/database.cpp -o program - luuid
 
 g++ -std=c++20 main.cpp helpers/helpers.cpp brainAnomaly/brain.cpp -o program -luuid
 
-g++ -std=c++20 main.cpp helpers/helpers.cpp brainAnomaly/brain.cpp database_logic/database.cpp -o program -luuid && ./program
-
+g++ -std=c++20 main.cpp helpers/helpers.cpp brainAnomaly/brain.cpp database_logic/database.cpp -o program -luuid -lsqlite3 -lsodium && ./program
 Header files: 
 
 g++ -std=c++20 -c helpers.cpp -o helpers.o

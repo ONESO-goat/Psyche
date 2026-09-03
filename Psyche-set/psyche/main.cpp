@@ -10,42 +10,58 @@
 
 using namespace std;
 
+
 Name nameTest = {"john", "", "doe"};
 string idTest = "1";
+int c = 1;
+vector<std::string> errors;
+Database database = Database("admin123");
 
-void uuidTest(){
-    cout << "1: ID TEST \n";
+auto uuidTest(){
+   
     std::string id = Helpers::generateId(Group::LINX, "music");
-    cout << " Generated ID == " << id << endl;
-    assert(id.length() > 0);
-    assert(!id.empty());
 
-    cout << "2: ACCESSKEY TEST \n";
+    // assert(id.length() > 0);
+    // assert(!id.empty());
+
     std::string accessKey = Helpers::generateAccessKeyLinux("rosa");
-    cout << "Access key == " << accessKey << " of length == " << accessKey.length() << endl;
 
-    assert(accessKey.length() > 0);
-    assert(!accessKey.empty());
+    // assert(accessKey.length() > 0);
+    // assert(!accessKey.empty());
+    return accessKey;
 }
-auto createBrainTest(){
+bool createBrainTest(){
     auto brain = std::make_unique<Brain>(
         "id0", nameTest, 5, Group::LINX, "Julius-123"
     );
-    for (const auto [key, values] : brain->getBrainData()){
-        cout << "Current key == " << key << endl;
-    }
+
+    return brain->getId() != "";
 
 }
 
-auto createLinxTest(std::string key){
-    Database database = Database(key);
+
+bool createDatabase(std::string const& passkey){
+    //Database database = Database(passkey);
+    return database.does_not_exist();
+}
+
+bool createLinxTest(std::string key, string requestId){
     auto l = database.createLinx(
-        "julius-1",
-        "julius",
-        "testing",
-        nameTest
+        requestId,              // The Id of the person/object requesting
+        "user",      // User, general
+        "testing",      // The reason for creating
+        nameTest          // Name for the created LINX
     );
-    assert(l == true);
+    // assert(l == true);
+    return l;
+}
+
+bool createUser(){
+    std::string username = "test_user";
+    std::string testPassword = "theBestPasswordEver";
+    std::string email = "test@company.com";
+
+    auto l = database.addUser(username, email, testPassword);
     return l;
 }
 
@@ -53,11 +69,53 @@ auto dateTest(bool UTC=false){
     return Helpers::getDate(UTC);
 }
 
-struct test{
-    Name name = name;
-};
+void appendErrors(bool e, std::string const& errorDetails){
+    if (!e){
+        errors.push_back(
+            to_string(c) + ": " + errorDetails
+        );
+        c++;
+    }
+}
+
+void tests(std::string passkey){
+    bool e;
+    e = createDatabase(passkey);
+    if (e){
+        errors.push_back(
+            to_string(c) + ": Database was not created"
+        );
+        c++;
+    }
+
+    e = createUser();
+    appendErrors(e, "User was not created");
+
+    e = createBrainTest();
+    appendErrors(e, "Brain or Brain ID were not created");
+ 
+    if (e){
+        std::string id; cin >> id;
+        \
+        e = createLinxTest(passkey, id);
+        appendErrors(e, "Linx was not created");
+    }
+    // e = createLinxTest(passkey, "USER-ad294e06-1638-4392-813d-554f657bf5ce-u");
+    // appendErrors(e, "Linx was not created");
+
+    
+    // e = typeof(dateTest()) == std::chrono::year_month_day ;
+    // appendErrors(e, "Datetime was not created");
+
+    cout << "There are " << errors.size() << " errors." << endl;
+    for (const std::string& error : errors){
+        std::cerr << error << std::endl;
+    }
+}
+
 
 int main(){
-    createLinxTest("bad key");
+    std::string passkey = "admin123";
+    tests(passkey);
     return 0;
 }

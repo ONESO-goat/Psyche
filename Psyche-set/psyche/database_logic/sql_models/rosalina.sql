@@ -71,7 +71,7 @@ create table Field(
 
 
     discovered_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-    last_updated_at DATETIME NULL,
+    last_updated_at DATETIME NULL
 );
 
 create table Field_associations(
@@ -82,7 +82,7 @@ create table Field_associations(
     -- Only 1 can be set at a time.
     association_id INT references Field(association_id), -- Field connect. Set if so
 
-    association_context TEXT, -- A figure, game, etc that connects. Set if so. 
+    association_context TEXT -- A figure, game, etc that connects. Set if so. 
 );
 
 
@@ -95,7 +95,7 @@ create table Sources( -- sources are areas agents can reference to obtain data
 
     targeted_field text REFERENCES Field(field_id),
     usefulness float, -- usefulness will be calculated by how much times it's used and grabbed from
-    added_at DATETIME default CURRENT_TIMESTAMP,
+    added_at DATETIME default CURRENT_TIMESTAMP
 
 );
 
@@ -105,16 +105,16 @@ create table Thought(
     thinker_id text not null,
     memory_id INT references Memory(memory_id), -- set if so
     
-    thought_type text check (thought_type in ('theory', 'thought'))
+    thought_type text check (thought_type in ('theory', 'thought')),
 
     context text not null,
     thought_at DATETIME default CURRENT_TIMESTAMP,
 
-    time_to_live int,
+    time_to_live int
 );
 
 create table Related_fields_for_thought(
-    related_fields_for_thought_id int generated always as identity primary key,
+    related_fields_for_thought_id TEXT primary key,
     thought int references Thought(thought_id),
     related_field text not null
 );

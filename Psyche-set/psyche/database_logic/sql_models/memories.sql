@@ -1,7 +1,7 @@
 -- memories.sql
 
 create TABLE brain(
-    brain_id TEXT UNIQUE PRIMARY KEY,
+    brain_id TEXT UNIQUE PRIMARY KEY
 
 );
 
@@ -19,7 +19,7 @@ create TABLE Memory(
     send_to_rosa BOOLEAN,
 
     time_to_live DATETIME,  -- How long this memory stays. Most of the time memories might stay for prolonged times.
-    confidence float,
+    confidence float
 );
 
 create table Memory_associations(
