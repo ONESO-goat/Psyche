@@ -2,14 +2,14 @@
 
 create TABLE General(
     general_id TEXT           PRIMARY KEY,
-    brain_id                    TEXT UNIQUE NOT NULL REFERENCES brain(brain_id),
+    brain_id                    TEXT UNIQUE NULL REFERENCES brain(brain_id),
 
     name                        TEXT NOT NULL,
     domain                      TEXT NOT NULL,
     access_key_id TEXT UNIQUE references Access_key(access_key_id),
 
-    follows_rosa_id TEXT REFERENCES rosa(rosa_id),
-    follows_lina_id TEXT REFERENCES lina(lina_id),
+    follows_rosa_id TEXT null REFERENCES rosa(rosa_id),
+    follows_lina_id TEXT null REFERENCES lina(lina_id),
     -- CHECK (num_nonnulls(follows_rosa_id, follows_lina_id) = 1)
 
     createdAt                   DATETIME DEFAULT CURRENT_TIMESTAMP,
@@ -20,7 +20,7 @@ create TABLE General(
     -- example,  
     -- general cheese -> knows how to make cheese easily, safely, and quickly -> valuation is between 5-7 depending on the market.
     
-    accuracy                    float, -- 0.18 = 18%, 1.0 = 100%. min = 0.0 max = 1.0
+    accuracy                    real default 0.0, -- 0.18 = 18%, 1.0 = 100%. min = 0.0 max = 1.0
     mark_for_removal            BOOLEAN default FALSE, -- if accuracy is too low, the general risk harm, etc, kill.
     -- when a general is killed and it created LINX's, the linx's either get transferred to an upgraded version
     -- of said general, or get killed if their valuation is too low.

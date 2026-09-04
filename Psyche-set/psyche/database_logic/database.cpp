@@ -11,6 +11,7 @@ Database logic, where we edit sql files, add, remove, etc...
 #include <optional>
 #include <ostream>
 #include <sstream>
+#include <stdexcept>
 
 
 namespace fs = std::filesystem;
@@ -209,11 +210,61 @@ bool Database::createLinx(
         }
 }
 
-    bool Database::addUser(
+
+bool Database::createGeneral(
+        std::string const& requestId,
+        std::string const& domain,
+        std::string const& fieldId,
+        std::string reason,
+        bool _createBrain
+    )
+{   
+    if (!db) return false;
+    try{
+
+        if (!fieldExists(fieldId)) return false;
+
+        std::string const& id_ = Helpers::generateId(Group::GENERAL, requestId);
+        std::string const& accessKey = Helpers::generateAccessKeyLinux("general");
+        std::string const& accessKey_hash = Helpers::hashPassword(accessKey);
+
+        thread_local std::string const& sqlQuery = format(
+            "insert general (general_id, name, domain, field_specialization_id) values (?,?,?,?);"
+        );
+
+        sqlite3_stmt* stmt = nullptr;
+        if (sqlite3_prepare_v2(db, sqlQuery.c_str(), -1, &stmt, nullptr) != SQLITE_OK) {
+            Helpers::errorMsg(5, "SQLITE_PREPARE", sqlite3_errmsg(db));
+            return false;
+        }
+        
+        std::string const& name = "general "+domain;
+        sqlite3_bind_text(stmt, 1, id_.c_str(), -1, SQLITE_TRANSIENT);
+        sqlite3_bind_text(stmt, 2, name.c_str(), -1, SQLITE_TRANSIENT);
+        sqlite3_bind_text(stmt, 3, domain.c_str(), -1, SQLITE_TRANSIENT);
+
+
+        // execute
+        int rc = sqlite3_step(stmt);
+        sqlite3_finalize(stmt);
+        if (rc != SQLITE_DONE){
+            Helpers::errorMsg(5, "SQLITE_EXECUTE", sqlite3_errmsg(db));
+            return false;
+        }
+
+
+        return true;
+    } catch (const std::runtime_error& ex){
+        Helpers::errorMsg(5, "Failed to create general", ex.what());
+        return false;
+    }
+}
+
+bool Database::addUser(
         std::string const& username,
         std::string const& email,
         std::string const& hashedPassword
-    ) {
+) {
         if (!db) return false;
         try {
             // std::ofstream userSqlFile("sql_models/user.sql", std::ios::app);
@@ -256,13 +307,13 @@ bool Database::createLinx(
             Helpers::errorMsg(5, "creating new User", ex.what());
             return false;
         }
-    }
+}
 
-    /* 
-        Access keys are unique keys generals, rosa, or facility have, each unique.
-        Basically API keys. If the key is/was exposed publicly, remove/update it.
-    */
-    std::string Database::createPrompt(std::string const& accessKey){ 
+/* 
+    Access keys are unique keys generals, rosa, or facility have, each unique.
+    Basically API keys. If the key is/was exposed publicly, remove/update it.
+*/
+std::string Database::createPrompt(std::string const& accessKey){ 
 
         if (accessKey.empty() || accessKey.length() != 700){return "invalid key";}
         // TODO: Access key logic here before prompt creation.
@@ -271,19 +322,70 @@ bool Database::createLinx(
         }
         std::string prompt; getline(std::cin, prompt);
         return prompt;
-    }
+}
 
-    bool Database::validKey(std::string const accessKey){
-        // 1: Check if it exists
-        // 2. check it's not expired
-        // 3. check if the holder exists
-        // 4. if a worker, check if its work hours - they can only use it during their work hours
-        //  (not needed for now)
+// ========================================= ACCESS KEY LOGIC =========================================
+
+/*
+    1: Check if it exists
+    2: check if the holder exists
+    3. check it's not expired
+    4. if a worker, check if its work hours - they can only use it during their work hours -- might reconsider
+
+*/
+bool Database::validKey(std::string const& accessKey){
+        
+
+        if (!db || accessKey.length() < 700) return false;
+
+        // 1: Check for key existence
+
+        const char* sqlQuery = "select access_key where access_key_id = (?);";
+        sqlite3_stmt* stmt = nullptr;
+
+        
+        if (sqlite3_prepare_v2(db, sqlQuery, -1, &stmt, nullptr) != SQLITE_OK){
+
+            return false;
+        }
+
+        int rc = sqlite3_step(stmt);
+        sqlite3_finalize(stmt);
+        if (rc != SQLITE_DONE){
+
+            return false;
+        }
+
+        // 2: Check whether the holder exists (The access is being held by a person)
+        const auto& H = accessKeyHolder(accessKey);
+        if (!H || H->empty()) return false;
+
+        // 3: Check whether the Key is expired.
+        if (accessKeyIsExpired(accessKey)) return false;
+
 
         return false;
-    }
+}
 
-    brainResponse Database::InstantiationProtocol(
+bool Database::accessKeyIsExpired(const std::string& accessKey)
+{
+    // TODO
+}
+
+const std::optional<std::string> Database::accessKeyHolder(std::string const& accessKeyId)
+{
+    // TODO
+}
+
+
+
+// ======================================== OTHERS ========================================
+
+/*
+                Brains act as physical components for GLINX's (General & LINX).
+                Maybe one day get the software into some robots 👀
+*/
+brainResponse Database::InstantiationProtocol(
         std::string const& id_,
         Name const& name,
         Group const& type,
@@ -295,10 +397,6 @@ bool Database::createLinx(
     ){
 
 
-            /*
-                Brains act as physical components for GLINX's.
-                Maybe one day get the software into some robots 👀
-            */
 
             auto brain = std::make_unique<Brain>(
                 id_, name, weight, type, requestId
@@ -326,4 +424,30 @@ bool Database::createLinx(
 
 bool Database::does_not_exist(){
     return (!db);
+}
+
+/*
+    Check whether a field actually exists or not.
+*/
+bool Database::fieldExists(const std::string& fieldId)
+{
+    if (!db || fieldId.empty() || fieldId.length() < 128) return false;
+
+    const char* sqlQuery = "select field where field_id = (?);"; 
+    sqlite3_stmt* stmt = nullptr;
+    if (sqlite3_prepare_v2(db, sqlQuery, -1, &stmt, nullptr) != SQLITE_OK){
+        Helpers::errorMsg(5, "SQL PREPARE", sqlite3_errmsg(db));
+        return false;
+    }
+
+    sqlite3_bind_text(stmt, 1, fieldId.c_str(), -1, SQLITE_TRANSIENT);
+    int rc = sqlite3_step(stmt);
+    sqlite3_finalize(stmt);
+    if (rc != SQLITE_DONE){
+        Helpers::errorMsg(5, "SQLITE_EXECUTE", sqlite3_errmsg(db));
+        return false;
+    }
+    return true;
+    
+
 }

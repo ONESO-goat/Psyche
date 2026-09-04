@@ -51,6 +51,14 @@ public:
         bool _createBrain = false
     );
 
+    bool createGeneral(
+        std::string const& requestId,
+        std::string const& domain,
+        std::string const& fieldId,
+        std::string reason = "specialize_in_field",
+        bool _createBrain = false
+    );
+
     bool addUser(
         std::string const& username,
         std::string const& email,
@@ -63,12 +71,16 @@ public:
     */
     std::string createPrompt(std::string const& accessKey);
 
-    bool validKey(std::string const accessKey);
-        // 1: Check if it exists
-        // 2. check it's not expired
-        // 3. check if the holder exists
-        // 4. if a worker, check if its work hours - they can only use it during their work hours
-        //  (not needed for now)
+
+    /* 
+        1: Check if it exists
+        2. check it's not expired
+        3. check if the holder exists
+        4. if a worker, check if its work hours - they can only use it during their work hours
+    */
+    bool validKey(std::string const& accessKey);
+    bool accessKeyIsExpired(std::string const& accessKey);
+    const std::optional<std::string> accessKeyHolder(std::string const& accessKeyId);
 
 
     brainResponse InstantiationProtocol(
@@ -80,6 +92,10 @@ public:
         std::string const& requestId,
         std::string const& ownerType
 
+    );
+
+    bool fieldExists(
+        const std::string& fieldId
     );
 
     bool does_not_exist();

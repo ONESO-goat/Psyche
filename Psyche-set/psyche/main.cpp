@@ -96,7 +96,7 @@ void tests(std::string passkey){
  
     if (e){
         std::string id; cin >> id;
-        \
+        
         e = createLinxTest(passkey, id);
         appendErrors(e, "Linx was not created");
     }
