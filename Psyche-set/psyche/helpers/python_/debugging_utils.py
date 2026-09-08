@@ -9,11 +9,13 @@ def hashtag(topic):
 
 
 index = 0
-def debug(message):
+def debug(message:str, tier:int=5):
     global index
-    print(f"[DEBUG] {index}: {message}")
+    E = f"[DEBUG {tier}] {index}: {message}"
+    print(E)
     index += 1
+    return E
     
-def reset_debug():
+def reset_debug()->None:
     global index
     index = 0

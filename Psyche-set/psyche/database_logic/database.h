@@ -79,7 +79,7 @@ public:
         4. if a worker, check if its work hours - they can only use it during their work hours
     */
     bool validKey(std::string const& accessKey);
-    bool accessKeyIsExpired(std::string const& accessKey);
+    bool accessKeyIsExpired(std::string const& accessKey, bool query = false);
     const std::optional<std::string> accessKeyHolder(std::string const& accessKeyId);
 
 

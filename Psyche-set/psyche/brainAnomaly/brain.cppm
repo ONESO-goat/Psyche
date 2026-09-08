@@ -23,7 +23,7 @@ protected:
 
     std::string id;
 
-        /*
+    /*
         Usally generals should focus on their own fields, weights would be low (< 0.3).
         Linx's will likely be more creative or free on their decisions and new informations.
 

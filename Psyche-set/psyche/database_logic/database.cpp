@@ -211,7 +211,7 @@ bool Database::createLinx(
 }
 
 
-bool Database::createGeneral(
+    bool Database::createGeneral(
         std::string const& requestId,
         std::string const& domain,
         std::string const& fieldId,
@@ -228,12 +228,12 @@ bool Database::createGeneral(
         std::string const& accessKey = Helpers::generateAccessKeyLinux("general");
         std::string const& accessKey_hash = Helpers::hashPassword(accessKey);
 
-        thread_local std::string const& sqlQuery = format(
-            "insert general (general_id, name, domain, field_specialization_id) values (?,?,?,?);"
-        );
+        thread_local const char* sqlQuery = 
+        "insert into general (general_id, name, domain, field_specialization_id) values (?,?,?,?);";
+        
 
         sqlite3_stmt* stmt = nullptr;
-        if (sqlite3_prepare_v2(db, sqlQuery.c_str(), -1, &stmt, nullptr) != SQLITE_OK) {
+        if (sqlite3_prepare_v2(db, sqlQuery, -1, &stmt, nullptr) != SQLITE_OK) {
             Helpers::errorMsg(5, "SQLITE_PREPARE", sqlite3_errmsg(db));
             return false;
         }
@@ -364,17 +364,21 @@ bool Database::validKey(std::string const& accessKey){
         if (accessKeyIsExpired(accessKey)) return false;
 
 
-        return false;
+        return true;
 }
 
-bool Database::accessKeyIsExpired(const std::string& accessKey)
-{
+bool Database::accessKeyIsExpired(const std::string& accessKey, bool query)
+{   
+    if (!db) throw std::runtime_error("Database is down, can't check for expiration.");
     // TODO
+    
+
 }
 
 const std::optional<std::string> Database::accessKeyHolder(std::string const& accessKeyId)
 {
     // TODO
+    thread_local std::string const& sqlQuery = "select general where (access_key_id) = (?)";
 }
 
 

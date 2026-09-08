@@ -4,7 +4,8 @@
 from typing import List, Dict, Any, Optional
 from associations.aso_core import Association, AssociationGraph
 from associations.aso_ai import AssociationAI
-from helpers.debugging_utils import debug, reset_debug, hashtag
+from helpers.python_.debugging_utils import debug, reset_debug, hashtag
+from helpers.python_.helpers import Brain
 import copy
 from _info_ import _explanation
 
@@ -19,7 +20,7 @@ class ASO:
     Example: "ferret" → "zoo" → "farm" → "goat memory"
     """
     
-    def __init__(self, Brain, api_key: str | None = None, model: str = 'gemini'):
+    def __init__(self, Brain: Brain, api_key: str | None = None, model: str = 'gemini'):
         """
         Initialize ASO with Brain instance.
         
@@ -31,10 +32,10 @@ class ASO:
         self.Brain = Brain
         
         # Get brain structure
-        brain_data = self.Brain.mind.memories[0]['brain']
+        brain_memories = self.Brain.mind.memories
         
         # Initialize graph (stored IN the brain structure)
-        self.graph = AssociationGraph(brain_storage=brain_data)
+        self.graph = AssociationGraph(brain_storage=brain_memories)
         
         # Initialize AI
         self.ai = AssociationAI(api_key=api_key, model=model)

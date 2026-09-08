@@ -2,7 +2,8 @@
 
 import json
 from typing import Dict, List, Any
-from helpers.debugging_utils import debug, reset_debug, hashtag
+from helpers.python_.debugging_utils import debug, reset_debug, hashtag
+from helpers.python_.helpers import Brain
 
 class AssociationAI:
     """

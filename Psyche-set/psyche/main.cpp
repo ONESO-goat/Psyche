@@ -61,8 +61,8 @@ bool createUser(){
     std::string testPassword = "theBestPasswordEver";
     std::string email = "test@company.com";
 
-    auto l = database.addUser(username, email, testPassword);
-    return l;
+    auto added = database.addUser(username, email, testPassword);
+    return added;
 }
 
 auto dateTest(bool UTC=false){
