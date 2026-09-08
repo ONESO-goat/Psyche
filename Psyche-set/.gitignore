@@ -39,3 +39,4 @@ env.bak/
 *.out
 commands.txt
 *.app
+test.py

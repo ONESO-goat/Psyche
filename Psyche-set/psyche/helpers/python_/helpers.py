@@ -5,6 +5,7 @@ from datetime import datetime
 import logging
 from enum import Enum
 
+
 class BrainTypes(Enum):
     LINX = "linx"
     MANAGER = "manager"
@@ -26,3 +27,18 @@ class Brain(BaseModel):
 """
     The Brain (which holds memories, data, or previous theories) of an agent. This can be a Linx or General.
 """
+
+class Association(BaseModel):
+    association_id: Annotated[str, StringConstraints(min_length=48, max_length=48)]
+    """
+        looks like this: association-UUIDv4
+    """
+
+    association_one_id:Annotated[str, StringConstraints(min_length=48, max_length=48)] 
+    association_two_id: Annotated[str, StringConstraints(min_length=48, max_length=48)]
+
+    context:str
+
+    source_id:str                 
+    strength: float
+    association_type: str 

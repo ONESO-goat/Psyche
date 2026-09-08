@@ -1,58 +1,17 @@
 # ASO/aso_core.py
 
 import json
+import asyncio
 import copy
 from typing import Dict, List, Any, Optional
 from datetime import datetime
-
-class Association:
-    """
-    Single association between two concepts.
-    """
-    def __init__(self, 
-                 source: str,
-                 target: str, 
-                 strength: float,
-                 association_type: str,
-                 reason: str = '',
-                 memory_id: str | None = None):
-        
-        self.source = source.lower().strip()
-        self.target = target.lower().strip()
-        self.strength = max(0.0, min(1.0, strength))  # Clamp 0-1
-        self.type = association_type  # 'semantic', 'temporal', 'emotional', 'causal', 'functional'
-        self.reason = reason
-        self.memory_id = memory_id  # Track which memory created this
-        self.created = datetime.now().isoformat()
-    
-    def to_dict(self) -> Dict[str, Any]:
-        return {
-            'source': self.source,
-            'target': self.target,
-            'strength': self.strength,
-            'type': self.type,
-            'reason': self.reason,
-            'memory_id': self.memory_id,
-            'created': self.created
-        }
-    
-    @staticmethod
-    def from_dict(data: Dict[str, Any]) -> 'Association':
-        assoc = Association(
-            source=data['source'],
-            target=data['target'],
-            strength=data['strength'],
-            association_type=data['type'],
-            reason=data.get('reason', ''),
-            memory_id=data.get('memory_id')
-        )
-        assoc.created = data.get('created', datetime.now().isoformat())
-        return assoc
-
+from schema.association import Association
 
 class AssociationGraph:
     """
     Core association network stored in Brain structure.
+
+    Linked True structure.
     """
     def __init__(self, brain_storage: Dict):
         """
@@ -75,13 +34,16 @@ class AssociationGraph:
     @property
     def graph(self) -> Dict[str, List[Dict]]:
         """Access the graph from brain storage."""
+
+        # NOTE: REDO 
+
         return self.brain['associations']['graph']
     
     def add(self, association: Association):
         """Add bidirectional association."""
         # Forward link
-        if association.source not in self.graph:
-            self.graph[association.source] = []
+        if association.source_id not in self.graph:
+            self.graph[association.source_id] = []
         
         # Check for duplicates
         exists = any(
@@ -115,12 +77,34 @@ class AssociationGraph:
         # Update metadata
         self._update_metadata()
     
-    def get_associations(self, concept: str) -> List[Association]:
-        """Get all associations for a concept."""
+    async def get_associations(self, concept: str, max_limit:int) -> List[Association]:
+        """Get all associations that connect to a topic/concept."""
+
+        # TODO: Loop, max_limit tells how many to get
+    
         concept = concept.lower().strip()
+        if not concept:
+            raise RuntimeError("concept can not be null")
+        if not 0 < max_limit <= 100: # Goal is 1000, for now for speed and simple formats, stay at the minimal 100.
+            raise RuntimeError("Limit falls outside of valid range (1-100)")
+
+        # asyncio.wait_for()
         assoc_dicts = self.graph.get(concept, [])
         return [Association.from_dict(a) for a in assoc_dicts]
     
+    @final
+    async def _obtain_associations(self, topic_id:str[43], concept:str="")->None|list[Association]:
+        """
+            Get associations to a concept. Since these associations already have associations,
+            we just need direct associations.
+            @topic_id (str): The topic id. Can be empty, but then the concept will be required for context.
+            @concept (str) default = "": If an Id is not provided, we'll use concept and do some regex.
+
+            return List[Associations] || None if noting was found not id and concept we're empty.
+        """
+        if not topic_id and not concept:
+            return None
+        
     def find_path(self, 
                   start: str, 
                   end: str, 
