@@ -3,7 +3,14 @@
 import json
 import asyncio
 import copy
-from typing import Dict, List, Any, Optional
+from typing import (
+    Dict, 
+    List, 
+    Any, 
+    Optional,
+    Final,
+    final
+)
 from datetime import datetime
 from schema.association import Association
 
@@ -11,18 +18,18 @@ class AssociationGraph:
     """
     Core association network stored in Brain structure.
 
-    Linked True structure.
+    Linked True structure, topics that have connections, these connections being associations.
     """
-    def __init__(self, brain_storage: Dict):
+    def __init__(self, topic_data: Dict): # Topic 
         """
-        brain_storage should be the 'brain' dict from your structure.
-        We'll store associations inside it.
+            brain_storage should be the 'brain' dict from your structure.
+            We'll store associations inside it.
         """
-        self.brain = brain_storage
+        self.topic_data = topic_data
         
         # Initialize associations storage if it doesn't exist
-        if 'associations' not in self.brain:
-            self.brain['associations'] = {
+        if 'associations' not in self.topic_data:
+            self.topic_data['associations'] = {
                 'graph': {},  # {concept: [Association, ...]}
                 'metadata': {
                     'total_concepts': 0,
@@ -30,10 +37,19 @@ class AssociationGraph:
                     'last_updated': datetime.now().isoformat()
                 }
             }
+            """
+            example:
+                {
+
+                    "
+                }
+            """
     
     @property
     def graph(self) -> Dict[str, List[Dict]]:
-        """Access the graph from brain storage."""
+        """
+            Access the graph from brain storage.
+        """
 
         # NOTE: REDO 
 

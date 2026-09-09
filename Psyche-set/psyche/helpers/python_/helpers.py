@@ -1,9 +1,18 @@
 
-from typing import Any, Annotated
+from typing import Any, Annotated, Final
 from pydantic import StringConstraints, BaseModel
 from datetime import datetime
 import logging
-from enum import Enum
+from enum import Enum, StrEnum
+
+
+
+class SchemasTypes(StrEnum):
+    
+    TOPIC= "topic"
+    BRAIN = "brain"
+    ASSOCIATION = "association"
+
 
 
 class BrainTypes(Enum):
@@ -16,7 +25,16 @@ Logger = logging.Logger("psyche")
 class BrainCreationError(Exception):
     pass
 
+class SchemaCreationError(Exception):
+    pass
+
 Memories = list[dict[str, Any]]
+
+class Topic(BaseModel):
+    topic_id: Annotated[str, StringConstraints(min_length=37, max_length=37)]
+    
+    created_at: datetime
+
 
 class Brain(BaseModel):
     brain_id: Annotated[str, StringConstraints(min_length=37, max_length=37)]
@@ -34,11 +52,18 @@ class Association(BaseModel):
         looks like this: association-UUIDv4
     """
 
-    association_one_id:Annotated[str, StringConstraints(min_length=48, max_length=48)] 
-    association_two_id: Annotated[str, StringConstraints(min_length=48, max_length=48)]
+    topic_one_id:Annotated[str, StringConstraints(min_length=48, max_length=48)] 
+    topic_two_id: Annotated[str, StringConstraints(min_length=48, max_length=48)]
 
     context:str
 
     source_id:str                 
     strength: float
     association_type: str 
+
+
+VALID_SCHEMAS: Final[dict[str, Any]] = {
+    "topic": Topic,
+    "brain": Brain, 
+    "association": Association,
+}

@@ -20,10 +20,10 @@ class BrainLogic:
                 @brain_id: str[37] = Id of brain, Sent by C++ or achieved by sql.
         """
 
-        self._called: bool = True
+       
         if not brain_id:
             raise BrainCreationError("Brain id was not provided.")
-        
+        self._called: bool = True
         self.brain, created = self.get_brain(brain_id=brain_id)
         if not created:
             raise BrainCreationError(f"({datetime.now().date()}) Brain failed to create.") 
@@ -108,7 +108,7 @@ class BrainLogic:
         SQL_QUERY:str = """
         
                 SELECT *
-                FROM brains
+                FROM brain
                 WHERE brain_id = ?;
                 
         """
