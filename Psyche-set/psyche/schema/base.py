@@ -1,9 +1,9 @@
-import time
-from pydanic import BaseModel
+
 from typing import (
     final,
     Final,
     TypeVar,
+    Final,
     Awaitable
 
 )
@@ -23,18 +23,28 @@ ST = TypeVar('ST') # Assoc, Brain, Topic, and so on
 
 @final
 class SchemaLogic:
-    def __init__(self, schema_id: str):
+    def __init__(self, schema_id: str, schema_type: str):
+        if schema_type not in VALID_SCHEMAS:
+            raise TypeError(f"'{schema_type}' is not a valid schema.")
+        self.__called = False
+        self._meta_id = schema_id
+        self.schema_type: Final[str] = SchemasTypes(schema_type)
+        self.schema: ST|None = None
+        pass
 
+    @classmethod
+    async def create(cls, schema_id:str, schema_type: str):
         if not schema_id:
             raise RuntimeError("Schema id is required")
-
-        self.__called = False
-        self.schema: ST = self._get_schema(schema_id)
-        if schema is None:
-            raise SchemaCreationError(f"Schema of type '{ST}' couldn't be created")
+        if not schema_type or not SchemasTypes(schema_type):
+             return RuntimeError("Schema type is not valid") 
         
-        self._meta_id = schema_id
-
+        instance = cls(schema_id)
+        instance.schema = await instance._get_schema(schema_id=schema_id)
+        if instance.schema is None:
+            raise SchemaCreationError(f"Schema couldn't be created")
+        return instance
+     
 
 
     @final
@@ -48,12 +58,12 @@ class SchemaLogic:
             if not schema_id or schema_id.strip() == "":
                 return None
             
-            if  not {"'", '"',"<", ">"}.isdigjoint(schema_id):
+            if  not {"'", '"',"<", ">"}.isdisjoint(schema_id):
                 return None
     
             try:
                 schema: Final[ST|None] = await asyncio.wait_for(
-                    self._achieve_schema_data(schema_id), 
+                    self._achieve_schema_data(schema_id, self.schema_type), 
                     timeout=5
                 )
     
