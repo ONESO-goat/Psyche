@@ -115,7 +115,8 @@ void tests(std::string passkey){
 
 
 int main(){
-    std::string passkey = "admin123";
-    tests(passkey);
+    // std::string passkey = "admin123";
+    // tests(passkey);
+    createDatabase("admin123");
     return 0;
 }

@@ -8,7 +8,7 @@ create table association(
 
     source_id text null references source(source_id),
                  
-    strength: real,
+    strength real,
     association_type text not null, 
     -- example: Friendship between 2 individuals, fruits, made by the same individual, etc...
 
@@ -21,5 +21,6 @@ create table association(
 create table topic(
     topic_id text unique primary key,
     what text not null, -- example; apples
-    context text not null
+    context text not null,
+    added_at DATETIME DEFAULT CURRENT_TIMESTAMP
 );

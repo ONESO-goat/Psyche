@@ -7,6 +7,7 @@ from typing import (
     Awaitable
 
 )
+from datetime import datetime, timezone
 import asyncio
 from helpers.python_.helpers import (
     SchemaCreationError, 
@@ -42,7 +43,7 @@ class SchemaLogic:
         instance = cls(schema_id)
         instance.schema = await instance._get_schema(schema_id=schema_id)
         if instance.schema is None:
-            raise SchemaCreationError(f"Schema couldn't be created")
+            raise SchemaCreationError(f"Schema couldn't be created as it returned None during creation.")
         return instance
      
 
@@ -68,7 +69,7 @@ class SchemaLogic:
                 )
     
                 if schema is None:
-    
+                    print(f"[tier 5] SCHEMA IS NONE IN _get_schema(): {schema}")
                     return None
                 
                 self.__called = True
@@ -76,9 +77,11 @@ class SchemaLogic:
             except asyncio.TimeoutError:
                 
                 Logger.error(debug(message="schema timeout reached", tier=3))
+                print("Timed out")
                 return None
             except Exception as ex:
                 Logger.error(debug(message=f"schema faced an unexpected error: {ex}", tier=4))
+                print(f"Error during [SchemaLogic._get_schema()]: {ex}")
                 return None
             
     async def _achieve_schema_data(self, schema_id:str, schema_type:SchemasTypes)->ST|None:
@@ -104,6 +107,7 @@ class SchemaLogic:
                     row = await cursor.fetchone()
                     
                     if not row:
+                        print(f"[tier 3] ROW ISN'T FOUND: {row}")
                         return None
                     
                     # Convert SQLite row to a standard dictionary
@@ -111,6 +115,8 @@ class SchemaLogic:
                     
                     # Instantiate object mapping dynamically
                     schema_class = VALID_SCHEMAS[schema_type.value]
+
+                    data_dict["created_at"] = datetime.now(tz=timezone.utc)
                     schema_object = schema_class(**data_dict)
                     
                     # Non-blocking sleep if artificial throttling is required
