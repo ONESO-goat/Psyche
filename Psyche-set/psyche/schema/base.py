@@ -4,7 +4,8 @@ from typing import (
     Final,
     TypeVar,
     Final,
-    Awaitable
+    Awaitable,
+    Any
 
 )
 from datetime import datetime, timezone
@@ -134,3 +135,13 @@ class SchemaLogic:
             print(f"Unexpected error: {ex}")
             Logger.error(debug(message=f"Unexpected error: {ex}", tier=5))
             return None
+        
+    def ok(self)->bool:
+        """Check whether schema creation is finalized"""
+
+        # TODO
+        pass
+    
+    @property
+    def data(self) -> dict[str, Any]:
+        return self.schema.to_dict()

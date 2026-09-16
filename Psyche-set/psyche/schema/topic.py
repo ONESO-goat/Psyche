@@ -13,10 +13,6 @@ class TopicLogic(SchemaLogic):
     def __init__(self, schema_id):
    
         super().__init__(schema_id, schema_type="topic")
-       
-
-    def test(self):
-        print(self.schema)
 
 testId = "1"*37
 def test_add_topic(id_:str=testId, get:bool = False):
