@@ -101,22 +101,24 @@ class ASO:
         
         
         if n == 1:
-            association = self.create_and_save_association(assoc_data=association[0])
+            association = self.create_and_save_association(
+                concept=concept,
+                memory_id=memory_id,
+                assoc_data=association[0]
+            )
 
 
         else:
-            left, right = 0, n -1
-            while left < right:
-                left_side = associations[left]
-                right_side = associations[right]
+            for assoc_data in associations:
                 try:
-                    self.create_and_save_association(left_side)
-                    self.create_and_save_association(right_side)
-                except:
-                    pass
-
-                left += 1
-                right -= 1
+                    self.create_and_save_association(
+                        concept=concept,
+                        memory_id=memory_id,
+                        assoc_data=assoc_data
+                    )
+                except Exception as e:
+                    # Handle or log the specific error instead of a silent pass
+                    print(f"Failed to save association: {e}")
 
            
         return True
