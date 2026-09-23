@@ -28,17 +28,29 @@ class BrainCreationError(Exception):
 class SchemaCreationError(Exception):
     pass
 
-Memories = list[dict[str, Any]]
+
 
 class Topic(BaseModel):
     topic_id: Annotated[str, StringConstraints(min_length=37, max_length=37)]
     
     created_at: datetime
 
+class Memory(BaseModel):
+    memory_id: str
+
+    brain_id: str 
+
+    context: str
+    dominant_emotion: str
+
+    importance: float
+    
+    formed_at: datetime
+
 
 class Brain(BaseModel):
     brain_id: Annotated[str, StringConstraints(min_length=37, max_length=37)]
-    brain_memories: Memories
+    brain_memories: dict[str, Memory]
     created_at: datetime
 
     brain_type: BrainTypes

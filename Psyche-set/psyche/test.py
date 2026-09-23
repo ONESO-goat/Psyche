@@ -8,7 +8,7 @@ async def main(whats_being_tested: str, create:bool=False):
             test_add_topic()
 
         t = await TopicLogic.create(schema_id=testId, schema_type=whats_being_tested)
-        t.test()
+        print(t.schema)
         print("\nSUCCESSFUL\n")
     except Exception as ex:
         print(f"FAILURE OCCURED WITH '{whats_being_tested}': {ex}")

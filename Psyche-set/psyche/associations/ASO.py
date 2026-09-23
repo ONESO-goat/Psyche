@@ -2,10 +2,10 @@
 # Most updated version
 
 from typing import List, Dict, Any, Optional
-from associations.aso_core import Association, AssociationGraph
+from associations.aso_core import AssociationGraph
 from associations.aso_ai import AssociationAI
 from helpers.python_.debugging_utils import debug, reset_debug, hashtag
-from helpers.python_.helpers import Brain
+from helpers.python_.helpers import Brain, Memory, Association
 import copy
 from _info_ import _explanation
 
@@ -32,7 +32,14 @@ class ASO:
         self.Brain = Brain
         
         # Get brain structure
-        brain_memories = self.Brain.mind.memories
+        brain_memories = self.Brain.memories
+        """
+        brain_memories (dict) = {
+            "id": Memory
+        
+        }
+        
+        """
         
         # Initialize graph (stored IN the brain structure)
         self.graph = AssociationGraph(brain_storage=brain_memories)
@@ -41,8 +48,13 @@ class ASO:
         self.ai = AssociationAI(api_key=api_key, model=model)
     
     # ASO/ASO.py - Update the process_memory method
+    def get_memory(self, memory_id:str):
+        memory = self.Brain.memories.get(memory_id, None)
+        if not memory:
+            raise RuntimeError(f"Memory of id '{memory_id}' does not exist")
+        return memory
 
-    def process_memory(self, memory: Dict[str, Any]) -> Dict[str, Any]:
+    def process_memory(self, memory: Memory) -> Dict[str, Any]:
         """
         Process a memory to extract and store associations.
         """
@@ -54,11 +66,11 @@ class ASO:
                 'memory_connections': 0
             }
         
-        content = memory.get('content', '')
-        memory_id = memory.get('id', '')
-        emotion = memory.get('dominant_emotion', 'neutral')
+        content = memory.context
+        memory_id = memory.id
+        emotion = memory.dominant_emotion
         
-        print(f"    → Extracting concepts from: \"{content[:50]}...\"")
+        print(f"    → Extracting concepts from: \"{content[:10]}...\"")
         
         # Step 1: Extract concepts
         concepts = self.ai.extract_concepts(content)
@@ -91,12 +103,18 @@ class ASO:
             for assoc_data in associations:
                 association = Association(
                     source=concept,
-                    target=assoc_data['target'],
-                    strength=assoc_data['strength'],
-                    association_type=assoc_data['type'],
-                    reason=assoc_data.get('reason', ''),
+                    *assoc_data,
                     memory_id=memory_id
                 )
+                """
+                source=concept,
+                                    target=assoc_data['target'],
+                                    strength=assoc_data['strength'],
+                                    association_type=assoc_data['type'],
+                                    reason=assoc_data.get('reason', ''),
+                                    memory_id=memory_id
+                
+                """
                 
                 self.graph.add(association)
                 associations_added += 1
@@ -104,6 +122,7 @@ class ASO:
         # Step 3: Find connections to other memories
         all_memories = self.Brain.mind.get_all()
         other_memories = [m for m in all_memories if m.get('id') != memory_id]
+        # TODO: Fix this loop. It's not needed and creates secondary O(n)
         
         memory_connections = []
         if other_memories:
@@ -143,23 +162,23 @@ class ASO:
         Args:
             reprocess: If True, reprocess even if already processed
         """
-        memories = self.Brain.mind.get_all()
+        memories = self.Brain.brain_memories
         
         print(f"Processing {len(memories)} memories...")
         
         hashtag("LOOPING ASO System - Processing All Memories")
         reset_debug()
         
-        for i, memory in enumerate(memories, 1):
+        for i, mem in enumerate(memories, 1):
             # Skip if already processed (unless reprocessing)
-            
+            memory = mem.values()
             if not reprocess and memory.get('aso_data', {}).get('processed'):
                 print(f"  [{i}/{len(memories)}] Skipping (already processed)")
                 continue
             
-            print(f"  [{i}/{len(memories)}] Processing: {memory.get('content', '')[:50]}...")
+            print(f"  [{i}/{len(memories)}] Processing memory ID: {memory.get('id', '')}\n")
             
-            debug(f"Processing memory ID: {memory.get('id', '')}\n")
+            #debug(f"Processing memory ID: {memory.get('id', '')}\n")
             
             try:
                 result = self.process_memory(memory)
@@ -254,6 +273,7 @@ class ASO:
         
     def commit(self):
         """Commit current graph state to brain storage."""
+        # TODO: fix
         self.Brain.mind.commit()
         
     def about_ASO(self, more_details: bool = False) -> str:

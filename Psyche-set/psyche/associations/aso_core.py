@@ -12,7 +12,7 @@ from typing import (
     final
 )
 from datetime import datetime
-from schema.association import Association
+from helpers.python_.helpers import Association
 
 class AssociationGraph:
     """
@@ -25,6 +25,8 @@ class AssociationGraph:
             brain_storage should be the 'brain' dict from your structure.
             We'll store associations inside it.
         """
+        self.graph = {}
+
         self.topic_data = topic_data
         
         # Initialize associations storage if it doesn't exist
@@ -45,50 +47,62 @@ class AssociationGraph:
                 }
             """
     
-    @property
-    def graph(self) -> Dict[str, List[Dict]]:
-        """
-            Access the graph from brain storage.
-        """
+    # @property
+    # def graph(self) -> Dict[str, List[Dict]]:
+    #     """
+    #         Access the graph from brain storage.
+    #     """
 
-        # NOTE: REDO 
+    #     # NOTE: REDO 
 
-        return self.brain['associations']['graph']
+    #     return self.graph
     
     def add(self, association: Association):
-        """Add bidirectional association."""
+        """
+        Add bidirectional association.
+        Adding new association to the graph.
+        """
+        if not association:
+            raise RuntimeError("Association is required.")
+        
         # Forward link
         if association.source_id not in self.graph:
             self.graph[association.source_id] = []
         
         # Check for duplicates
         exists = any(
-            a['target'] == association.target and a['type'] == association.type
-            for a in self.graph[association.source]
+            [a['topic_two_id'], a['topic_one_id']] 
+            == 
+            [association.topic_two_id, association.topic_one_id] 
+
+            for a in self.graph[association.source_id]
         )
         
         if not exists:
-            self.graph[association.source].append(association.to_dict())
+            self.graph[association.source_id].append(association.to_dict())
         
         # Backward link (reverse direction)
-        if association.target not in self.graph:
-            self.graph[association.target] = []
+        if association.topic_one_id not in self.graph:
+            self.graph[association.topic_one_id] = []
+
+        if association.topic_two_id not in self.graph:
+            self.graph[association.topic_two_id] = []
         
-        exists_reverse = any(
-            a['target'] == association.source and a['type'] == association.type
-            for a in self.graph[association.target]
-        )
+        # exists_reverse = any(
+        #     a['target'] == association.source and a['type'] == association.ty
+        #     for a in self.graph[association.target]
+        # )
         
-        if not exists_reverse:
-            reverse = Association(
-                source=association.target,
-                target=association.source,
-                strength=association.strength,
-                association_type=association.type,
-                reason=association.reason,
-                memory_id=association.memory_id
-            )
-            self.graph[association.target].append(reverse.to_dict())
+        # if not exists_reverse:
+        #     reverse = Association(
+        #         source=association.target,
+        #         target=association.source,
+        #         strength=association.strength,
+        #         association_type=association.type,
+        #         reason=association.reason,
+        #         memory_id=association.memory_id
+        #     )
+        #     self.graph[association.target].append(reverse.to_dict())
         
         # Update metadata
         self._update_metadata()
@@ -211,6 +225,7 @@ class AssociationGraph:
     
     def _update_metadata(self):
         """Update graph statistics."""
+        # TODO: fix
         self.brain['associations']['metadata'] = {
             'total_concepts': len(self.graph),
             'total_associations': sum(len(assocs) for assocs in self.graph.values()),

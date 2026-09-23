@@ -100,6 +100,7 @@ class AssociationAI:
     def find_associations(self, 
                          concept: str,
                          context: str = '') -> List[Dict[str, Any]]:
+        #TODO: Fix 
         """
         Find what associates with this concept.
         
@@ -131,9 +132,22 @@ class AssociationAI:
     def find_memory_connections(self,
                                memory_content: str,
                                memory_emotion: str,
-                               existing_memories: List[Dict]) -> List[Dict[str, Any]]:
+                               existing_memories: List[Dict],
+                               threshold:float=0.5) -> List[Dict[str, Any]]:
         """
         Find which existing memories connect to this new memory.
+        Threshold is how wide does the agent reach. 
+        
+        Example, let's say the content is "apple".
+        if threshold < 0.4, the agent only finds memories strictly related to apples.
+
+        else if 0.4 < threshold < 0.7, the agent finds memories that also relate to apples, 
+        Example, a memory about grapes or bananas, since both relate to apples 
+
+        else if threshold > 0.7, the agent goes outside the box. 
+        Example, the agent can get "Garden of Eden" because Eve ate an apple, 
+        or any memory that include at least 1 instance of an apple, even if it was just a split glance.
+
         
         Returns:
             [{'memory_id': 'uuid', 'shared_concepts': ['dog'], 'strength': 0.7, 'reason': '...'}, ...]
