@@ -48,40 +48,105 @@ class ASO:
         self.ai = AssociationAI(api_key=api_key, model=model)
     
     # ASO/ASO.py - Update the process_memory method
-    def get_memory(self, memory_id:str):
+    def get_memory(self, memory_id:str): # GOOD
         memory = self.Brain.memories.get(memory_id, None)
         if not memory:
             raise RuntimeError(f"Memory of id '{memory_id}' does not exist")
         return memory
+    def extract_concept(self, content:str):
+        # Step 1: Extract concepts
+        concepts = self.ai.extract_concepts(content)
+        """
+                        Extract key concepts from text.
+                        
+                        Returns:
+                            [{'concept': 'dog', 'category': 'animals', 'importance': 0.9}, ...]
+        """
+        
+        debug(f"Extracted {len(concepts)} concepts\n")
+        if not concepts:
+            print(f"    ⚠ No concepts extracted")
+            return []
+        return concepts
+
+
+    def create_and_save_association(self, 
+                                    concept:str, 
+                                    memory_id:str, 
+                                    assoc_data: Dict[str, Any], 
+                                    save:bool=True
+                                ) -> Association|None:
+                """ Quick function to create and save association"""
+                try:
+                    association = Association(
+                                        source=concept,
+                                        *assoc_data,
+                                        memory_id=memory_id
+                        )
+                    if save:
+                        self.graph.add(association)
+                    return association
+                except Exception as ex:
+
+                    return None
+    
+    def add_association_to_graph(self, 
+                                 concept:str, 
+                                 memory_id:str,
+                                   associations: List[Dict[str, Any]]
+                                ) -> bool:
+        n = len(associations)
+        if n < 1:
+            return False
+        
+        
+        if n == 1:
+            association = self.create_and_save_association(assoc_data=association[0])
+
+
+        else:
+            left, right = 0, n -1
+            while left < right:
+                left_side = associations[left]
+                right_side = associations[right]
+                try:
+                    self.create_and_save_association(left_side)
+                    self.create_and_save_association(right_side)
+                except:
+                    pass
+
+                left += 1
+                right -= 1
+
+           
+        return True
+        
+        
 
     def process_memory(self, memory: Memory) -> Dict[str, Any]:
         """
         Process a memory to extract and store associations.
         """
-        if not self.ai:
-            return {
-                'error': 'No AI configured',
+        error = {
+                'error': '',
                 'concepts': [],
                 'associations_added': 0,
                 'memory_connections': 0
             }
+        if not self.ai:
+            error['error'] = "AI is not configured."
+            return error
         
         content = memory.context
-        memory_id = memory.id
+        memory_id = memory.memory_id
         emotion = memory.dominant_emotion
         
         print(f"    → Extracting concepts from: \"{content[:10]}...\"")
         
-        # Step 1: Extract concepts
-        concepts = self.ai.extract_concepts(content)
-        debug(f"Extracted concepts: {concepts}\n")
+        concepts = self.extract_concept(content=content)
         if not concepts:
-            print(f"    ⚠ No concepts extracted")
-            return {
-                'concepts': [],
-                'associations_added': 0,
-                'memory_connections': 0
-            }
+            error['error'] = "Concepts were not created"
+            return error
         
         print(f"    ✓ Found {len(concepts)} concepts: {[c['concept'] for c in concepts]}")
         
@@ -92,7 +157,7 @@ class ASO:
             concept = concept_data['concept'].lower()
             
             # Find associations
-            associations = self.ai.find_associations(
+            associations: List[Dict[str, Any]] = self.ai.find_associations(
                 concept=concept,
                 context=content
             )
@@ -100,33 +165,27 @@ class ASO:
             print(f"      → {concept}: {len(associations)} associations")
             
             # Add to graph
-            for assoc_data in associations:
-                association = Association(
-                    source=concept,
-                    *assoc_data,
-                    memory_id=memory_id
-                )
-                """
-                source=concept,
-                                    target=assoc_data['target'],
-                                    strength=assoc_data['strength'],
-                                    association_type=assoc_data['type'],
-                                    reason=assoc_data.get('reason', ''),
-                                    memory_id=memory_id
-                
-                """
-                
-                self.graph.add(association)
+            added = self.add_association_to_graph(
+                concept=concept,
+                memory_id=memory_id,
+                associations=associations
+            )
+            if added:
                 associations_added += 1
+
         
         # Step 3: Find connections to other memories
-        all_memories = self.Brain.mind.get_all()
+        all_memories = self.Brain.brain_memories
         other_memories = [m for m in all_memories if m.get('id') != memory_id]
         # TODO: Fix this loop. It's not needed and creates secondary O(n)
         
         memory_connections = []
         if other_memories:
             print(f"    → Finding connections to {len(other_memories)} other memories...")
+
+            """
+                Find which existing memories connect to this new memory.
+            """
             memory_connections = self.ai.find_memory_connections(
                 memory_content=content,
                 memory_emotion=emotion,
@@ -135,18 +194,19 @@ class ASO:
             print(f"    ✓ Found {len(memory_connections)} memory connections")
         
         # Store in memory
-        memory_copy = copy.deepcopy(memory)
-        memory_copy['aso_data'] = {
-            'concepts': concepts,
-            'associations_count': associations_added,
-            'memory_connections': memory_connections,
-            'processed': True
-        }
+        memory_copy = self.expand_memory_data(
+            memory=memory,
+            concepts=concepts,
+            associations_added=associations_added,
+            memory_connections=memory_connections
+        )
+        
         
         debug(f"Memory after ASO processing: {memory_copy.get('id','')}\n")
+
         # Update memory in brain
-        self.Brain.mind.replace(old=memory, new=memory_copy)
-        self.Brain.mind.commit()
+        self.Brain.replace_memory(old=memory.memory_id, new=memory_copy)
+        self.Brain.commit()
         
         #self.commit()  # Save graph state to brain storage
         return {
@@ -266,7 +326,24 @@ class ASO:
             ],
             'related_memories': related_memories
         }
+
+    def expand_memory_data(
+            self,
+            memory,
+            concepts,
+            associations_added,
+            memory_connections
+        ):
         
+        memory_copy = copy.deepcopy(memory)
+        memory_copy['aso_data'] = {
+                    'concepts': concepts,
+                    'associations_count': associations_added,
+                    'memory_connections': memory_connections,
+                    'processed': True
+        } 
+        return memory_copy
+    
     def save(self, filepath: str = 'associations.json'):
         """Save association graph."""
         self.graph.save(filepath)

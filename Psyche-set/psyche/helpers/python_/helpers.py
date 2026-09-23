@@ -54,6 +54,21 @@ class Brain(BaseModel):
     created_at: datetime
 
     brain_type: BrainTypes
+
+    def replace_memory(self,memory_id:str, new_memory:dict):
+        """
+            Replace an existing memory with new data.
+        """
+        try:
+            if not self.brain_memories.get(memory_id, None):
+                raise RuntimeError("Memory does not exist")
+            memory_BaseModel = Memory(new_memory)
+            self.brain_memories[memory_id] = memory_BaseModel
+        except Exception as ex:
+            raise ex
+    def commit(self) -> bool:
+        """Commit to database. Returns true if saved, false otherwise."""
+        raise NotImplementedError("Brain.Commit() yet to exist")
 """
     The Brain (which holds memories, data, or previous theories) of an agent. This can be a Linx or General.
 """
