@@ -71,8 +71,8 @@ class AssociationGraph:
         
         # Check for duplicates
         exists = any(
-            [a['topic_two_id'], a['topic_one_id']] 
-            == 
+            [a.get('topic_two_id', ""), a.get('topic_one_id', "")] 
+            == # equals
             [association.topic_two_id, association.topic_one_id] 
 
             for a in self.graph[association.source_id]
@@ -107,19 +107,19 @@ class AssociationGraph:
         # Update metadata
         self._update_metadata()
     
-    async def get_associations(self, concept: str, max_limit:int) -> List[Association]:
+    async def get_associations(self, topic_id: str, max_limit:int) -> List[Association]:
         """Get all associations that connect to a topic/concept."""
 
         # TODO: Loop, max_limit tells how many to get
     
-        concept = concept.lower().strip()
-        if not concept:
+        
+        if not topic_id:
             raise RuntimeError("concept can not be null")
         if not 0 < max_limit <= 100: # Goal is 1000, for now for speed and simple formats, stay at the minimal 100.
             raise RuntimeError("Limit falls outside of valid range (1-100)")
 
         # asyncio.wait_for()
-        assoc_dicts = self.graph.get(concept, [])
+        assoc_dicts = self.graph.get(topic_id, [])
         return [Association.from_dict(a) for a in assoc_dicts]
     
     @final
@@ -130,14 +130,33 @@ class AssociationGraph:
             @topic_id (str): The topic id. Can be empty, but then the concept will be required for context.
             @concept (str) default = "": If an Id is not provided, we'll use concept and do some regex.
 
-            return List[Associations] || None if noting was found not id and concept we're empty.
+            return List[Associations] || None if noting was found, ot id and concept we're empty.
+        """
+
+        """
+            The difference between this function and get_associations is that this gets all, 
+            with the concept search being available.
         """
         if not topic_id and not concept:
             return None
+
+        if topic_id:
+            if topic_id not in self.graph:
+                raise KeyError("Topic ID not found in graph")
+            
+            ASSOCIATIONS_DATA: Final[list[Association]] = self.graph.get(topic_id, [])
+            
+            return ASSOCIATIONS_DATA
+        else:
+            raise NotImplementedError(
+                "Concept find in AssociationGraph._obtain_associations() not yet implemented. "
+            )
+            
+
         
     def find_path(self, 
-                  start: str, 
-                  end: str, 
+                  start_id: str, 
+                  end_id: str, 
                   max_depth: int = 5) -> Optional[List[str]]:
         """
         Find association path from start to end concept.
@@ -146,29 +165,31 @@ class AssociationGraph:
         start = start.lower().strip()
         end = end.lower().strip()
         
-        if start == end:
-            return [start]
+        if start_id == end_id:
+            return [start_id]
         
-        if start not in self.graph:
+        if start_id not in self.graph:
             return None
         
         # BFS
-        queue = [(start, [start])]
-        visited = {start}
+        queue = [(start_id, [start_id])]
+        visited = {start_id}
         
         while queue:
-            current, path = queue.pop(0)
+            current_id, path = queue.pop(0)
             
             if len(path) > max_depth:
                 continue
             
             # Get all associations from current concept
-            associations = self.get_associations(current)
+            associations: Final[List[Association] | None] = self._obtain_associations(topic_id=current_id)
+            if not associations:
+                return []
             
             for assoc in associations:
-                next_concept = assoc.target.lower()
+                next_concept = assoc.topic_two_id.lower()
                 
-                if next_concept == end:
+                if next_concept == end_id:
                     return path + [next_concept]
                 
                 if next_concept not in visited:
@@ -178,30 +199,33 @@ class AssociationGraph:
         return None
     
     def spread_activation(self, 
-                         start: str, 
+                         start_topic_id: str, 
                          threshold: float = 0.2,
                          max_hops: int = 3) -> Dict[str, float]:
         """
         Spreading activation from start concept.
         Returns {concept: activation_strength}
         """
-        start = start.lower().strip()
         
-        if start not in self.graph:
-            return {start: 1.0}
+        if start_topic_id not in self.graph:
+            return {start_topic_id: 1.0}
         
         # Track activation levels
-        activation = {start: 1.0}
-        current_wave = {start: 1.0}
+        activation = {start_topic_id: 1.0}
+        current_wave = {start_topic_id: 1.0}
         
         for hop in range(max_hops):
             next_wave = {}
             
-            for concept, strength in current_wave.items():
-                associations = self.get_associations(concept)
+            for topic_id, strength in current_wave.items():
+
+                # Get associations, max 25 to avoid long loops/searches
+                associations: list[Association] = self.get_associations(topic_id, max_limit=25)
                 
                 for assoc in associations:
-                    target = assoc.target.lower()
+
+                    # Target is just the second topic
+                    target = assoc.topic_two_id.lower()
                     
                     # Activation decays with distance
                     new_activation = strength * assoc.strength * 0.7  # 30% decay
@@ -260,6 +284,8 @@ class AssociationGraph:
         
     def save(self, filepath: str = 'associations.json'):
         """Save association graph to file."""
+
+        # TODO: When saving to json, review the json before saving to the database.
         with open(filepath, 'w') as f:
             json.dump(self.brain['associations'], f, indent=2)
             

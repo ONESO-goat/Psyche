@@ -1,7 +1,14 @@
 # ASO/ASO.py
 # Most updated version
 
-from typing import List, Dict, Any, Optional
+from typing import (
+    List, 
+    Dict, 
+    Any, 
+    Optional,
+    Final
+)
+
 from associations.aso_core import AssociationGraph
 from associations.aso_ai import AssociationAI
 from helpers.python_.debugging_utils import debug, reset_debug, hashtag
@@ -43,19 +50,28 @@ class ASO:
         
         # Initialize graph (stored IN the brain structure)
         self.graph = AssociationGraph(brain_storage=brain_memories)
+        """
+            Linked True structure, topics that have connections, these connections being associations.
+        """
         
         # Initialize AI
         self.ai = AssociationAI(api_key=api_key, model=model)
+        """
+            AI to aid with associations
+        """
     
     # ASO/ASO.py - Update the process_memory method
     def get_memory(self, memory_id:str): # GOOD
         memory = self.Brain.memories.get(memory_id, None)
         if not memory:
             raise RuntimeError(f"Memory of id '{memory_id}' does not exist")
-        return memory
-    def extract_concept(self, content:str):
+        return copy.deepcopy(memory)
+
+    
+    async def extract_concept(self, content:str):
         # Step 1: Extract concepts
-        concepts = self.ai.extract_concepts(content)
+        # TODO: MAKE Async 
+        concepts = await self.ai.extract_concepts(content)
         """
                         Extract key concepts from text.
                         
@@ -76,19 +92,19 @@ class ASO:
                                     assoc_data: Dict[str, Any], 
                                     save:bool=True
                                 ) -> Association|None:
-                """ Quick function to create and save association"""
-                try:
-                    association = Association(
-                                        source=concept,
-                                        *assoc_data,
-                                        memory_id=memory_id
-                        )
-                    if save:
-                        self.graph.add(association)
-                    return association
-                except Exception as ex:
-
-                    return None
+        """ Quick function to create and save association"""
+        try:
+            association = Association(
+                source=concept,
+                *assoc_data,
+                memory_id=memory_id
+            )
+            if save:
+                self.graph.add(association=association)
+            return association
+        except Exception as ex:
+            print(f"Error occurred when create_and_save_association() ran: {ex}")
+            return None
     
     def add_association_to_graph(self, 
                                  concept:str, 
@@ -99,45 +115,36 @@ class ASO:
         if n < 1:
             return False
         
-        
-        if n == 1:
-            association = self.create_and_save_association(
+        for assoc_data in associations:
+            try:
+                self.create_and_save_association(
                 concept=concept,
                 memory_id=memory_id,
-                assoc_data=association[0]
+                assoc_data=assoc_data
             )
-
-
-        else:
-            for assoc_data in associations:
-                try:
-                    self.create_and_save_association(
-                        concept=concept,
-                        memory_id=memory_id,
-                        assoc_data=assoc_data
-                    )
-                except Exception as e:
-                    # Handle or log the specific error instead of a silent pass
-                    print(f"Failed to save association: {e}")
+            except Exception as ex:
+                # Handle or log the specific error instead of a silent pass
+                print(f"Failed to save association: {ex}")
+                return False
 
            
         return True
         
         
 
-    def process_memory(self, memory: Memory) -> Dict[str, Any]:
+    async def process_memory(self, memory: Memory) -> Dict[str, Any]:
         """
         Process a memory to extract and store associations.
         """
-        error = {
+        default_error_msg = {
                 'error': '',
                 'concepts': [],
                 'associations_added': 0,
                 'memory_connections': 0
             }
         if not self.ai:
-            error['error'] = "AI is not configured."
-            return error
+            default_error_msg['error'] = "AI is not configured."
+            return default_error_msg
         
         content = memory.context
         memory_id = memory.memory_id
@@ -147,8 +154,8 @@ class ASO:
         
         concepts = self.extract_concept(content=content)
         if not concepts:
-            error['error'] = "Concepts were not created"
-            return error
+            default_error_msg['error'] = "Concepts were not created"
+            return default_error_msg
         
         print(f"    ✓ Found {len(concepts)} concepts: {[c['concept'] for c in concepts]}")
         
@@ -159,7 +166,7 @@ class ASO:
             concept = concept_data['concept'].lower()
             
             # Find associations
-            associations: List[Dict[str, Any]] = self.ai.find_associations(
+            associations: Final[List[Dict[str, Any]]] = self.ai.find_associations(
                 concept=concept,
                 context=content
             )
@@ -177,10 +184,11 @@ class ASO:
 
         
         # Step 3: Find connections to other memories
-        all_memories = self.Brain.brain_memories
-        other_memories = [m for m in all_memories if m.get('id') != memory_id]
-        # TODO: Fix this loop. It's not needed and creates secondary O(n)
-        
+        all_memories: dict[str, Memory] = self.Brain.brain_memories
+
+        # Remove element from dict to focus on other keys and values.
+        other_memories = all_memories.pop(memory_id, None)
+    
         memory_connections = []
         if other_memories:
             print(f"    → Finding connections to {len(other_memories)} other memories...")
@@ -188,7 +196,7 @@ class ASO:
             """
                 Find which existing memories connect to this new memory.
             """
-            memory_connections = self.ai.find_memory_connections(
+            memory_connections = await self.ai.find_memory_connections(
                 memory_content=content,
                 memory_emotion=emotion,
                 existing_memories=other_memories
@@ -196,6 +204,7 @@ class ASO:
             print(f"    ✓ Found {len(memory_connections)} memory connections")
         
         # Store in memory
+        # When storing, make copy 
         memory_copy = self.expand_memory_data(
             memory=memory,
             concepts=concepts,
@@ -210,7 +219,6 @@ class ASO:
         self.Brain.replace_memory(old=memory.memory_id, new=memory_copy)
         self.Brain.commit()
         
-        #self.commit()  # Save graph state to brain storage
         return {
             'concepts': concepts,
             'associations_added': associations_added,
@@ -229,7 +237,7 @@ class ASO:
         print(f"Processing {len(memories)} memories...")
         
         hashtag("LOOPING ASO System - Processing All Memories")
-        reset_debug()
+        reset_debug() # NOTE: remove 
         
         for i, mem in enumerate(memories, 1):
             # Skip if already processed (unless reprocessing)
@@ -255,14 +263,15 @@ class ASO:
         self.commit()  # Final commit after processing all
         print(f"\n✓ Complete! {self.get_stats()['total_associations']} total associations")
     
-    def find_related(self, concept: str, max_results: int = 10) -> List[Dict[str, Any]]:
+    def find_related(self, concept_id: str, max_results: int = 10) -> List[Dict[str, Any]]:
         """
         Find concepts related to this one.
+        Concept == Topic
         """
-        associations = self.graph.get_associations(concept)
+        associations = self.graph.get_associations(concept_id)
         
         # Sort by strength
-        sorted_assocs = sorted(associations, key=lambda a: a.strength, reverse=True)
+        sorted_associations = sorted(associations, key=lambda a: a.strength, reverse=True)
         
         return [
             {
@@ -271,63 +280,35 @@ class ASO:
                 'type': a.type,
                 'reason': a.reason
             }
-            for a in sorted_assocs[:max_results]
+            for a in sorted_associations[:max_results]
         ]
     
-    def find_path(self, start: str, end: str) -> Optional[List[str]]:
+    def find_path(self, start_topic_id: str, end_topic_id: str) -> Optional[List[str]]:
         """
         Find association chain from start to end.
         """
-        return self.graph.find_path(start, end)
+        return self.graph.find_path(start_topic_id, end_topic_id)
     
-    def what_reminds_me_of(self, concept: str, threshold: float = 0.3) -> Dict[str, float]:
+    def what_reminds_me_of(self, topic_id: str, threshold: float = 0.3) -> Dict[str, float]:
         """
-        What does this concept remind me of?
-        Uses spreading activation.
+            What does this concept/topic remind me of?
+            Uses spreading activation.
         """
-        return self.graph.spread_activation(concept, threshold=threshold)
+        return self.graph.spread_activation(start_topic_id=topic_id, threshold=threshold)
     
     def get_stats(self) -> Dict[str, Any]:
         """Get statistics about the association network."""
         return self.graph.get_stats()
     
-    def get_concept_info(self, concept: str) -> Dict[str, Any]:
+    def get_concept_info(self, concept_id: str) -> Dict[str, Any]:
         """
         Get all information about a concept.
         """
-        concept = concept.lower().strip()
         
-        # Get direct associations
-        associations = self.graph.get_associations(concept)
-        
-        # Get memories that mention this concept
-        memories = self.Brain.mind.get_all()
-        related_memories = []
-        
-        for memory in memories:
-            aso_data = memory.get('aso_data', {})
-            concepts = aso_data.get('concepts', [])
-            
-            if any(c['concept'].lower() == concept for c in concepts):
-                related_memories.append({
-                    'id': memory['id'],
-                    'content': memory['content'],
-                    'emotion': memory.get('dominant_emotion')
-                })
-        
-        return {
-            'concept': concept,
-            'association_count': len(associations),
-            'associations': [
-                {
-                    'target': a.target,
-                    'strength': a.strength,
-                    'type': a.type
-                }
-                for a in sorted(associations, key=lambda x: x.strength, reverse=True)[:10]
-            ],
-            'related_memories': related_memories
-        }
+        TOPIC: Final = self.graph.graph.get(concept_id, None)
+        if not TOPIC:
+            return {}
+        return TOPIC
 
     def expand_memory_data(
             self,
@@ -358,10 +339,10 @@ class ASO:
     def about_ASO(self, more_details: bool = False) -> str:
         """Explain what ASO is in a human-friendly way."""
         
-        explaination = r"""
+        explanation = r"""
         The key part of the brain. ASO is short for association.
 
-        Associtation works on connect 1 memory to another, or 1 known fact or opinion to another,
+        Association works on connect 1 memory to another, or 1 known fact or opinion to another,
 
         example when I think bat, I think fox, I thought of fox because they're both mammals and a bat reminds me of a fox facially, key word 'remind'. 
 
@@ -373,20 +354,20 @@ class ASO:
            |       | /  \ 
          mammal - goat - farm - early memory I feed the goat. 
          
-        ASO uses machine learning and AI to help assist as associtation can reach hundreds to even millions of chains even 
-        just thinking of the letter 2 or a simple onject like a cup, 
+        ASO uses machine learning and AI to help assist as association can reach hundreds to even millions of chains even 
+        just thinking of the letter 2 or a simple object like a cup, 
         example when I think cup i think concrete because they're both solid objects, or water or tea.
 
         The difficult part of this will likely be the speed, as this alone can span 1 memory to thousands lines of JSON code,
         stunting thinking power, but this is natural behavior.
 
-        If you are confused I wrote a long page just on associtations, using my mind as an example, you might cringe but you're here to understand |:3\n\n\n\n
+        If you are confused I wrote a long page just on associations, using my mind as an example, you might cringe but you're here to understand |:3\n\n\n\n
         
         """
         if more_details:
-            explaination += _explaination()
+            explanation += _explanation()
             
-        return explaination.strip()
+        return explanation.strip()
     
     def __enter__(self):
         """Context manager entry."""
