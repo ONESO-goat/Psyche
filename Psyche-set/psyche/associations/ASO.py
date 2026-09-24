@@ -15,6 +15,11 @@ from helpers.python_.debugging_utils import debug, reset_debug, hashtag
 from helpers.python_.helpers import Brain, Memory, Association
 import copy
 from _info_ import _explanation
+from enum import StrEnum
+
+class validAI(StrEnum):
+    GEMINI = "gemini"
+    OLLAMA = "ollama"
 
 class ASO:
     """
@@ -27,7 +32,11 @@ class ASO:
     Example: "ferret" → "zoo" → "farm" → "goat memory"
     """
     
-    def __init__(self, Brain: Brain, api_key: str | None = None, model: str = 'gemini'):
+    def __init__(self, 
+                 Brain: Brain, 
+                 api_key: str | None = None, 
+                 llm_to_use: validAI = validAI.GEMINI
+                ):
         """
         Initialize ASO with Brain instance.
         
@@ -55,7 +64,7 @@ class ASO:
         """
         
         # Initialize AI
-        self.ai = AssociationAI(api_key=api_key, model=model)
+        self.ai = AssociationAI(api_key=api_key, model=llm_to_use)
         """
             AI to aid with associations
         """

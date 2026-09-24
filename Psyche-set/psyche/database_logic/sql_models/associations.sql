@@ -1,8 +1,8 @@
 create table association(
     association_id text unique not null primary key,
 
-    association_one_id TEXT references topic(topic_id),
-    association_two_id text references topic(topic_id),
+    topic_one_id TEXT references topic(topic_id),
+    topic_two_id text references topic(topic_id),
 
     context text not null,
 

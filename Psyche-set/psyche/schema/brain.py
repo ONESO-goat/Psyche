@@ -4,6 +4,7 @@
 from helpers.python_.helpers import BrainCreationError
 from base import SchemaLogic
 import copy
+import sqlite3
 
 class BrainLogic(SchemaLogic):
 
@@ -23,3 +24,27 @@ class BrainLogic(SchemaLogic):
     
     def obtain_memories(self):
         return copy.deepcopy(self.memories)
+
+
+testId = "1"*37
+def test_add_brain_schema(id_:str=testId, get:bool = False):
+    if not get:
+        SQL = "INSERT INTO topic (brain_id) VALUES (?);"
+    else:
+         SQL = f"""SELECT * 
+         from brain
+         where brain_id = ?;
+         """
+    with sqlite3.connect("app_data.db") as conn:
+        cursor = conn.cursor()
+
+        if not get:
+            cursor.execute(SQL, (id_))
+            conn.commit()
+        else:
+            cursor.execute(SQL, id_)
+            data = cursor.fetchall()
+           
+            return data
+if __name__ == "__main__":
+    pass

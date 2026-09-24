@@ -255,6 +255,8 @@ class AssociationAI:
         
         
     # ====================== PROMPT TEMPLATES ======================
+    # For now, we will be using rule based logic for the AI, but later we'll need
+    # a trained model for better associations and logic.
     
     def _find_memory_connections_prompt(self, memory_content: str, memory_emotion: str, memory_list: str) -> str:
         """Generate prompt based on task and parameters."""
