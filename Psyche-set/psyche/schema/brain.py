@@ -2,7 +2,7 @@
 # data over.
 
 from helpers.python_.helpers import BrainCreationError
-from base import SchemaLogic
+from .base import SchemaLogic
 import copy
 import sqlite3
 

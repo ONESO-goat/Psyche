@@ -1,4 +1,4 @@
-from base import SchemaLogic
+from .base import SchemaLogic
 import sqlite3
 
 class AssociationLogic(SchemaLogic):

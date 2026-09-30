@@ -14,7 +14,7 @@ from associations.aso_ai import AssociationAI
 from helpers.python_.debugging_utils import debug, reset_debug, hashtag
 from helpers.python_.helpers import Brain, Memory, Association
 import copy
-from _info_ import _explanation
+from ._info_ import _explanation
 from enum import StrEnum
 
 class validAI(StrEnum):
